@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Zenphoto package list generator
+ * Package list generator
  *
  * @author Stephen Billard (sbillard)
  * @package plugins
+ * @subpackage admin
+ * @category package
  */
 // force UTF-8 Ø
 
@@ -12,30 +14,36 @@ define("OFFSET_PATH", 3);
 require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-functions.php");
 
 $stdExclude = Array('.', '..', '.DS_Store', '.cache', 'Thumbs.db', '.htaccess', '.svn', 'debug.html', '.buildpath', '.project', '.settings');
+
+
 $_zp_resident_files[] = 'index.php';
 
 $_zp_resident_files[] = THEMEFOLDER;
-
-$_zp_resident_files[] = THEMEFOLDER . '/default';
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/default', $stdExclude));
-
-$_zp_resident_files[] = THEMEFOLDER . '/effervescence_plus';
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/effervescence_plus', $stdExclude));
-
-
-$_zp_resident_files[] = THEMEFOLDER . '/garland';
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/garland', $stdExclude));
-
-if (file_exists(SERVERPATH . '/' . THEMEFOLDER . '/stopdesign')) {
-	$_zp_resident_files[] = THEMEFOLDER . '/stopdesign';
-	$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/stopdesign', $stdExclude));
+foreach ($_zp_gallery->getThemes() as $theme => $data) {
+	if (zenPhotoTheme($theme)) {
+		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
+		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
+	}
 }
 
-$_zp_resident_files[] = THEMEFOLDER . '/zenpage';
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/zenpage', $stdExclude));
-
-$_zp_resident_files[] = THEMEFOLDER . '/zpmobile';
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/zpmobile', $stdExclude));
+$_zp_resident_files[] = USER_PLUGIN_FOLDER;
+$paths = getPluginFiles('*.php');
+foreach ($paths as $plugin => $path) {
+	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
+		$p = file_get_contents($path);
+		$i = strpos($p, '* @category');
+		if (($key = $i) !== false) {
+			$key = strtolower(trim(substr($p, $i + 11, strpos($p, "\n", $i) - $i - 11)));
+			if ($key == 'package') {
+				$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
+				if (is_dir($path = stripSuffix($path))) {
+					$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
+					$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($path, $stdExclude));
+				}
+			}
+		}
+	}
+}
 
 $_zp_resident_files[] = ZENFOLDER;
 $_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . ZENFOLDER, array_merge($stdExclude, array('setup', 'version.php'))));
@@ -45,7 +53,7 @@ $_special_files[] = ZENFOLDER . '/setup';
 $_special_files = array_merge($_special_files, getResidentFiles(SERVERPATH . '/' . ZENFOLDER . '/setup', $stdExclude));
 
 natsort($_zp_resident_files);
-$filepath = SERVERPATH . '/' . getOption('zenphoto_package_path') . '/Zenphoto.package';
+$filepath = SERVERPATH . '/' . getOption('zenphoto_package_path') . '/zenphoto.package';
 @chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
 foreach ($_zp_resident_files as $component) {
@@ -58,7 +66,7 @@ foreach ($_special_files as $component) {
 fwrite($fp, count($_zp_resident_files) + count($_special_files));
 fclose($fp);
 clearstatcache();
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=Zenphoto package created and stored in the ' . getOption('zenphoto_package_path') . ' folder.');
+header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=Package created and stored in the ' . getOption('zenphoto_package_path') . ' folder.');
 exitZP();
 
 /**

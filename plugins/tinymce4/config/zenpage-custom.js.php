@@ -29,6 +29,8 @@ $filehandler = zp_apply_filter('tinymce_zenpage_config', NULL);
 													items: [
 													{title: 'articlebox (center)', inline: 'span', classes: 'articlebox'},
 													{title: 'articlebox-left', inline: 'span', classes: 'articlebox-left'},
+													{title: 'articlebox warningnote(center)', inline: 'span', classes: 'articlebox warningnote'},
+													{title: 'articlebox-left warning', inline: 'span', classes: 'articlebox-left warningnote'},
 													{title: 'inlinecode', inline: 'span', classes: 'inlinecode'},
 													{title: 'table_of_content_list', inline: 'span', classes: 'table_of_content_list'}
 													]

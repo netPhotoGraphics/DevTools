@@ -21,6 +21,6 @@ GOTO END
 echo "Tagging %VERSION% (REL=%REL%)..."
 call git_head
 git push
-git tag -a -f -m"Zenphoto version %VERSION%" zenphoto-%REL%
+git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%REL%
 git push --tags
 :END

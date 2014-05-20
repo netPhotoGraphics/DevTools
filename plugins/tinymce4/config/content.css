@@ -99,6 +99,12 @@ p.articlebox-left {
  margin-top: 0px;
 }
 
+.articlebox.warningnote,
+.articlebox-left.warningnote {
+border: 1px solid orange;
+background-color: #f5e5af;
+}
+
 .table_of_content_list { 
 padding:15px 15px 10px 15px !important;
 background-color: #eeeeee;
