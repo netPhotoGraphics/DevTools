@@ -1,1 +1,0 @@
-git rebase --strategy-option=theirs master
