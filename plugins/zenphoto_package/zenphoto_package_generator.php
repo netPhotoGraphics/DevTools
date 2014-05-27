@@ -21,8 +21,8 @@ $_zp_resident_files[] = 'index.php';
 $_zp_resident_files[] = THEMEFOLDER;
 foreach ($_zp_gallery->getThemes() as $theme => $data) {
 	if (zenPhotoTheme($theme)) {
-		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
-		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
+//		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
+//		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
 	}
 }
 
@@ -35,11 +35,11 @@ foreach ($paths as $plugin => $path) {
 		if (($key = $i) !== false) {
 			$key = strtolower(trim(substr($p, $i + 11, strpos($p, "\n", $i) - $i - 11)));
 			if ($key == 'package') {
-				$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
-				if (is_dir($path = stripSuffix($path))) {
-					$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
-					$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($path, $stdExclude));
+				if (is_dir($dir = stripSuffix($path))) {
+					$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
+					$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($dir, $stdExclude));
 				}
+				$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
 			}
 		}
 	}
@@ -52,7 +52,6 @@ $_special_files[] = ZENFOLDER . '/version.php';
 $_special_files[] = ZENFOLDER . '/setup';
 $_special_files = array_merge($_special_files, getResidentFiles(SERVERPATH . '/' . ZENFOLDER . '/setup', $stdExclude));
 
-natsort($_zp_resident_files);
 $filepath = SERVERPATH . '/' . getOption('zenphoto_package_path') . '/zenphoto.package';
 @chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
