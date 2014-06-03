@@ -5,7 +5,6 @@
  *
  * zenphoto plugin custom light configuration
  */
-$MCEcss = FULLWEBPATH . '/' . USER_PLUGIN_FOLDER . '/tinymce4/config/content.css';
 $MCEselector = "textarea.content,textarea.desc,textarea.extracontent";
 $MCEspecial = "
   style_formats: [
@@ -42,4 +41,4 @@ if (extensionEnabled(' tinyZenpage'))
 	$MCEtoolbars[2] .= " tinyzenpage";
 $MCEstatusbar = true;
 $MCEmenubar = false;
-include(SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/tinymce4/config/config.js.php');
+include(SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/tinymce/config/config.js.php');
