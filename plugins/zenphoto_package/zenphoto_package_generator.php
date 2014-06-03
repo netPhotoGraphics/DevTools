@@ -13,7 +13,7 @@
 define("OFFSET_PATH", 3);
 require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-functions.php");
 
-$stdExclude = Array('.', '..', '.DS_Store', '.cache', 'Thumbs.db', '.htaccess', '.svn', 'debug.html', '.buildpath', '.project', '.settings');
+$stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md');
 
 
 $_zp_resident_files[] = 'index.php';
@@ -21,8 +21,8 @@ $_zp_resident_files[] = 'index.php';
 $_zp_resident_files[] = THEMEFOLDER;
 foreach ($_zp_gallery->getThemes() as $theme => $data) {
 	if (zenPhotoTheme($theme)) {
-//		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
-//		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
+		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
+		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
 	}
 }
 
@@ -79,13 +79,15 @@ function getResidentFiles($folder, $exclude) {
 	$localfiles = array();
 	$localfolders = array();
 	foreach ($dirs as $file) {
-		$file = str_replace('\\', '/', $file);
-		$key = str_replace(SERVERPATH . '/', '', filesystemToInternal($folder . '/' . $file));
-		if (is_dir($folder . '/' . $file)) {
-			$localfolders[] = $key;
-			$localfolders = array_merge($localfolders, getResidentFiles($folder . '/' . $file, $exclude));
-		} else {
-			$localfiles[] = $key;
+		if ($file{0} != '.') {
+			$file = str_replace('\\', '/', $file);
+			$key = str_replace(SERVERPATH . '/', '', filesystemToInternal($folder . '/' . $file));
+			if (is_dir($folder . '/' . $file)) {
+				$localfolders[] = $key;
+				$localfolders = array_merge($localfolders, getResidentFiles($folder . '/' . $file, $exclude));
+			} else {
+				$localfiles[] = $key;
+			}
 		}
 	}
 	return array_merge($localfiles, $localfolders);
