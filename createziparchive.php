@@ -25,16 +25,19 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
  
+ //Adapted for ZenPhoto20 by Stephen Billard
+ 
 echo '<h1>Creating setup zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
 	exit();
 }
-
+Define('TARGET','package/');
 try {
 	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
-	$targetname = 'package/index.php';
+	require_once($sourcefolder.'/zp-core/version.php');
+	$targetname = TARGET . 'ZenPhoto20-'.ZENPHOTO_VERSION.'.php.bin';
 	$zipfilename = md5(time()) . 'ZenPhoto20.zip'; // replace with tempname()
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
@@ -58,6 +61,24 @@ try {
 	fclose($fp_zip);
 	fclose($fp_dest);
 	unlink($zipfilename);
+	
+	$readme = TARGET . 'readme.txt';
+	$text = sprintf("Installation instructions\r\n\n" .
+									"Unzip this archive.\r\n" .
+									'Upload the ZenPhoto20.php.bin file into the root folder of your website.' . "\r\n" .
+									'On your website rename ZenPhoto20.php.bin to ZenPhoto20.php' . "\r\n" .
+									'Using your browser, visit "website"/ZenPhoto20.php (where "website" is the link to the root of your website.)' . "\r\n" .
+									"The ZenPhoto20 files will self-extract and the setup process will start automatically.", ZENPHOTO_VERSION);
+	file_put_contents($readme, $text);
+	
+	$zipfile = new ZipArchive();
+	$zipfile->open(TARGET . 'ZenPhoto20-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
+	$zipfile->addFile($readme, basename($readme));
+	$zipfile->addFile($targetname, 'ZenPhoto20.php.bin');
+	$zipfile->close();
+
+	unlink($readme);
+	unlink($targetname);
 
 	echo 'Done ...';
 } catch (Exception $e) {
@@ -87,7 +108,7 @@ if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
 	exit();
 }
-$const_webpath = dirname($me);
+$const_webpath = "http://" . $_SERVER['HTTP_HOST'] .  rtrim(dirname($me), '/\\');
 
 try {
 	$zipfilename = md5(time()) . 'ZenPhoto20.zip'; //remove with tempname()
@@ -135,6 +156,7 @@ try {
 	}
 	$zipfile->close();
 	unlink($zipfilename);
+	unlink(__FILE__);
 
 	header('Location: ' . $const_webpath . '/zp-core/setup/index.php?autorun=admin');
 } catch (Exception $e) {
