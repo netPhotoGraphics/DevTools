@@ -24,9 +24,13 @@
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
-
+ 
 echo '<h1>Creating setup zip file</h1>';
-flush();
+$me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+if (!isset($_GET['process'])) {
+	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
+	exit();
+}
 
 try {
 	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
@@ -77,28 +81,63 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 }
 
 __HALT_COMPILER();<?php
-try {
-$zipfilename = md5(time()).'ZenPhoto20.zip'; //remove with tempname()
-$fp_tmp = fopen($zipfilename,'w');
-$fp_cur = fopen(__FILE__, 'r');
-fseek($fp_cur, __COMPILER_HALT_OFFSET__);
-$i=0;
-while($buffer = fread($fp_cur,10240)) {
-fwrite($fp_tmp,$buffer);
+$me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+if (!isset($_GET['process'])) {
+	echo "<h1>Extracting ZenPhoto20 files</h1>";
+	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
+	exit();
 }
-fclose($fp_cur);
-fclose($fp_tmp);
-$zipfile = new ZipArchive();
-if($zipfile->open($zipfilename)===true) {
-if(!$zipfile->extractTo('.')) throw new Exception('extraction failed...');
-} else throw new Exception('reading archive failed');
-$zipfile->close();
-unlink($zipfilename);
+$const_webpath = dirname($me);
 
-$const_webpath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-header('Location: ' . $const_webpath. '/zp-core/setup/index.php?autorun=admin');
+try {
+	$zipfilename = md5(time()) . 'ZenPhoto20.zip'; //remove with tempname()
+	$fp_tmp = fopen($zipfilename, 'w');
+	$fp_cur = fopen(__FILE__, 'r');
+	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
+	$i = 0;
+	while ($buffer = fread($fp_cur, 10240)) {
+		fwrite($fp_tmp, $buffer);
+	}
+	fclose($fp_cur);
+	fclose($fp_tmp);
+	$zipfile = new ZipArchive();
+	if (($result = $zipfile->open($zipfilename)) === true) {
+		if (!$zipfile->extractTo('.'))
+			throw new Exception('extraction failed...');
+	} else {
+		switch ($result) {
+			case ZipArchive::ER_INCONS:
+				$msg = 'Inconsistent archive';
+				break;
+			case ZipArchive::ER_MEMORY:
+				$msg = 'Insufficient memory';
+				break;
+			case ZipArchive::ER_NOENT:
+				$msg = 'File not found';
+				break;
+			case ZipArchive::ER_NOZIP:
+				$msg = 'Not a zip archive';
+				break;
+			case ZipArchive::ER_OPEN:
+				$msg = "Can't open file";
+				break;
+			case ZipArchive::ER_READ:
+				$msg = 'Read error';
+				break;
+			case ZipArchive::ER_SEEK:
+				$msg = 'Seek error';
+				break;
+			default:
+				$msg = 'Error ' . $result;
+				break;
+		}
+		throw new Exception('reading archive failed: ' . $msg);
+	}
+	$zipfile->close();
+	unlink($zipfilename);
 
+	header('Location: ' . $const_webpath . '/zp-core/setup/index.php?autorun=admin');
 } catch (Exception $e) {
-printf("Error:<br/>%s<br>%s>",$e->getMessage(),$e->getTraceAsString());
+	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 };
 __HALT_COMPILER();
