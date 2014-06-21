@@ -63,12 +63,12 @@ try {
 	unlink($zipfilename);
 	
 	$readme = TARGET . 'readme.txt';
-	$text = sprintf("Installation instructions\r\n\n" .
-									"Unzip this archive.\r\n" .
-									'Upload the ZenPhoto20.php.bin file into the root folder of your website.' . "\r\n" .
-									'On your website rename ZenPhoto20.php.bin to ZenPhoto20.php' . "\r\n" .
-									'Using your browser, visit "website"/ZenPhoto20.php (where "website" is the link to the root of your website.)' . "\r\n" .
-									"The ZenPhoto20 files will self-extract and the setup process will start automatically.", ZENPHOTO_VERSION);
+	$text = sprintf("Installation instructions\r\n\r\n" .
+									"Unzip this archive.\r\n\r\n" .
+									'Upload the ZenPhoto20.php.bin file into the root folder of your website. (Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
+									'On your website rename ZenPhoto20.php.bin to ZenPhoto20.php' . "\r\n\r\n" .
+									'Using your browser, visit "website"/ZenPhoto20.php (where "website" is the link to the root of your website.)' . "\r\n\r\n" .
+									"The ZenPhoto20 files will self-extract and the setup process will start automatically.\r\n", ZENPHOTO_VERSION);
 	file_put_contents($readme, $text);
 	
 	$zipfile = new ZipArchive();
