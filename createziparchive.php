@@ -103,8 +103,9 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 
 __HALT_COMPILER();<?php
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+echo "<h1>Extracting ZenPhoto20 files</h1>";
+	
 if (!isset($_GET['process'])) {
-	echo "<h1>Extracting ZenPhoto20 files</h1>";
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
 	exit();
 }
@@ -157,8 +158,21 @@ try {
 	$zipfile->close();
 	unlink($zipfilename);
 	unlink(__FILE__);
+	
+	?>
+	done...
+	<br />
+	<a href="<?php echo $const_webpath . '/zp-core/setup/index.php?autorun=admin';?>">run setup</a>
 
-	header('Location: ' . $const_webpath . '/zp-core/setup/index.php?autorun=admin');
+	<script>
+		// <!-- <![CDATA[
+		window.onload = function() {
+			window.location = '<?php echo $const_webpath; ?>/zp-core/setup/index.php?autorun=admin';
+		}
+		// ]]> -->
+	</script>
+	<?php 
+	
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 };
