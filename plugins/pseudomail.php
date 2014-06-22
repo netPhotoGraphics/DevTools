@@ -6,6 +6,8 @@
  * A "mail" file named by the <i>subject</i> is created in the <var>%DATA_FOLDER%</var> folder. Multiple mailings with the
  * same <i>subject</i> will overwrite.
  *
+ * @author Stephen Billard (sbillard)
+ * 
  * @package plugins
  * @subpackage mail
  */

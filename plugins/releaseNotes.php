@@ -9,7 +9,7 @@
  * @subpackage development
  */
 $plugin_is_filter = 5 | CLASS_PLUGIN;
-$plugin_description = gettext('Forces a defined album as the index page.');
+$plugin_description = gettext('Allows using zenpage editing to create release notes.');
 $plugin_author = "Stephen Billard (sbillard)";
 
 zp_register_filter('general_zenpage_utilities', 'releaseNotesPublish');
@@ -24,24 +24,35 @@ function releaseNotesPublish($before, $object, $prefix = NULL) {
 }
 
 function releaseNotesExecute($custom, $object) {
-	$f = fopen(SERVERPATH . '/docs/release notes.htm', 'w');
-	$h = '<!DOCTYPE html>
+	if (isset($_POST['publishNotes'])) {
+		$f = fopen(SERVERPATH . '/docs/release notes.htm', 'w');
+		$h = '<!DOCTYPE html>
 <html>
 	<head>
 	<title>ZenPhoto20 release notes</title>
 	</head>
 		<style type="text/css">
 			body, td, pre {
+				text-align:left !important;
 				color:#000;
 				font-family:Arial, Helvetica, sans-serif;
 				font-size:13px;
 				margin:8px;
 				line-height: 20px;
 			}
-			body {background:#FFF;}
-			h1 {font-size: 2em}
-			h2 {font-size: 1.5em}
-			h3 {font-size: 1.17em}
+			body {
+				text-align:left !important;
+				background:#FFF;
+			}
+			h1 {
+			font-size: 2em;
+			}
+			h2 {
+			font-size: 1.5em;
+			}
+			h3 {
+			font-size: 1.17em;
+			}
 			h4 {
 				 font-family: Arial, Helvetica, Sans-Serif;
 				 font-size: 15px;
@@ -60,15 +71,13 @@ function releaseNotesExecute($custom, $object) {
 				 margin-bottom: 0 !important;
 			}
 			h6 {
-			font-style: italic;
+				font-style: italic;
 			}
 
 			code {
-				display: block;
 				color: #00008B;
 				font-size: 12px;
 				font-family: Arial, Helvetica, sans-serif;
-				background-color: #f2f2f2;
 			}
 
 			 pre {
@@ -89,18 +98,19 @@ function releaseNotesExecute($custom, $object) {
 			}
 
 			a {
-			text-decoration: none;
-			color: #6c802e;
+				text-decoration: none;
+				color: #6c802e;
 			}
 		</style>
 	<body>
 ';
-	$e = "	</body>
+		$e = "	</body>
 </html>";
-	fwrite($f, $h);
-	fwrite($f, $object->getContent());
-	fwrite($f, $e);
-	fclose($f);
+		fwrite($f, $h);
+		fwrite($f, $object->getContent());
+		fwrite($f, $e);
+		fclose($f);
+	}
 }
 
 ?>

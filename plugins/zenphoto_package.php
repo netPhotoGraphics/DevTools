@@ -3,6 +3,7 @@
 /* Creates the zenphoto.package file
  *
  * @author Stephen Billard (sbillard)
+ * 
  * @package plugins
  * @subpackage development
  */

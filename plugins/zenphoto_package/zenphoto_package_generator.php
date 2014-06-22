@@ -15,12 +15,9 @@ require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/
 
 $stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md');
 
-
-$_zp_resident_files[] = 'index.php';
-
 $_zp_resident_files[] = THEMEFOLDER;
 foreach ($_zp_gallery->getThemes() as $theme => $data) {
-	if (zenPhotoTheme($theme)) {
+	if (protectedTheme($theme, true)) {
 		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
 		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
 	}
