@@ -218,6 +218,12 @@ class demoplugin_options {
 										'key'	 => 'demoplugin_colorpicker',
 										'type' => OPTION_TYPE_COLOR_PICKER,
 										'desc' => gettext_pl('Description', 'zenphoto_demoplugin')),
+						/* slider option */
+						gettext_pl('Slider option', 'zenphoto_demoplugin')								 => array('key'		 => 'zenphoto_demoplugin_slider', 'type'	 => OPTION_TYPE_SLIDER,
+										'min'		 => 0,
+										'max'		 => 4,
+										'order'	 => 0,
+										'desc'	 => gettext_pl('Provides a slider for selecting a number within a range.', 'zenphoto_demoplugin')),
 						/* Custom option if none of the above standard ones fit your purpose. You define what to do and show within the method handleOption() below */
 						gettext_pl('Custom option', 'zenphoto_demoplugin')								 => array(
 										'key'	 => 'demoplugin_customoption', // note that this name is referenced in handleOption() below!
@@ -237,6 +243,7 @@ class demoplugin_options {
 																Then there is an option type for notes only</p>', 'zenphoto_demoplugin') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
 			);
 		}
+
 		return $options;
 	}
 
@@ -249,15 +256,14 @@ class demoplugin_options {
 		 */
 		if ($option == 'demoplugin_customoption') {
 			?>
-			<p>This is a custom option printing a custom "protected" input field. Custom option can be used if none of the above standard ones fit your purpose.</p>
-			<input type="textbox" id="zenphoto_demoplugin_mask_input_show" size="40"  style="width: 338px" value="<?php echo html_encode($currentValue); ?>" />
-			<input type="textbox" id="zenphoto_demoplugin_mask_input" size="40" value="<?php echo html_encode($currentValue); ?>" disabled="disabled" />
+			<p>This is a custom option printing a custom "protected" input field. Custom option can be used if none of the above standard ones fit your purpose. The actual value of the text is <strong><span id="zenphoto_demoplugin_mask_input"><?php echo $currentValue; ?></span></strong></p>
+			<input type="textbox" id="zenphoto_demoplugin_mask_input_show" size="40"  style="width: 338px" value="<?php echo str_pad('', strlen($currentValue), '*'); ?>" />
 			<input type="hidden" id="zenphoto_demoplugin_mask_save" size="40" name="demoplugin_customoption" value="<?php echo html_encode($currentValue); ?>" />
 			<script type="text/javascript">
 				<!--
 				function zenphoto_demoplugin_mask_input() {
 					var text_input = $('#zenphoto_demoplugin_mask_input_show').val();
-					var text_actual = $('#zenphoto_demoplugin_mask_input').val();
+					var text_actual = $('#zenphoto_demoplugin_mask_save').val();
 					var text_save = '';
 					var text_show = '';
 					var l_actual = text_actual.length;
@@ -272,7 +278,7 @@ class demoplugin_options {
 						}
 						text_show = text_show + '*';
 					}
-					$('#zenphoto_demoplugin_mask_input').val(text_save);
+					$('#zenphoto_demoplugin_mask_input').html(text_save);
 					$('#zenphoto_demoplugin_mask_save').val(text_save);
 					$('#zenphoto_demoplugin_mask_input_show').val(text_show);
 				}
@@ -281,9 +287,6 @@ class demoplugin_options {
 				$('#zenphoto_demoplugin_mask_input_show').bind('input', function() {
 					zenphoto_demoplugin_mask_input();
 				});
-
-				$('#zenphoto_demoplugin_mask_input').val($('#zenphoto_demoplugin_mask_input_show').val())
-				$('#zenphoto_demoplugin_mask_input_show').val('');	//	start with a clean slate.
 
 				//-->
 			</script>
