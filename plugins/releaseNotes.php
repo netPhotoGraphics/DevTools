@@ -45,6 +45,7 @@ function releaseNotesExecute($custom, $object) {
 				background:#FFF;
 			}
 			h1 {
+			text-align: center !important;
 			font-size: 2em;
 			}
 			h2 {
@@ -107,6 +108,9 @@ function releaseNotesExecute($custom, $object) {
 		$e = "	</body>
 </html>";
 		fwrite($f, $h);
+		$o = explode('-', ZENPHOTO_VERSION);
+		$originalVersion = $o[0];
+		fwrite($f, "<h1>ZenPhoto20 v$originalVersion release notes</h1>");
 		fwrite($f, $object->getContent());
 		fwrite($f, $e);
 		fclose($f);
