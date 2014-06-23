@@ -196,7 +196,14 @@ class demoplugin_options {
 						gettext_pl('Textarea field option', 'zenphoto_demoplugin')				 => array(
 										'key'					 => 'demoplugin_textarea',
 										'type'				 => OPTION_TYPE_TEXTAREA,
-										'texteditor'	 => 1, // optional to enable the visual editor TinyMCE on this field
+										'multilingual' => 1, // optional if the field should be multilingual if Zenphoto is run
+										//in that mode. Then there will be one textarea per enabled language.
+										'order'				 => 9,
+										'desc'				 => gettext_pl('Description', 'zenphoto_demoplugin')),
+						/* Richtext option */
+						gettext_pl('Richtext field option', 'zenphoto_demoplugin')				 => array(
+										'key'					 => 'demoplugin_richtext',
+										'type'				 => OPTION_TYPE_RICHTEXT,
 										'multilingual' => 1, // optional if the field should be multilingual if Zenphoto is run
 										//in that mode. Then there will be one textarea per enabled language.
 										'order'				 => 9,
