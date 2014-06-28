@@ -35,10 +35,10 @@ if (!isset($_GET['process'])) {
 }
 Define('TARGET','package/');
 try {
-	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
+	$sourcefolder = '/newstuff/master/'; // maybe you want to get this via CLI argument ...
 	require_once($sourcefolder.'/zp-core/version.php');
-	$targetname = TARGET . 'ZenPhoto20-'.ZENPHOTO_VERSION.'.php.bin';
-	$zipfilename = md5(time()) . 'ZenPhoto20.zip'; // replace with tempname()
+	$targetname = TARGET . 'setup.php.bin';
+	$zipfilename = md5(time()) . setup.zip'; // replace with tempname()
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
@@ -65,16 +65,16 @@ try {
 	$readme = TARGET . 'readme.txt';
 	$text = sprintf("Installation instructions\r\n\r\n" .
 									"Unzip this archive.\r\n\r\n" .
-									'Upload the ZenPhoto20.php.bin file into the root folder of your website. (Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
-									'On your website rename ZenPhoto20.php.bin to ZenPhoto20.php' . "\r\n\r\n" .
-									'Using your browser, visit "website"/ZenPhoto20.php (where "website" is the link to the root of your website.)' . "\r\n\r\n" .
+									'Upload the setup.php.bin file into the root folder of your website. (Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
+									'On your website rename setup.php.bin to setup.php' . "\r\n\r\n" .
+									'Using your browser, visit "website"/setup.php (where "website" is the link to the root of your website.)' . "\r\n\r\n" .
 									"The ZenPhoto20 files will self-extract and the setup process will start automatically.\r\n", ZENPHOTO_VERSION);
 	file_put_contents($readme, $text);
 	
 	$zipfile = new ZipArchive();
-	$zipfile->open(TARGET . 'ZenPhoto20-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
+	$zipfile->open(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile($readme, basename($readme));
-	$zipfile->addFile($targetname, 'ZenPhoto20.php.bin');
+	$zipfile->addFile($targetname, 'setup.php.bin');
 	$zipfile->close();
 
 	unlink($readme);
@@ -112,7 +112,7 @@ if (!isset($_GET['process'])) {
 $const_webpath = "http://" . $_SERVER['HTTP_HOST'] .  rtrim(dirname($me), '/\\');
 
 try {
-	$zipfilename = md5(time()) . 'ZenPhoto20.zip'; //remove with tempname()
+	$zipfilename = md5(time()) . 'setup.zip'; //remove with tempname()
 	$fp_tmp = fopen($zipfilename, 'w');
 	$fp_cur = fopen(__FILE__, 'r');
 	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
