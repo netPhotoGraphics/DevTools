@@ -38,7 +38,7 @@ try {
 	$sourcefolder = '/newstuff/master/'; // maybe you want to get this via CLI argument ...
 	require_once($sourcefolder.'/zp-core/version.php');
 	$targetname = TARGET . 'setup.php.bin';
-	$zipfilename = md5(time()) . setup.zip'; // replace with tempname()
+	$zipfilename = md5(time()) . 'setup.zip'; // replace with tempname()
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
@@ -85,10 +85,15 @@ try {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 }
 
+function getSuffix($filename) {
+	return strtolower(substr(strrchr($filename, "."), 1));
+}
+
 function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 	$d = opendir($path);
 	while ($file = readdir($d)) {
-		if ($file == "." || $file == "..")
+	
+		if ($file{0} == "." || $file == 'Thumbs.db' || getSuffix($file) == 'md')
 			continue;
 		$curfile = ($removeFolder) ? preg_replace('~^' . $removeFolder . '~', '', $path . $file) : $path . $file;
 		if (is_dir($path . $file)) {
