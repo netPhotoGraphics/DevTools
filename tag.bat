@@ -1,3 +1,5 @@
+call git_head
+git push
 @ECHO OFF
 SET VERSION=%1
 SET BETAREL=%2
@@ -19,8 +21,7 @@ GOTO END
 :YES
 @ECHO ON
 echo "Tagging %VERSION% (REL=%REL%)..."
-call git_head
-git push
+
 git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%REL%
 git push --tags
 :END
