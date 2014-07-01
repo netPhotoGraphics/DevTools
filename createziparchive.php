@@ -74,6 +74,7 @@ try {
 	$zipfile = new ZipArchive();
 	$zipfile->open(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile($readme, basename($readme));
+	$zipfile->addFile($sourcefolder.'/docs/release notes.htm', 'release notes.htm');
 	$zipfile->addFile($targetname, 'setup.php.bin');
 	$zipfile->close();
 
