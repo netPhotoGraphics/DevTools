@@ -131,7 +131,7 @@ try {
 	$zipfile = new ZipArchive();
 	if (($result = $zipfile->open($zipfilename)) === true) {
 		if (!$zipfile->extractTo('.'))
-			throw new Exception('extraction failed...');
+			throw new Exception('extraction failed. Try removing old installation files.');
 	} else {
 		switch ($result) {
 			case ZipArchive::ER_INCONS:
