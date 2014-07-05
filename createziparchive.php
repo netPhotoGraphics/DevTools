@@ -25,7 +25,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
  
- //Adapted for ZenPhoto20 by Stephen Billard
+ /*
+ Adapted for ZenPhoto20 by Stephen Billard
+ (c) 2014 by Stephen Billard
+ This copyright notice MUST APPEAR in all copies of the script!
+ */
  
 echo '<h1>Creating setup zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
@@ -35,7 +39,7 @@ if (!isset($_GET['process'])) {
 }
 Define('TARGET','package/');
 try {
-	$sourcefolder = '/newstuff/master/'; // maybe you want to get this via CLI argument ...
+	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
 	require_once($sourcefolder.'/zp-core/version.php');
 	$targetname = TARGET . 'setup.php.bin';
 	$zipfilename = md5(time()) . 'setup.zip'; // replace with tempname()
@@ -118,7 +122,7 @@ if (!isset($_GET['process'])) {
 $const_webpath = "http://" . $_SERVER['HTTP_HOST'] .  rtrim(dirname($me), '/\\');
 
 try {
-	$zipfilename = md5(time()) . 'setup.zip'; //remove with tempname()
+	$zipfilename = md5(time()) . '.setup.zip'; //remove with tempname()
 	$fp_tmp = fopen($zipfilename, 'w');
 	$fp_cur = fopen(__FILE__, 'r');
 	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
@@ -130,8 +134,10 @@ try {
 	fclose($fp_tmp);
 	$zipfile = new ZipArchive();
 	if (($result = $zipfile->open($zipfilename)) === true) {
-		if (!$zipfile->extractTo('.'))
-			throw new Exception('extraction failed. Try removing old installation files.');
+		if (!$zipfile->extractTo('.')) {
+			$error=error_get_last();
+			throw new Exception($error['message'], 0);
+		}
 	} else {
 		switch ($result) {
 			case ZipArchive::ER_INCONS:
@@ -159,7 +165,7 @@ try {
 				$msg = 'Error ' . $result;
 				break;
 		}
-		throw new Exception('reading archive failed: ' . $msg);
+		throw new Exception('reading archive failed: ' . $msg, 1);
 	}
 	$zipfile->close();
 	unlink($zipfilename);
@@ -180,6 +186,14 @@ try {
 	<?php 
 	
 } catch (Exception $e) {
-	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
-};
+	$zipfile->close();
+	@unlink($zipfilename);
+	echo "Error:<br />";
+	echo $e->getMessage() . "<br />";
+	if ($e->getCode()) {
+		echo $e->getTraceAsString();
+	} else {
+		echo "Try removing the old installation files.";
+	}
+}
 __HALT_COMPILER();
