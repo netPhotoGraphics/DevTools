@@ -40,7 +40,7 @@ if (!isset($_GET['process'])) {
 Define('TARGET','package/');
 try {
 	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
-	require_once($sourcefolder.'/zp-core/version.php');
+	require_once($sourcefolder.'zp-core/version.php');
 	$targetname = TARGET . 'setup.php.bin';
 	$zipfilename = md5(time()) . 'setup.zip'; // replace with tempname()
 	// create a archive from the submitted folder
