@@ -31,7 +31,7 @@
  This copyright notice MUST APPEAR in all copies of the script!
  */
  
-echo '<h1>Creating setup zip file</h1>';
+echo '<h1>Creating extract zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
@@ -41,8 +41,8 @@ Define('TARGET','package/');
 try {
 	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
 	require_once($sourcefolder.'zp-core/version.php');
-	$targetname = TARGET . 'setup.php.bin';
-	$zipfilename = md5(time()) . 'setup.zip'; // replace with tempname()
+	$targetname = TARGET . 'extract.php.bin';
+	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
@@ -69,9 +69,9 @@ try {
 	$readme = TARGET . 'readme.txt';
 	$text = sprintf("Installation instructions\r\n\r\n" .
 									"Unzip this archive.\r\n\r\n" .
-									'Upload the setup.php.bin file into the root folder of your website. (Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
-									'On your website rename setup.php.bin to setup.php' . "\r\n\r\n" .
-									'Using your browser, visit "website"/setup.php (where "website" is the link to the root of your website.)' . "\r\n\r\n" .
+									'Upload the extract.php.bin file into the root folder of your website. (Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
+									'On your website rename extract.php.bin to extract.php' . "\r\n\r\n" .
+									'Using your browser, visit "website"/extract.php (where "website" is the link to the root of your website.)' . "\r\n\r\n" .
 									"The ZenPhoto20 files will self-extract and the setup process will start automatically.\r\n", ZENPHOTO_VERSION);
 	file_put_contents($readme, $text);
 	
@@ -79,7 +79,7 @@ try {
 	$zipfile->open(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile($readme, basename($readme));
 	$zipfile->addFile($sourcefolder.'/docs/release notes.htm', 'release notes.htm');
-	$zipfile->addFile($targetname, 'setup.php.bin');
+	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
 
 	unlink($readme);
@@ -97,7 +97,6 @@ function getSuffix($filename) {
 function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 	$d = opendir($path);
 	while ($file = readdir($d)) {
-	
 		if ($file{0} == "." || $file == 'Thumbs.db' || getSuffix($file) == 'md')
 			continue;
 		$curfile = ($removeFolder) ? preg_replace('~^' . $removeFolder . '~', '', $path . $file) : $path . $file;
@@ -122,7 +121,7 @@ if (!isset($_GET['process'])) {
 $const_webpath = "http://" . $_SERVER['HTTP_HOST'] .  rtrim(dirname($me), '/\\');
 
 try {
-	$zipfilename = md5(time()) . '.setup.zip'; //remove with tempname()
+	$zipfilename = md5(time()) . '.extract.zip'; //remove with tempname()
 	$fp_tmp = fopen($zipfilename, 'w');
 	$fp_cur = fopen(__FILE__, 'r');
 	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
@@ -134,6 +133,7 @@ try {
 	fclose($fp_tmp);
 	$zipfile = new ZipArchive();
 	if (($result = $zipfile->open($zipfilename)) === true) {
+		set_time_limit(360);
 		if (!$zipfile->extractTo('.')) {
 			$error=error_get_last();
 			throw new Exception($error['message'], 0);
