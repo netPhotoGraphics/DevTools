@@ -25,11 +25,11 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
  
- /*
- Adapted for ZenPhoto20 by Stephen Billard
- (c) 2014 by Stephen Billard
- This copyright notice MUST APPEAR in all copies of the script!
- */
+/*
+*	Adapted for ZenPhoto20 by Stephen Billard
+*	(c) 2014 by Stephen Billard
+*	This copyright notice MUST APPEAR in all copies of the script!
+*/
  
 echo '<h1>Creating extract zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
@@ -111,6 +111,12 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 }
 
 __HALT_COMPILER();<?php
+/*
+*	This script is a derivitive work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
+*
+*	The derivitive work is copyright © 2014 by Stephen Billard, all rights reserved
+*	This copyright notice must be included in all copies of this script.
+*/
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 echo "<h1>Extracting ZenPhoto20 files</h1>";
 	
