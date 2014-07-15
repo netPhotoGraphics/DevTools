@@ -43,6 +43,9 @@ try {
 	require_once($sourcefolder.'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
+	if (file_exists(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip'))
+		unlink(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip');
+
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
@@ -83,7 +86,6 @@ try {
 	$zipfile->close();
 
 	unlink($readme);
-	unlink($targetname);
 
 	echo 'Done ...';
 } catch (Exception $e) {
