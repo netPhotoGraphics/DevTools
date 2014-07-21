@@ -58,6 +58,7 @@ try {
 	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
 	$i = 0;
 	while ($buffer = fgets($fp_cur)) {
+		$buffer = str_replace('_VERSION_', ZENPHOTO_VERSION, $buffer);
 		fwrite($fp_dest, $buffer);
 	}
 	fclose($fp_cur);
@@ -120,7 +121,7 @@ __HALT_COMPILER();<?php
 *	This copyright notice must be included in all copies of this script.
 */
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
-echo "<h1>Extracting ZenPhoto20 files</h1>";
+echo "<h1>Extracting ZenPhoto20 _VERSION_ files</h1>";
 	
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
