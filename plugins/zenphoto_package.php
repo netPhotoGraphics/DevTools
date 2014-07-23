@@ -5,6 +5,8 @@
  * @author Stephen Billard (sbillard)
  * @package plugins
  * @subpackage development
+ * © Stephen L Billard
+ * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
  */
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates the <em>zenphoto.package</em> file.');

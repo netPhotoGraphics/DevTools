@@ -8,6 +8,8 @@
  *
  * @package plugins
  * @subpackage mail
+ * © Stephen L Billard
+ * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
  */
 $plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext("Pseudo mailing handler for localhost testing.");

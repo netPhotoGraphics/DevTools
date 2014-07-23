@@ -1,4 +1,5 @@
-call git_head
+# copyright Stephen Billard
+# permission is granted for use in conjunction with ZenPhoto20 all other rights reservedcall git_head
 git push
 @ECHO OFF
 SET VERSION=%1
