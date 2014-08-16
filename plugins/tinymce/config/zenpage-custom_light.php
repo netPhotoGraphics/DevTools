@@ -33,13 +33,10 @@ $MCEspecial = "
   ";
 $MCEplugins = "advlist autolink lists link image charmap anchor " .
 				"searchreplace visualchars visualblocks code fullscreen " .
-				"insertdatetime media table contextmenu paste";
-if (extensionEnabled('tinyZenpage'))
-	$MCEplugins .= "tinyzenpage";
+				"insertdatetime media table contextmenu paste tinyzenpage directionality ";
 
-$MCEtoolbars[1] = "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image";
-if (extensionEnabled(' tinyZenpage'))
-	$MCEtoolbars[2] .= " tinyzenpage";
+$MCEtoolbars[1] = "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | ltr rtl tinyzenpage";
+
 $MCEstatusbar = true;
 $MCEmenubar = false;
 include(SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/tinymce/config/config.js.php');
