@@ -78,6 +78,7 @@ try {
 									'address: http://mydomain.com/mygallery, then upload the file in the "mygallery" folder ' .
 									'(Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
 									'On your website rename extract.php.bin to extract.php' . "\r\n\r\n" .
+									'If this is an upgrade to an existing installation you should be sure that you are logged in to your site before taking the next step. '."\r\n\r\n" .
 									'Using your browser, visit http://mydomain.com/mygallery/extract.php (if you install ZenPhoto20 at root level, then visit http://mydomain.com/extract.php).' . "\r\n\r\n" .
 									"The ZenPhoto20 files will self-extract and the setup process will start automatically.\r\n", ZENPHOTO_VERSION);
 	file_put_contents($readme, $text);
