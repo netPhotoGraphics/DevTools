@@ -1,6 +1,3 @@
-# copyright Stephen Billard
-# permission is granted for use in conjunction with ZenPhoto20 all other rights reservedcall git_head
-git push
 @ECHO OFF
 SET VERSION=%1
 SET BETAREL=%2
@@ -22,7 +19,12 @@ GOTO END
 :YES
 @ECHO ON
 echo "Tagging %VERSION% (REL=%REL%)..."
-
+git rev-parse HEAD>zp-core\githead
+SET /P LONG=<zp-core\githead
+SET SHORT=%LONG:~0,10%
+git add zp-core\githead
+git commit -m"release id %SHORT%"
+git push
 git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%REL%
 git push --tags
 :END
