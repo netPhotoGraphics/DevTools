@@ -22,5 +22,3 @@ echo "Tagging %VERSION%..."
 
 git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%VERSION%
 git push --tags
-
-g

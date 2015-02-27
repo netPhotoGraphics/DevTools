@@ -11,7 +11,7 @@
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Provides support for the ZenPhoto20 website.");
 $plugin_author = "Stephen Billard (sbillard)";
-
+$option_interface = 'downloadButtons';
 
 zp_register_filter('content_macro', 'downloadButtons::macro');
 
@@ -23,17 +23,28 @@ if (OFFSET_PATH && OFFSET_PATH != 2 && zp_loggedin()) {
 	unset($current[3]);
 	if ($prior != $current) {
 		setOption('downloadButtons_release', ZENPHOTO_VERSION);
-		downloadButtons::makeArticle();
+		downloadButtons::makeArticle(implode('.', $current));
 	}
 }
 
 class downloadButtons {
 
+	function getOptionsSupported() {
+		$options = array(gettext('Download release') => array('key'		 => 'downloadButtons_release', 'type'	 => OPTION_TYPE_TEXTBOX,
+										'order'	 => 1,
+										'desc'	 => gettext('The version number of the release download'))
+		);
+		return $options;
+	}
+
 	static function printGitHubButtons() {
 		$release = getOption('downloadButtons_release');
+		$current = explode('.', $release);
+		$current[3] = 0;
+		$current = implode('.', $current);
 		?>
 		<span class="buttons">
-			<a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-<?php echo $release; ?>/setup-<?php echo $release; ?>.zip" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $release; ?></a>
+			<a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-<?php echo $current; ?>/setup-<?php echo $release; ?>.zip" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $release; ?></a>
 		</span>
 		<br />
 		<br />
@@ -88,20 +99,20 @@ class downloadButtons {
 		$result = zp_apply_filter('sendmail', '', array('zenphoto20' => 'zenphoto20@googlegroups.com'), strip_tags($object->getTitle()), $content, 'no-reply@zenphoto20.us', 'ZenPhoto20', array(), NULL);
 	}
 
-	static function makeArticle() {
+	static function makeArticle($version) {
 		//	set prior release posts to un-published
 		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhoto20"';
 		query($sql);
 		//	create new article
-		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-%1$s">download</a>. For details see the <a href="http://ZenPhoto20.us/pages/release-notes">release notes</a>.</p>', ZENPHOTO_VERSION);
+		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-%2$s">download</a>. For details see the <a href="http://ZenPhoto20.us/pages/release-notes">release notes</a>.</p>', $version, ZENPHOTO_VERSION);
 
 		$article = newArticle('ZenPhoto20 ' . ZENPHOTO_VERSION, true);
-		$article->setShow(1);
 		$article->setDateTime(date('Y-m-d H:i:s'));
 		$article->setAuthor('ZenPhoto20');
-		$article->setTitle('ZenPhoto20 ' . ZENPHOTO_VERSION);
+		$article->setTitle('ZenPhoto20 ' . $version);
 		$article->setContent($text);
 		$article->setCategories(array('announce'));
+		$article->setShow(1);
 		$article->save();
 
 		self::announce($article);

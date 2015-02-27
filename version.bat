@@ -26,7 +26,6 @@ SET SHORT=%LONG:~0,10%
 >%SOURCE%	echo ^<?php
 >>%SOURCE%	echo // This file contains version info only and is automatically updated. DO NOT EDIT. 
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%'); 
->>%SOURCE%	echo define('ZENPHOTO_FULL_RELEASE', '%LONG%');
 >>%SOURCE%	echo define('ZENPHOTO_RELEASE', '%SHORT%'); 
 >>%SOURCE%	echo ?^>
 
