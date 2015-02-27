@@ -1,30 +1,24 @@
 @ECHO OFF
-SET VERSION=%1
-SET BETAREL=%2
-IF NOT [%VERSION%] == [] GOTO SKIPVERSION
-	echo Usage: tag VERSION_NUMBER REL
-  echo Where REL is the release tag, e.g. Beta, RC1, etc. or empty for a primary release.
-  GOTO END
-:SKIPVERSION
-SET REL=%VERSION%
-IF [%BETAREL%]==[] GOTO TAG
-SET REL=%VERSION%-%2
-SET VERSION=%VERSION% %2
+REM this script will "tag" the ZenPhoto20 release
+REM copyright by Stephen Billard, all rights reserved.
+
+SET SOURCE=zp-core\version.php
+FOR /F "delims=" %%a in ('FINDSTR "ZENPHOTO_VERSION" %SOURCE%') DO SET REL=%%a
+SET REL=%REL:~28,-3%
+FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%") DO (
+	SET major=%%a
+	SET minor=%%b
+	SET release=%%c
+	SET build=%%d
+	SET beta=%%e
+)
+
+SET VERSION=%major%.%minor%.%release%.%build%
+
+IF [%beta%]==[] GOTO TAG
+	SET VERSION=%VERSION%-%beta%
 :TAG
-FINDSTR "ZENPHOTO_VERSION" zp-core\version.php 
-SET /P ANSWER=Is the version number set to %REL%? (Y/N)?
-if /i {%ANSWER%}=={y} (goto :YES)
-if /i {%ANSWER%}=={yes} (goto :YES)
-GOTO END
-:YES
-@ECHO ON
-echo "Tagging %VERSION% (REL=%REL%)..."
-git rev-parse HEAD>zp-core\githead
-SET /P LONG=<zp-core\githead
-SET SHORT=%LONG:~0,10%
-git add zp-core\githead
-git commit -m"release id %SHORT%"
-git push
-git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%REL%
+echo "Tagging %VERSION%..."
+
+git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%VERSION%
 git push --tags
-:END
