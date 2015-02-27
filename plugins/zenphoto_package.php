@@ -3,6 +3,7 @@
 /* Creates the zenphoto.package file
  *
  * @author Stephen Billard (sbillard)
+ *
  * @package plugins
  * @subpackage development
  * © Stephen L Billard
@@ -35,7 +36,7 @@ function zenphoto_package_button($buttons) {
 					'enable'			 => true,
 					'button_text'	 => gettext('Create package'),
 					'formname'		 => 'zenphoto_package_button',
-					'action'			 => WEBPATH . '/plugins/zenphoto_package/zenphoto_package_generator.php',
+					'action'			 => FULLWEBPATH . '/plugins/zenphoto_package/zenphoto_package_generator.php',
 					'icon'				 => 'images/arrow_down.png',
 					'title'				 => gettext('Download new package file'),
 					'alt'					 => '',
