@@ -1,6 +1,6 @@
 <?php
 /*
- * Demo script for co-ordinating zenphoto credentials with some outside agency.
+ * Demo script for co-ordinating credentials with some outside agency.
  *
  */
 

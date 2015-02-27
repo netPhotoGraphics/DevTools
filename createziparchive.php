@@ -58,7 +58,7 @@ try {
 	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
 	$i = 0;
 	while ($buffer = fgets($fp_cur)) {
-		$buffer = str_replace('_VERSION_', ZENPHOTO_VERSION . '[' . ZENPHOTO_RELEASE . ']', $buffer);
+		$buffer = str_replace('_VERSION_', ZENPHOTO_VERSION, $buffer);
 		fwrite($fp_dest, $buffer);
 	}
 	fclose($fp_cur);

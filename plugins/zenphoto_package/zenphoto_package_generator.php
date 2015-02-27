@@ -7,8 +7,6 @@
  * @package plugins
  * @subpackage admin
  * @category package
- * © Stephen L Billard
- * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
  */
 // force UTF-8 Ø
 
