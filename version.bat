@@ -13,8 +13,13 @@ FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%") DO (
 	SET build=%%d
 	SET beta=%%e
 )
-
+IF [%1]==[] GOTO BUILD
+SET /a release=%release%+1
+SET /a build=0
+GOTO SETBETA
+:BUILD
 SET /a build=%build%+1
+:SETBETA
 SET new=%major%.%minor%.%release%.%build%
 IF [%beta%]==[] GOTO TAG
 	SET new=%new%-%beta%
@@ -32,3 +37,4 @@ SET SHORT=%LONG:~0,10%
 @git add .
 @git commit -m"release build %NEW%"
 @git push
+:END
