@@ -1,4 +1,4 @@
-ECHO off
+@ECHO off
 FOR /f "skip=1" %%x IN ('wmic os get localdatetime') DO IF NOT DEFINED mydate SET mydate=%%x
 FOR /f "tokens=1-3 delims=-." %%i IN ("%mydate%") DO (
 	SET p1=%%i
