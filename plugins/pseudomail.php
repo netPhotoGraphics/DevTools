@@ -10,9 +10,11 @@
  *
  * @package plugins
  * @subpackage mail
- * © Stephen L Billard
+ * @category ZenPhoto20Tools
+ * Copyright Stephen L Billard
  * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
  */
+// force UTF-8 Ã˜
 $plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext("Pseudo mailing handler for localhost testing.");
 $plugin_author = "Stephen Billard (sbillard)";

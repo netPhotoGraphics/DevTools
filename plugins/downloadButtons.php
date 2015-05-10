@@ -70,33 +70,8 @@ class downloadButtons {
 		return array_merge($macros, $my_macros);
 	}
 
-	static function announce($object) {
-
-		$content = $object->getContent();
-		preg_match_all("/<a.*?href=\"'?(.*?)\".*?>(.*?)<\/a>/i", $content, $matches);
-
-		if (!empty($matches[0])) {
-			foreach ($matches[0] as $key => $match) {
-				if (!empty($match)) {
-					$content = str_replace($match, $matches[2][$key] . ': ' . $matches[1][$key], $content);
-				}
-			}
-		}
-
-		$content = str_replace("\n", '', $content);
-		$content = str_replace("\r", '', $content);
-		$content = str_replace("&nbsp;", ' ', $content);
-		$content = preg_replace('|<[/]*p[^>]*>?|i', "\r\n", $content);
-		$content = preg_replace('|<[/]*ul[^>]*>?|i', "\r\n", $content);
-		$content = preg_replace('|<li[^>]*>?|i', " - ", $content);
-		$content = preg_replace('|</li>?|i', "\r\n", $content);
-		$content = preg_replace('|<br[^>]*/>?|i', "\r\n", $content);
-		$content = html_entity_decode($content, ENT_QUOTES, 'ISO-8859-1');
-		$content = trim(strip_tags($content), "\r\n");
-		$content = str_replace('  ', ' ', $content);
-
-
-		$result = zp_apply_filter('sendmail', '', array('zenphoto20' => 'zenphoto20@googlegroups.com'), strip_tags($object->getTitle()), $content, 'no-reply@zenphoto20.us', 'ZenPhoto20', array(), NULL);
+	static function announce($title, $content) {
+		$result = zp_apply_filter('sendmail', '', array('zenphoto20' => 'zenphoto20@googlegroups.com'), $title, $content, 'no-reply@zenphoto20.us', 'ZenPhoto20', array(), NULL);
 	}
 
 	static function makeArticle($version) {
@@ -115,7 +90,8 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
-		self::announce($article);
+		$text = sprintf('ZenPhoto20 %1$s is now available for download from ZenPhoto20.us or the releases list on GitHub.', $version);
+		self::announce('ZenPhoto20 ' . $version, $text);
 	}
 
 }
