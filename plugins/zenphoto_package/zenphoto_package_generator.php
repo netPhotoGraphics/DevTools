@@ -6,7 +6,7 @@
  * @author Stephen Billard (sbillard)
  * @package plugins
  * @subpackage admin
- * @category package
+ * @category ZenPhoto20Tools
  */
 // force UTF-8 Ø
 
