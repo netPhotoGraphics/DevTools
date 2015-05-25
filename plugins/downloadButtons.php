@@ -90,7 +90,7 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
-		$text = sprintf('ZenPhoto20 %1$s is now available for download from ZenPhoto20.us or the releases list on GitHub.', $version);
+		$text = sprintf('ZenPhoto20 %1$s is now available for download at <github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-%2$s/setup-%2$s.zip>. For details see ZenPhoto20.us/pages/release-notes.', $version, ZENPHOTO_VERSION);
 		self::announce('ZenPhoto20 ' . $version, $text);
 	}
 
