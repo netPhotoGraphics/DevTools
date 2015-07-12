@@ -71,7 +71,7 @@ class downloadButtons {
 	}
 
 	static function announce($title, $content) {
-		$result = zp_apply_filter('sendmail', '', array('zenphoto20' => 'zenphoto20@googlegroups.com'), $title, $content, 'no-reply@zenphoto20.us', 'ZenPhoto20', array(), NULL, true);
+		$result = zp_apply_filter('sendmail', '', array('zenphoto20' => 'zenphoto20@googlegroups.com'), $title, $content, 'no-reply@zenphoto20.us', 'ZenPhoto20', array(), NULL, false);
 	}
 
 	static function makeArticle($current) {
@@ -80,14 +80,15 @@ class downloadButtons {
 		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhoto20"';
 		query($sql);
 		//	create new article
-		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
-		$i = strpos($f, '<body>');
-		$j = strpos($f, '<hr />');
-		$f = substr($f, $i + 6, $j - $i - 6);
+		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/tag/ZenPhoto20-%2$s">download</a>.</p>', $version, ZENPHOTO_VERSION);
+		if ($current[2] == 0) {
+			$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
+			$i = strpos($f, '<body>');
+			$j = strpos($f, '<hr />');
+			$text .= substr($f, $i + 6, $j - $i - 6);
+		}
 
-		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-%2$s">download</a>.</p>', $version, ZENPHOTO_VERSION) . $f;
-
-		$article = newArticle('ZenPhoto20 ' . ZENPHOTO_VERSION, true);
+		$article = newArticle('ZenPhoto20-' . ZENPHOTO_VERSION, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
 		$article->setAuthor('ZenPhoto20');
 		$article->setTitle('ZenPhoto20 ' . $version);
@@ -96,6 +97,7 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
+		$text = sprintf('ZenPhoto20 %1$s is now available: <zenphoto20.us/news/ZenPhoto20-%2$s>.', $version, ZENPHOTO_VERSION);
 		self::announce('ZenPhoto20 ' . $version, $text);
 	}
 
