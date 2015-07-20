@@ -26,31 +26,37 @@ if ($plugin_disable) {
 	zp_register_filter('sendmail', 'pseudo_sendmail');
 }
 
-function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $replyTo) {
+function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $replyTo, $html = false) {
 	$filename = str_replace(array('<', '>', ':', '"' . '/' . '\\', '|', '?', '*'), '_', $subject);
-	$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename . '.txt';
+	if ($html) {
+		$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename . '.htm';
+		$newln = '<br />';
+	} else {
+		$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename . '.txt';
+		$newln = "\n";
+	}
 	$f = fopen($path, 'w');
-	fwrite($f, str_pad('*', 49, '-') . "\n");
+	fwrite($f, str_pad('*', 49, '-') . $newln);
 	$tolist = '';
 	foreach ($email_list as $to) {
 		$tolist .= ',' . $to;
 	}
-	fwrite($f, sprintf(gettext('To: %s'), substr($tolist, 1)) . "\n");
-	fwrite($f, sprintf('From: %1$s <%2$s>', $from_name, $from_mail) . "\n");
+	fwrite($f, sprintf(gettext('To: %s'), substr($tolist, 1)) . $newln);
+	fwrite($f, sprintf('From: %1$s <%2$s>', $from_name, $from_mail) . $newln);
 	if ($replyTo) {
 		$names = array_keys($replyTo);
-		fwrite($f, sprintf('Reply-To: %1$s <%2$s>', array_shift($names), array_shift($replyTo)) . "\n");
+		fwrite($f, sprintf('Reply-To: %1$s <%2$s>', array_shift($names), array_shift($replyTo)) . $newln);
 	}
 	if (count($cc_addresses) > 0) {
 		$cclist = '';
 		foreach ($cc_addresses as $cc_name => $cc_mail) {
 			$cclist .= ',' . $cc_mail;
 		}
-		fwrite($f, sprintf(gettext('Cc: %s'), substr($cclist, 1)) . "\n");
+		fwrite($f, sprintf(gettext('Cc: %s'), substr($cclist, 1)) . $newln);
 	}
-	fwrite($f, sprintf(gettext('Subject: %s'), $subject) . "\n");
-	fwrite($f, str_pad('*', 49, '-') . "\n");
-	fwrite($f, $message . "\n");
+	fwrite($f, sprintf(gettext('Subject: %s'), $subject) . $newln);
+	fwrite($f, str_pad('*', 49, '-') . $newln);
+	fwrite($f, $message . $newln);
 	fclose($f);
 	clearstatcache();
 	return $msg;

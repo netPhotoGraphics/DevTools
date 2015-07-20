@@ -45,7 +45,7 @@ function zenphoto_package_button($buttons) {
 					'title'				 => gettext('Download new package file'),
 					'alt'					 => '',
 					'hidden'			 => '',
-					'rights'			 => ADMIN_RIGHTS,
+					'rights'			 => ADMIN_RIGHTS
 	);
 	return $buttons;
 }
