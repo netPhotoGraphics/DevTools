@@ -99,7 +99,6 @@ class downloadButtons {
 		//ignore build
 		unset($prior[3]);
 		unset($current[3]);
-
 		$buttons[] = array(
 						'category'		 => gettext('Admin'),
 						'enable'			 => $prior != $current,
