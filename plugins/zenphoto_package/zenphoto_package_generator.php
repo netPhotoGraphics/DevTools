@@ -13,7 +13,7 @@
 define("OFFSET_PATH", 3);
 require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-functions.php");
 
-$stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md');
+$stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data');
 
 $_zp_resident_files[] = THEMEFOLDER;
 foreach ($_zp_gallery->getThemes() as $theme => $data) {
