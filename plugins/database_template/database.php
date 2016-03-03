@@ -55,7 +55,11 @@ printAdminHeader('overview', 'Database');
 					$tablecols = db_list_fields($table);
 					foreach ($tablecols as $key => $datum) {
 						if (strpos($datum['Comment'], 'optional_') === false) { // leave these for setup time decisions
-							//remove don't care fields
+							// add comment for our fields so we can recognize them later
+							if (!$datum['Comment']) {
+								$datum['Comment'] = 'zp20';
+							}
+							// remove don't care fields
 							unset($datum['Collation']);
 							unset($datum['Key']);
 							unset($datum['Extra']);
