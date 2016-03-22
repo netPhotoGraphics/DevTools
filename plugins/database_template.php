@@ -14,7 +14,7 @@
 // force UTF-8 Ø
 
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
-$plugin_description = gettext('Generates the <em>zenphoto.package</em> file.');
+$plugin_description = gettext('Generates the <em>databaseTemplate</em> file.');
 $plugin_author = "Stephen Billard (sbillard)";
 
 zp_register_filter('admin_utilities_buttons', 'database_structure_button');
