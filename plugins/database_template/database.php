@@ -24,9 +24,10 @@ printAdminHeader('overview', 'Database');
 	<div id="main">
 		<?php printTabs(); ?>
 		<div id="content">
+			<?php zp_apply_filter('admin_note', 'database', ''); ?>
+
 			<?php printSubtabs() ?>
 			<div class="tabbox">
-				<?php zp_apply_filter('admin_note', 'database', ''); ?>
 				<h1><span id="top">Database Template</span></h1>
 				<?php
 				$database_name = db_name();
