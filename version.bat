@@ -44,13 +44,9 @@ IF [%beta%]==[] GOTO TAG
 	SET new=%new%-%beta%
 :TAG
 
-FOR /F "delims=" %%a in ('git rev-parse HEAD') DO SET LONG=%%a
-SET SHORT=%LONG:~0,10%
-
 >%SOURCE%	echo ^<?php
 >>%SOURCE%	echo // This file contains version info only and is automatically updated. DO NOT EDIT. 
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%'); 
->>%SOURCE%	echo define('ZENPHOTO_RELEASE', '%SHORT%'); 
 >>%SOURCE%	echo ?^>
 
 @git add .
