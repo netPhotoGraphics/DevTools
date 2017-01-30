@@ -39,7 +39,7 @@ if (!isset($_GET['process'])) {
 }
 Define('TARGET', 'package/');
 try {
-	$sourcefolder = '/newstuff/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
+	$sourcefolder = '/Downloads/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()

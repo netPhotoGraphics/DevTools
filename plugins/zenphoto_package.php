@@ -27,7 +27,9 @@ zp_register_filter('admin_utilities_buttons', 'zenphoto_package_button');
 class zenphoto_package {
 
 	function __construct() {
-		setOptionDefault('zenphoto_package_path', ZENFOLDER);
+		if (OFFSET_PATH == 2) {
+			setOptionDefault('zenphoto_package_path', ZENFOLDER);
+		}
 	}
 
 	function getOptionsSupported() {
