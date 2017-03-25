@@ -30,7 +30,7 @@ if ($plugin_disable) {
 	zp_register_filter('sendmail', 'pseudo_sendmail');
 }
 
-function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $replyTo, $html = false) {
+function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $bcc_addresses, $replyTo, $html = false) {
 	$filename = str_replace(array('<', '>', ':', '"' . '/' . '\\', '|', '?', '*'), '_', $subject);
 	if ($html) {
 		$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename . '.htm';
@@ -57,6 +57,13 @@ function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $fro
 			$cclist .= ',' . $cc_mail;
 		}
 		fwrite($f, sprintf(gettext('Cc: %s'), substr($cclist, 1)) . $newln);
+	}
+	if (count($bcc_addresses) > 0) {
+		$bcclist = '';
+		foreach ($bcc_addresses as $bcc_name => $bcc_mail) {
+			$bcclist .= ',' . $bcc_mail;
+		}
+		fwrite($f, sprintf(gettext('Cc: %s'), substr($bcclist, 1)) . $newln);
 	}
 	fwrite($f, sprintf(gettext('Subject: %s'), $subject) . $newln);
 	fwrite($f, str_pad('*', 49, '-') . $newln);
