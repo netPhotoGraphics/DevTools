@@ -7,11 +7,7 @@
  * same <i>subject</i> will overwrite.
  *
  * @author Stephen Billard (sbillard)
-<<<<<<< HEAD
- * 
-=======
  *
->>>>>>> 256cc84562f6bb694b2972dcf89ed7bad4471f18
  * @package plugins
  * @subpackage mail
  * @category ZenPhoto20Tools
@@ -32,14 +28,23 @@ if ($plugin_disable) {
 
 function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $bcc_addresses, $replyTo, $html = false) {
 	$filename = str_replace(array('<', '>', ':', '"' . '/' . '\\', '|', '?', '*'), '_', $subject);
+	$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename;
 	if ($html) {
-		$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename . '.htm';
+		$suffix = '.htm';
 		$newln = '<br />';
 	} else {
-		$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename . '.txt';
+		$suffix = '.txt';
 		$newln = "\n";
 	}
-	$f = fopen($path, 'w');
+	$filelist = safe_glob($path . '*' . $suffix);
+	$mod = count($filelist);
+	if ($mod) {
+		$mod = '_' . $mod;
+	} else {
+		$mod = '';
+	}
+
+	$f = fopen($path . $mod . $suffix, 'w');
 	fwrite($f, str_pad('*', 49, '-') . $newln);
 	$tolist = '';
 	foreach ($email_list as $to) {
