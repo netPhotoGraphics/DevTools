@@ -24,7 +24,7 @@ if (isset($_GET['email'])) {
 	$email = '';
 }
 
-$mypath = str_replace(SERVERPATH . '/', WEBPATH, str_replace('\\', '/', __FILE__));
+$mypath = replaceScriptPath(__FILE__, WEBPATH);
 $more = '';
 if (isset($_GET['action'])) {
 	switch ($_GET['action']) {

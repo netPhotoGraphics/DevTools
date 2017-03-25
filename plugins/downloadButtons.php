@@ -19,9 +19,9 @@ zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
 class downloadButtons {
 
 	function getOptionsSupported() {
-		$options = array(gettext('Download release') => array('key'		 => 'downloadButtons_release', 'type'	 => OPTION_TYPE_TEXTBOX,
-										'order'	 => 1,
-										'desc'	 => gettext('The version number of the release download'))
+		$options = array(gettext('Download release') => array('key' => 'downloadButtons_release', 'type' => OPTION_TYPE_TEXTBOX,
+						'order' => 1,
+						'desc' => gettext('The version number of the release download'))
 		);
 		return $options;
 	}
@@ -50,17 +50,17 @@ class downloadButtons {
 
 	static function macro($macros) {
 		$my_macros = array(
-						'RELEASENOTES' => array('class'	 => 'procedure',
-										'params' => array(),
-										'value'	 => 'downloadButtons::releaseNotes',
-										'owner'	 => 'downloadButtons',
-										'desc'	 => gettext('Places release notes on a page.'))
+				'RELEASENOTES' => array('class' => 'procedure',
+						'params' => array(),
+						'value' => 'downloadButtons::releaseNotes',
+						'owner' => 'downloadButtons',
+						'desc' => gettext('Places release notes on a page.'))
 		);
 		return array_merge($macros, $my_macros);
 	}
 
 	static function announce($title, $content) {
-		$result = zp_apply_filter('sendmail', '', array('zenphoto20' => 'zenphoto20@googlegroups.com'), $title, $content, 'no-reply@zenphoto20.us', 'ZenPhoto20', array(), NULL, false);
+		$result = zp_mail($title, $content, array('zenphoto20' => 'zenphoto20@googlegroups.com'), array(), array(), NULL, false, array('ZenPhoto20' => 'no-reply@zenphoto20.us'));
 	}
 
 	static function makeArticle() {
@@ -100,17 +100,17 @@ class downloadButtons {
 		unset($prior[3]);
 		unset($current[3]);
 		$buttons[] = array(
-						'category'		 => gettext('Admin'),
-						'enable'			 => $prior != $current,
-						'button_text'	 => sprintf(gettext('Publish %1$s'), ZENPHOTO_VERSION),
-						'formname'		 => 'downloadButtons_button',
-						'action'			 => '',
-						'icon'				 => 'images/cache.png',
-						'title'				 => sprintf(gettext('Publish %1$s'), ZENPHOTO_VERSION),
-						'alt'					 => '',
-						'hidden'			 => '<input type="hidden" name="publish_release" value="yes" />',
-						'rights'			 => ADMIN_RIGHTS,
-						'XSRFTag'			 => 'downloadButtons'
+				'category' => gettext('Admin'),
+				'enable' => $prior != $current,
+				'button_text' => sprintf(gettext('Publish %1$s'), ZENPHOTO_VERSION),
+				'formname' => 'downloadButtons_button',
+				'action' => '',
+				'icon' => 'images/cache.png',
+				'title' => sprintf(gettext('Publish %1$s'), ZENPHOTO_VERSION),
+				'alt' => '',
+				'hidden' => '<input type="hidden" name="publish_release" value="yes" />',
+				'rights' => ADMIN_RIGHTS,
+				'XSRFTag' => 'downloadButtons'
 		);
 		return $buttons;
 	}
