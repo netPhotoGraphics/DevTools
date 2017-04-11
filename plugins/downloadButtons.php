@@ -89,7 +89,7 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
-		$text = sprintf('ZenPhoto20 %1$s is now available: <zenphoto20.us/news/ZenPhoto20-%2$s>.', $version, ZENPHOTO_VERSION);
+		$text = sprintf('ZenPhoto20 %1$s is now available: zenphoto20.us/news/ZenPhoto20-%2$s', $version, ZENPHOTO_VERSION);
 		self::announce('ZenPhoto20 ' . $version, $text);
 	}
 
