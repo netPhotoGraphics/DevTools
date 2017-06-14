@@ -33,7 +33,7 @@ class downloadButtons {
 		$current = implode('.', $current);
 		?>
 		<span class="buttons">
-			<a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-<?php echo $current; ?>/setup-<?php echo $release; ?>.zip" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $release; ?></a>
+			<a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-<?php echo $release; ?>/setup-<?php echo $release; ?>.zip" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $current; ?></a>
 		</span>
 		<br />
 		<br />
