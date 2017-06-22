@@ -7,6 +7,7 @@
  *
  * @package plugins
  * @subpackage development
+ * @category ZenPhoto20Tools
  */
 $plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext('Allows using zenpage editing to create release notes.');
@@ -16,11 +17,15 @@ zp_register_filter('general_zenpage_utilities', 'releaseNotesPublish');
 zp_register_filter('save_article_custom_data', 'releaseNotesExecute');
 
 function releaseNotesPublish($before, $object, $prefix = NULL) {
-	$output = '<p class="checkbox">' . "\n" . '<label>' . "\n" . '<input type="checkbox" name="publishNotes' . $prefix . '" id="publishNotes'
-					. $prefix . '" value="1" /> '
-					. gettext('Publish Release Notes')
-					. "\n</label>\n</p>\n";
-	return $before . $output;
+	if ($object->getTitleLink() == 'zenphoto20-release-notes') {
+		$output = '<p class="checkbox">' . "\n" . '<label>' . "\n" . '<input type="checkbox" name="publishNotes' . $prefix . '" id="publishNotes'
+						. $prefix . '" value="1" checked="checked"/> '
+						. gettext('Publish Release Notes')
+						. "\n</label>\n</p>\n";
+		return $before . $output;
+	} else {
+		return $before;
+	}
 }
 
 function releaseNotesExecute($custom, $object) {
@@ -108,9 +113,7 @@ function releaseNotesExecute($custom, $object) {
 		$e = "	</body>
 </html>";
 		fwrite($f, $h);
-		$o = explode('-', ZENPHOTO_VERSION);
-		$originalVersion = $o[0];
-		fwrite($f, "<h1>ZenPhoto20 v$originalVersion release notes</h1>");
+		fwrite($f, "<h1>ZenPhoto20 release notes</h1>");
 		fwrite($f, $object->getContent());
 		fwrite($f, $e);
 		fclose($f);

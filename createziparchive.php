@@ -29,20 +29,21 @@
  * 	Copyright 2014 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/ZenPhoto20 ZenPhoto20}
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
- 
- if (!defined('VARIENT')){
+ Define('TARGET', 'package/');
+ if (isset($_GET['source']) && $_GET['source']) {
+	 define('VARIENT',$_GET['source']);
+ } else { 
 	 define('VARIENT','');
  }
 
-echo '<h1>Creating ' . ltrim(VARIENT, '-') . ' extract zip file</h1>';
+echo '<h1>Creating ' . VARIENT . ' extract zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!isset($_GET['process'])) {
-	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
+	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process&source=' . VARIENT. '" />';
 	exit();
 }
-Define('TARGET', 'package/');
 try {
-	$sourcefolder = '/Downloads/ZenPhoto20' . VARIENT . '-master/'; 
+	$sourcefolder = '/Downloads/ZenPhoto20' . ((VARIENT)?'-'.VARIENT:'') . '-master/'; 
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()

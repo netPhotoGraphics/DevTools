@@ -3,11 +3,7 @@
 /* Creates the zenphoto.package file
  *
  * @author Stephen Billard (sbillard)
-<<<<<<< HEAD
- * 
-=======
  *
->>>>>>> 256cc84562f6bb694b2972dcf89ed7bad4471f18
  * @package plugins
  * @subpackage development
  * @category ZenPhoto20Tools
