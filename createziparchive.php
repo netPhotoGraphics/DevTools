@@ -36,7 +36,7 @@
 	 define('VARIENT','');
  }
 
-echo '<h1>Creating ' . ltrim(VARIENT, '-') . ' extract zip file</h1>';
+echo '<h1>Creating ' . VARIENT . ' extract zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process&source=' . VARIENT. '" />';
