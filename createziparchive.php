@@ -29,8 +29,12 @@
  * 	Copyright 2014 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/ZenPhoto20 ZenPhoto20}
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
+ 
+ if (!defined('VARIENT')){
+	 define('VARIENT','');
+ }
 
-echo '<h1>Creating extract zip file</h1>';
+echo '<h1>Creating ' . ltrim(VARIENT, '-') . ' extract zip file</h1>';
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
@@ -38,7 +42,7 @@ if (!isset($_GET['process'])) {
 }
 Define('TARGET', 'package/');
 try {
-	$sourcefolder = '/Downloads/ZenPhoto20-master/'; // maybe you want to get this via CLI argument ...
+	$sourcefolder = '/Downloads/ZenPhoto20' . VARIENT . '-master/'; 
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
@@ -69,27 +73,12 @@ try {
 	fclose($fp_dest);
 	unlink($zipfilename);
 
-	$readme = TARGET . 'readme.txt';
-	$text = sprintf("Installation instructions\r\n\r\n" .
-					"Unzip this archive.\r\n\r\n" .
-					'Upload the extract.php.bin file into the root folder of your Gallery. I.e. If ' .
-					'you want your Gallery to be (or if you update a Gallery) at the following ' .
-					'address: http://mydomain.com/mygallery, then upload the file in the "mygallery" folder ' .
-					'(Note: the upload must be done in "binary" mode or the file may be corrupted. The ".bin" suffix should cause your FTP client to use this mode.)' . "\r\n\r\n" .
-					'On your website rename extract.php.bin to extract.php' . "\r\n\r\n" .
-					'If this is an upgrade to an existing installation you should be sure that you are logged in to your site before taking the next step. ' . "\r\n\r\n" .
-					'Using your browser, visit http://mydomain.com/mygallery/extract.php (if you install ZenPhoto20 at root level, then visit http://mydomain.com/extract.php).' . "\r\n\r\n" .
-					"The ZenPhoto20 files will self-extract and the setup process will start automatically.\r\n", ZENPHOTO_VERSION);
-	file_put_contents($readme, $text);
-
 	$zipfile = new ZipArchive();
 	$zipfile->open(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
-	$zipfile->addFile($readme, basename($readme));
+	$zipfile->addFile('readme.txt', 'readme.txt');
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'release notes.htm');
 	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
-
-	unlink($readme);
 
 	echo 'Done ...';
 } catch (Exception $e) {
@@ -101,6 +90,7 @@ function getSuffix($filename) {
 }
 
 function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
+	set_time_limit(120);
 	$d = opendir($path);
 	while ($file = readdir($d)) {
 		if ($file{0} == "." || $file == 'Thumbs.db' || getSuffix($file) == 'md')
