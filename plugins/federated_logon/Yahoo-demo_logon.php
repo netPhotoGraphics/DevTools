@@ -9,9 +9,7 @@
  * @package plugins
  * @subpackage users
  */
-define('OFFSET_PATH', 3);
-require_once(dirname(dirname(dirname(__FILE__))) . '/zp-core/admin-functions.php');
-require_once(SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/federated_logon/consumer/common.php');
+require_once('OpenID_common.php');
 zp_session_start();
 
 if (isset($_GET['redirect'])) {
@@ -28,6 +26,6 @@ $_GET['openid_identifier'] = 'https://Yahoo.com';
 // if the extension included with the standard federation login extensions
 // require 'consumer/try_auth.php';
 // otherwise we need to redirect to the consumer/try_auth.php script
-header('location:' . WEBPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/federated_logon/consumer/try_auth.php?openid_identifier=' . $_GET['openid_identifier'] . '&action=verify');
+header('location:' . WEBPATH . '/' . USER_PLUGIN_FOLDER . '/' . '/federated_logon/OpenID_try_auth.php?openid_identifier=' . $_GET['openid_identifier'] . '&action=verify');
 exitZP();
 ?>
