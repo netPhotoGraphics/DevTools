@@ -37,7 +37,7 @@ if (isset($_GET['action'])) {
 					$user = $email;
 				}
 			}
-			if (Zenphoto_Authority::checkCookieCredentials()) {
+			if ($_zp_authority->checkCookieCredentials()) {
 				if ($_zp_current_admin_obj->getUser() == $user) {
 					$more = sprintf(gettext('%s is already logged in.'), $user);
 					break;

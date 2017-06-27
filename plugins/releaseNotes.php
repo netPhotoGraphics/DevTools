@@ -34,6 +34,7 @@ function releaseNotesExecute($custom, $object) {
 		$h = '<!DOCTYPE html>
 <html>
 	<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="en">
 	<title>ZenPhoto20 release notes</title>
 	</head>
 		<style type="text/css">
