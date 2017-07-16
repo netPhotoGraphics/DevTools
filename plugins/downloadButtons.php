@@ -108,7 +108,7 @@ class downloadButtons {
 		unset($current[3]);
 		$buttons[] = array(
 				'category' => gettext('Admin'),
-				'enable' => $prior != $current || true,
+				'enable' => $prior != $current,
 				'button_text' => sprintf(gettext('Publish %1$s'), $currentVersion),
 				'formname' => 'downloadButtons_button',
 				'action' => '',
