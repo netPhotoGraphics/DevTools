@@ -64,15 +64,18 @@ class downloadButtons {
 	}
 
 	static function makeArticle() {
-		setOption('downloadButtons_release', getOption('getUpdates_latest'));
-		$current = explode('.', getOption('getUpdates_latest'));
+		$newestVersionURI = getOption('getUpdates_latest');
+		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
+
+		setOption('downloadButtons_release', $currentVersion);
+		$current = explode('.', $currentVersion);
 		unset($current[3]);
 		$version = implode('.', $current);
 		//	set prior release posts to un-published
 		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhoto20"';
 		query($sql);
 		//	create new article
-		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/tag/ZenPhoto20-%2$s">download</a>.</p>', $version, getOption('getUpdates_latest'));
+		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
 		if ($current[2] == 0) {
 			$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
 			$i = strpos($f, '<body>');
@@ -80,8 +83,9 @@ class downloadButtons {
 			$text .= substr($f, $i + 6, $j - $i - 6);
 		}
 
-		$article = newArticle('ZenPhoto20-' . getOption('getUpdates_latest'), true);
+		$article = newArticle('ZenPhoto20-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
+		$article->setPublishDate(date('Y-m-d H:i:s'));
 		$article->setAuthor('ZenPhoto20');
 		$article->setTitle('ZenPhoto20 ' . $version);
 		$article->setContent($text);
@@ -89,24 +93,27 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
-		$text = sprintf('ZenPhoto20 %1$s is now available: zenphoto20.us/news/ZenPhoto20-%2$s', $version, getOption('getUpdates_latest'));
+		$text = sprintf('ZenPhoto20 %1$s is now available: zenphoto20.us/news/ZenPhoto20-%2$s', $version, $version);
 		self::announce('ZenPhoto20 ' . $version, $text);
 	}
 
 	static function button($buttons) {
 		$prior = explode('.', getOption('downloadButtons_release'));
-		$current = explode('.', getOption('getUpdates_latest'));
+		$newestVersionURI = getOption('getUpdates_latest');
+		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
+
+		$current = explode('.', $currentVersion);
 		//ignore build
 		unset($prior[3]);
 		unset($current[3]);
 		$buttons[] = array(
 				'category' => gettext('Admin'),
-				'enable' => $prior != $current,
-				'button_text' => sprintf(gettext('Publish %1$s'), getOption('getUpdates_latest')),
+				'enable' => $prior != $current || true,
+				'button_text' => sprintf(gettext('Publish %1$s'), $currentVersion),
 				'formname' => 'downloadButtons_button',
 				'action' => '',
 				'icon' => 'images/cache.png',
-				'title' => sprintf(gettext('Publish %1$s'), getOption('getUpdates_latest')),
+				'title' => sprintf(gettext('Publish %1$s'), $currentVersion),
 				'alt' => '',
 				'hidden' => '<input type="hidden" name="publish_release" value="yes" />',
 				'rights' => ADMIN_RIGHTS,
