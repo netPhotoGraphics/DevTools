@@ -27,13 +27,11 @@ class downloadButtons {
 	}
 
 	static function printGitHubButtons() {
-		$release = getOption('downloadButtons_release');
-		$current = explode('.', $release);
-		$current[3] = 0;
-		$current = implode('.', $current);
+		$newestVersionURI = getOption('getUpdates_latest');
+		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
-			<a href="https://github.com/ZenPhoto20/ZenPhoto20/releases/download/ZenPhoto20-<?php echo $release; ?>/setup-<?php echo $release; ?>.zip" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $current; ?></a>
+			<a href="<?php echo $newestVersionURI; ?>" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $currentVersion; ?></a>
 		</span>
 		<br />
 		<br />
@@ -76,12 +74,15 @@ class downloadButtons {
 		query($sql);
 		//	create new article
 		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
-		if ($current[2] == 0) {
-			$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
-			$i = strpos($f, '<body>');
-			$j = strpos($f, '<hr />');
-			$text .= substr($f, $i + 6, $j - $i - 6);
-		}
+
+		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
+		$i = strpos($f, '<body>');
+		$j = strpos($f, '<hr />');
+		$doc = substr($f, $i + 6, $j - $i - 6);
+		$doc = preg_replace('~\<h1\>.+\</h1\>\s*\<h2\>Version.+?\</h2\>~i', '', $doc);
+		$doc = preg_replace('~\<p\> \</p\>~i', '', $doc);
+
+		$text.= $doc;
 
 		$article = newArticle('ZenPhoto20-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
