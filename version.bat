@@ -1,4 +1,4 @@
-@ECHO off
+@echo off
 REM this script will update the "build" number of the ZenPhoto20 version and commit it
 REM copyright by Stephen Billard, all rights reserved.
 
@@ -49,6 +49,23 @@ IF [%beta%]==[] GOTO TAG
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
+rem set the version number into the release notes document
+
+setlocal
+
+set dest="docs\release notes.htm"
+
+rem del %dest%
+
+(for /f "delims=" %%i in (D:\test_sites\dev\docs\release_notes.htm) do (
+    set "line=%%i"
+    setlocal enabledelayedexpansion
+    set "line=!line:$v$=%new%!"
+    echo(!line!
+    endlocal
+))>%dest%
+
+rem commit the changes
 @git add .
 @git commit -m"release build %NEW%"
 @git push

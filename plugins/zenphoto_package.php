@@ -18,7 +18,7 @@ $plugin_description = gettext('Generates the <em>zenphoto.package</em> file.');
 $plugin_author = "Stephen Billard (sbillard)";
 $option_interface = 'zenphoto_package';
 
-zp_register_filter('admin_utilities_buttons', 'zenphoto_package_button');
+zp_register_filter('admin_utilities_buttons', 'zenphoto_package::buttons');
 
 class zenphoto_package {
 
@@ -29,27 +29,39 @@ class zenphoto_package {
 	}
 
 	function getOptionsSupported() {
-		return array(gettext('Folder') => array('key'				 => 'zenphoto_package_path', 'type'			 => OPTION_TYPE_SELECTOR,
-										'selections' => array(DATA_FOLDER => DATA_FOLDER, ZENFOLDER => ZENFOLDER, UPLOAD_FOLDER => UPLOAD_FOLDER),
-										'desc'			 => gettext('Place the package file in this folder.')));
+		return array(gettext('Folder') => array('key' => 'zenphoto_package_path', 'type' => OPTION_TYPE_SELECTOR,
+						'selections' => array(DATA_FOLDER => DATA_FOLDER, ZENFOLDER => ZENFOLDER, UPLOAD_FOLDER => UPLOAD_FOLDER),
+						'desc' => gettext('Place the package file in this folder.')));
 	}
 
-}
+	static function buttons($buttons) {
+		$buttons[] = array(
+				'category' => gettext('Development'),
+				'enable' => true,
+				'button_text' => gettext('extract getAllTranslations'),
+				'formname' => 'zenphoto_translations_button',
+				'action' => FULLWEBPATH . '/plugins/zenphoto_package/getAllTranslations.php',
+				'icon' => 'images/arrow_down.png',
+				'title' => gettext('Extract "allTranslations" strings'),
+				'alt' => '',
+				'hidden' => '',
+				'rights' => ADMIN_RIGHTS
+		);
+		$buttons[] = array(
+				'category' => gettext('Development'),
+				'enable' => true,
+				'button_text' => gettext('Create package'),
+				'formname' => 'zenphoto_package_button',
+				'action' => FULLWEBPATH . '/plugins/zenphoto_package/zenphoto_package_generator.php',
+				'icon' => 'images/arrow_down.png',
+				'title' => gettext('Download new package file'),
+				'alt' => '',
+				'hidden' => '',
+				'rights' => ADMIN_RIGHTS
+		);
+		return $buttons;
+	}
 
-function zenphoto_package_button($buttons) {
-	$buttons[] = array(
-					'category'		 => gettext('Development'),
-					'enable'			 => true,
-					'button_text'	 => gettext('Create package'),
-					'formname'		 => 'zenphoto_package_button',
-					'action'			 => FULLWEBPATH . '/plugins/zenphoto_package/zenphoto_package_generator.php',
-					'icon'				 => 'images/arrow_down.png',
-					'title'				 => gettext('Download new package file'),
-					'alt'					 => '',
-					'hidden'			 => '',
-					'rights'			 => ADMIN_RIGHTS
-	);
-	return $buttons;
 }
 
 ?>
