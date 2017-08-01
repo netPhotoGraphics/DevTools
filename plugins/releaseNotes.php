@@ -30,7 +30,7 @@ function releaseNotesPublish($before, $object, $prefix = NULL) {
 
 function releaseNotesExecute($custom, $object) {
 	if (isset($_POST['publishNotes'])) {
-		$f = fopen(SERVERPATH . '/docs/release notes.htm', 'w');
+		$f = fopen(SERVERPATH . '/docs/release_notes.htm', 'w');
 		$h = '<!DOCTYPE html>
 <html>
 	<head>
@@ -80,13 +80,11 @@ function releaseNotesExecute($custom, $object) {
 			h6 {
 				font-style: italic;
 			}
-
 			code {
 				color: #00008B;
 				font-size: 12px;
 				font-family: Arial, Helvetica, sans-serif;
 			}
-
 			 pre {
 				color: #00008B;
 				margin-left: 0px;
@@ -96,14 +94,12 @@ function releaseNotesExecute($custom, $object) {
 				font-family: Courier, Geneva, monospace;
 				overflow: auto;
 			}
-
 			tt,
 			.inlinecode {
 				color: #00008B;
 				font-size: 13px;
 				font-weight: bold !important;
 			}
-
 			a {
 				text-decoration: none;
 				color: #6c802e;
@@ -111,7 +107,8 @@ function releaseNotesExecute($custom, $object) {
 		</style>
 	<body>
 ';
-		$e = "	</body>
+		$e = "
+	</body>
 </html>";
 		fwrite($f, $h);
 		fwrite($f, "<h1>ZenPhoto20 release notes</h1>");
