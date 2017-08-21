@@ -110,7 +110,7 @@ class downloadButtons {
 		$buttons[] = array(
 				'category' => gettext('Admin'),
 				'enable' => $prior != $current,
-				'button_text' => sprintf(gettext('Publish %1$s'), $currentVersion),
+				'button_text' => sprintf(gettext('Publish %1$s'), implode('.', $current)),
 				'formname' => 'downloadButtons_button',
 				'action' => '',
 				'icon' => CIRCLED_BLUE_STAR,
