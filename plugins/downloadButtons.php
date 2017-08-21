@@ -107,14 +107,15 @@ class downloadButtons {
 		//ignore build
 		unset($prior[3]);
 		unset($current[3]);
+		$v = implode('.', $current);
 		$buttons[] = array(
 				'category' => gettext('Admin'),
 				'enable' => $prior != $current,
-				'button_text' => sprintf(gettext('Publish %1$s'), implode('.', $current)),
+				'button_text' => sprintf(gettext('Publish %1$s'), $v),
 				'formname' => 'downloadButtons_button',
 				'action' => '',
 				'icon' => CIRCLED_BLUE_STAR,
-				'title' => sprintf(gettext('Publish %1$s'), $currentVersion),
+				'title' => sprintf(gettext('Publish %1$s'), $v),
 				'alt' => '',
 				'hidden' => '<input type="hidden" name="publish_release" value="yes" />',
 				'rights' => ADMIN_RIGHTS,
