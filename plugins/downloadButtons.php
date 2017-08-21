@@ -31,7 +31,7 @@ class downloadButtons {
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
-			<a href="<?php echo $newestVersionURI; ?>" title="download the release"><?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?></a>
+			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release"><?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?></a>
 		</span>
 		<br />
 		<br />
