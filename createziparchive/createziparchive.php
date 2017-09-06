@@ -91,9 +91,9 @@ function getSuffix($filename) {
 }
 
 function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
-	set_time_limit(120);
 	$d = opendir($path);
 	while ($file = readdir($d)) {
+		set_time_limit(360);
 		if ($file{0} == "." || $file == 'Thumbs.db' || getSuffix($file) == 'md')
 			continue;
 		$curfile = ($removeFolder) ? preg_replace('~^' . $removeFolder . '~', '', $path . $file) : $path . $file;
