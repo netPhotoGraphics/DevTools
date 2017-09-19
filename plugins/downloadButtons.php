@@ -31,7 +31,7 @@ class downloadButtons {
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
-			<a href="<?php echo $newestVersionURI; ?>" title="download the release"><img src="<?php echo WEBPATH . '/' . ZENFOLDER; ?>/images/arrow_down.png" />ZenPhoto20 <?php echo $currentVersion; ?></a>
+			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release"><?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?></a>
 		</span>
 		<br />
 		<br />
@@ -94,8 +94,8 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
-		$text = sprintf('ZenPhoto20 %1$s is now available: zenphoto20.us/news/ZenPhoto20-%2$s', $version, $version);
-		self::announce('ZenPhoto20 ' . $version, $text);
+		//$text = sprintf('ZenPhoto20 %1$s is now available: zenphoto20.us/news/ZenPhoto20-%2$s', $version, $version);
+		//self::announce('ZenPhoto20 ' . $version, $text);
 	}
 
 	static function button($buttons) {
@@ -107,14 +107,15 @@ class downloadButtons {
 		//ignore build
 		unset($prior[3]);
 		unset($current[3]);
+		$v = implode('.', $current);
 		$buttons[] = array(
 				'category' => gettext('Admin'),
 				'enable' => $prior != $current,
-				'button_text' => sprintf(gettext('Publish %1$s'), $currentVersion),
+				'button_text' => sprintf(gettext('Publish %1$s'), $v),
 				'formname' => 'downloadButtons_button',
 				'action' => '',
-				'icon' => 'images/cache.png',
-				'title' => sprintf(gettext('Publish %1$s'), $currentVersion),
+				'icon' => CIRCLED_BLUE_STAR,
+				'title' => sprintf(gettext('Publish %1$s'), $v),
 				'alt' => '',
 				'hidden' => '<input type="hidden" name="publish_release" value="yes" />',
 				'rights' => ADMIN_RIGHTS,

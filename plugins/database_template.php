@@ -26,7 +26,7 @@ function database_structure_button($buttons) {
 			'button_text' => gettext('Database Template'),
 			'formname' => 'database_template.php',
 			'action' => FULLWEBPATH . '/plugins/database_template/database.php',
-			'icon' => 'images/arrow_down.png',
+			'icon' => ARROW_DOWN_GREEN,
 			'title' => gettext('Creates the database structure template.'),
 			'alt' => '',
 			'hidden' => '',
