@@ -16,6 +16,8 @@ $plugin_author = "Stephen Billard (sbillard)";
 zp_register_filter('general_zenpage_utilities', 'releaseNotesPublish');
 zp_register_filter('save_article_custom_data', 'releaseNotesExecute');
 
+enableExtension('releaseNotes', 5 | CLASS_PLUGIN); //	at lease re-enable at setup incase it gets left disabled
+
 function releaseNotesPublish($before, $object, $prefix = NULL) {
 	if ($object->getTitleLink() == 'zenphoto20-release-notes') {
 		$output = '<p class="checkbox">' . "\n" . '<label>' . "\n" . '<input type="checkbox" name="publishNotes' . $prefix . '" id="publishNotes'
