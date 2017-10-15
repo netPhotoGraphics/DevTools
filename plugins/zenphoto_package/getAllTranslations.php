@@ -93,7 +93,7 @@ foreach ($scripts as $filename) {
 fwrite($f, '?>');
 
 
-$upadate .= "\$_subpackages = array (";
+$upadate = "\$_subpackages = array (";
 $subpackages = array_unique($subpackages);
 natcasesort($subpackages);
 $sep = "\n\t";
