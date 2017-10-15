@@ -104,7 +104,7 @@ foreach ($subpackages as $text) {
 $upadate .= "\n);";
 
 $functs = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php');
-preg_replace('~\$_subpackages = array\(.*?\);~i', $update, $functs);
+preg_replace('~\$_subpackages = array\(.*?\);~i', $upadate, $functs);
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
 
 
