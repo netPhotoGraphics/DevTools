@@ -78,14 +78,20 @@ $scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . ZENFOLDER));
 $f = fopen(SERVERPATH . '/' . ZENFOLDER . '/allTranslations.php', 'w');
 fwrite($f, "<?php\n/* This file contains language strings extracted from getAllTranslations() function calls.\n * it is used by Poedit to capture the strings for translation.\n */\n");
 
+$seen = array();
+
 foreach ($scripts as $filename) {
 	$content = file_get_contents(SERVERPATH . '/' . internalToFilesystem($filename));
 	preg_match_all('~getAllTranslations\s*\(\s*([\'"])(.+?)\1\s*\)~is', $content, $matches);
 	if (isset($matches[2]) && !empty($matches[2])) {
 		fwrite($f, "\n/* $filename */\n");
 		foreach ($matches[2] as $key => $text) {
-			$text = $matches[1][$key] . $text . $matches[1][$key];
-			fwrite($f, "gettext($text);\n");
+			$text = "gettext(" . $matches[1][$key] . $text . $matches[1][$key] . ");\n";
+			if (in_array($text, $seen)) {
+				$text = '//' . $text;
+			}
+			$seen[] = $text;
+			fwrite($f, $text);
 		}
 	}
 }
