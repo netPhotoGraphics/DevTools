@@ -51,6 +51,7 @@ foreach ($_zp_gallery->getThemes() as $theme => $data) {
 	}
 }
 
+$subpackages = array();
 $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
@@ -65,6 +66,10 @@ foreach ($paths as $plugin => $path) {
 				$scripts[] = str_replace(SERVERPATH . '/', '', $path);
 			}
 		}
+		$i = strpos($p, '* @subpackage');
+		if (($key = $i) !== false) {
+			$subpackages[] = strtolower(trim(substr($p, $i + 13, strpos($p, "\n", $i) - $i - 11)));
+		}
 	}
 }
 
@@ -73,18 +78,41 @@ $scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . ZENFOLDER));
 $f = fopen(SERVERPATH . '/' . ZENFOLDER . '/allTranslations.php', 'w');
 fwrite($f, "<?php\n/* This file contains language strings extracted from getAllTranslations() function calls.\n * it is used by Poedit to capture the strings for translation.\n */\n");
 
+$seen = array();
+
 foreach ($scripts as $filename) {
 	$content = file_get_contents(SERVERPATH . '/' . internalToFilesystem($filename));
 	preg_match_all('~getAllTranslations\s*\(\s*([\'"])(.+?)\1\s*\)~is', $content, $matches);
 	if (isset($matches[2]) && !empty($matches[2])) {
 		fwrite($f, "\n/* $filename */\n");
 		foreach ($matches[2] as $key => $text) {
-			$text = $matches[1][$key] . $text . $matches[1][$key];
-			fwrite($f, "gettext($text);\n");
+			$text = "gettext(" . $matches[1][$key] . $text . $matches[1][$key] . ");\n";
+			if (in_array($text, $seen)) {
+				$text = '//' . $text;
+			}
+			$seen[] = $text;
+			fwrite($f, $text);
 		}
 	}
 }
+
 fwrite($f, '?>');
+
+
+$upadate = "\$_subpackages = array (";
+$subpackages = array_unique($subpackages);
+natcasesort($subpackages);
+$sep = "\n\t";
+foreach ($subpackages as $text) {
+	$upadate .= $sep . "'$text'\t=>\tgettext('$text')";
+	$sep = ",\n\t";
+}
+$upadate .= "\n);";
+
+$functs = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php');
+preg_replace('~\$_subpackages = array\(.*?\);~i', $upadate, $functs);
+file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
+
 
 header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=getAllTranslations() updated.');
 exitZP();
