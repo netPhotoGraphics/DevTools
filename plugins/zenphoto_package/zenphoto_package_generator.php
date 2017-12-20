@@ -4,9 +4,9 @@
  * Package list generator
  *
  * @author Stephen Billard (sbillard)
- * @package plugins
- * @subpackage admin
- * @category ZenPhoto20Tools
+ * @package plugins/zenphoto_package
+
+ * @category plugins/ZenPhoto20Tools
  */
 // force UTF-8 Ø
 
@@ -28,10 +28,10 @@ $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
 		$p = file_get_contents($path);
-		$i = strpos($p, '* @category');
-		if (($key = $i) !== false) {
-			$key = strtolower(trim(substr($p, $i + 11, strpos($p, "\n", $i) - $i - 11)));
-			if ($key == 'package') {
+
+		if ($str = isolate('@category', $p)) {
+			preg_match('~@category\s+([^\/^\s]*)~', $str, $matches);
+			if (isset($matches[1]) && $matches[1] == 'package') {
 				if (is_dir($dir = stripSuffix($path))) {
 					$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
 					$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($dir, $stdExclude));

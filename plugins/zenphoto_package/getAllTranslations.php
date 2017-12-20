@@ -8,8 +8,7 @@
  * @Copyright 2017 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/ZenPhoto20 ZenPhoto20}
  *
  * @author Stephen Billard (sbillard)
- * @package plugins
- * @subpackage admin
+ * @package plugins/zenphoto_package
  * @category ZenPhoto20Tools
  */
 
@@ -51,7 +50,7 @@ foreach ($_zp_gallery->getThemes() as $theme => $data) {
 	}
 }
 
-$subpackages = array();
+$admintabs = array();
 $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
@@ -66,9 +65,9 @@ foreach ($paths as $plugin => $path) {
 				$scripts[] = str_replace(SERVERPATH . '/', '', $path);
 			}
 		}
-		$i = strpos($p, '* @subpackage');
+		$i = strpos($p, '* @pluginCategory');
 		if (($key = $i) !== false) {
-			$subpackages[] = strtolower(trim(substr($p, $i + 13, strpos($p, "\n", $i) - $i - 11)));
+			$admintabs[] = strtolower(trim(substr($p, $i + 13, strpos($p, "\n", $i) - $i - 11)));
 		}
 	}
 }
@@ -100,10 +99,10 @@ fwrite($f, '?>');
 
 
 $update = "\$_subpackages = array (";
-$subpackages = array_unique($subpackages);
-natcasesort($subpackages);
+$admintabs = array_unique($admintabs);
+natcasesort($admintabs);
 $sep = "\n\t";
-foreach ($subpackages as $text) {
+foreach ($admintabs as $text) {
 	$update .= $sep . "'$text'\t=>\tgettext('$text')";
 	$sep = ",\n\t";
 }
@@ -112,7 +111,6 @@ $update .= "\n);";
 $functs = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php');
 preg_replace('~\$_subpackages = array\(.*?\);~i', $update, $functs);
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
-
 
 header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=getAllTranslations() updated.');
 exitZP();
