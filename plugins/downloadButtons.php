@@ -4,8 +4,9 @@
  *
  * @author Stephen Billard (sbillard)
  *
- * @package plugins
- * @subpackage ZenPhoto20
+ * @package plugins/downloadButtons
+
+ * @pluginCategory ZenPhoto20
  * @category ZenPhoto20Tools
  */
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;

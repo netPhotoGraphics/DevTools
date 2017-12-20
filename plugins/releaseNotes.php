@@ -5,8 +5,9 @@
  *
  * @author Stephen Billard (sbillard)
  *
- * @package plugins
- * @subpackage development
+ * @package plugins/releaseNotes
+
+ * @pluginCategory development
  * @category ZenPhoto20Tools
  */
 $plugin_is_filter = 5 | CLASS_PLUGIN;

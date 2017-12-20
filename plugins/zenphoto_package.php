@@ -4,8 +4,9 @@
  *
  * @author Stephen Billard (sbillard)
  *
- * @package plugins
- * @subpackage development
+ * @package plugins/zenphoto_package
+
+ * @pluginCategory development
  * @category ZenPhoto20Tools
  *
  * Copyright Stephen L Billard
