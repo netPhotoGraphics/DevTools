@@ -19,6 +19,10 @@ zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
 
 class downloadButtons {
 
+	function __construct() {
+		purgeOption('getUpdates_lastCheck');
+	}
+
 	function getOptionsSupported() {
 		$options = array(gettext('Download release') => array('key' => 'downloadButtons_release', 'type' => OPTION_TYPE_TEXTBOX,
 						'order' => 1,
