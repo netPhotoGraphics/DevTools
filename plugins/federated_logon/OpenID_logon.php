@@ -3,9 +3,10 @@
  * Handles generic OpenID logon
  *
  * @author Stephen Billard (sbillard)
- * @package plugins
- * @subpackage users
+ 1
+  * @package plugins/federated_logon
  */
+
 require_once('OpenID_common.php');
 if (session_id() == '')
 	zp_session_start();

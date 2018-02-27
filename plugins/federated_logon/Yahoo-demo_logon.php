@@ -6,9 +6,10 @@
  * This just supplies the Yahoo URL to OpenID_try.php. The rest is normal OpenID handling
  *
  * @author Stephen Billard (sbillard)
- * @package plugins
- * @subpackage users
+ 1
+  * @package plugins/federated_logon
  */
+
 require_once('OpenID_common.php');
 zp_session_start();
 

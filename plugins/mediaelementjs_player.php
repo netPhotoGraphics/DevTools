@@ -48,9 +48,11 @@
  * @author Malte Müller (acrylian) <info@maltem.de>
  * @copyright 2014 Malte Müller
  * @license GPL v3 or later
- * @package plugins
- * @subpackage media
+ 
+ * @pluginCategory media
+ * @package plugins/mediaelementjs_player
  */
+
 $plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext("Enable <strong>mediaelement.js</strong> to handle multimedia files.");
 $plugin_notice = gettext("<strong>IMPORTANT</strong>: Only one multimedia player plugin can be enabled at the time and the class-video plugin must be enabled, too.") . '<br /><br />' . gettext("Please see <a href='http://http://mediaelementjs.com'>mediaelementjs.com</a> for more info about the player and its license.");

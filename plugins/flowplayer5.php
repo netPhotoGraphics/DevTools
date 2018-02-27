@@ -25,8 +25,9 @@
  * <b>NOTE:</b> This player does not support external albums!
  *
  * @author Jim Brown
- * @package plugins
- * @subpackage media
+ * @package plugins/flowplayer5
+
+ * @pluginCategory media
  * @category ZenPhoto20Tools
  */
 $plugin_is_filter = 5 | CLASS_PLUGIN;

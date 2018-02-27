@@ -8,8 +8,9 @@
  *
  * @author Stephen Billard (sbillard)
  *
- * @package plugins
- * @subpackage mail
+ * @package plugins/pseudomail
+
+ * @pluginCategory mail
  * @category ZenPhoto20Tools
  * Copyright Stephen L Billard
  * permission granted for use in conjunction with ZenPhoto20. All other rights reserved

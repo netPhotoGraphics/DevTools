@@ -1,8 +1,11 @@
 <?php
-/*
+
+/**
  * Demo script for co-ordinating credentials with some outside agency.
  *
+ * @package plugins/federated_logon
  */
+
 
 define('OFFSET_PATH', 3);
 require_once(dirname(dirname(dirname(__FILE__))) . '/zp-core/admin-functions.php');

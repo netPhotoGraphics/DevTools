@@ -44,8 +44,8 @@
  *
  * @author Stephen Billard (sbillard)
  *
- * @package plugins
- * @subpackage users
+ * @package plugins/federated_logon
+ * @pluginCategory users
  */
 $plugin_is_filter = 900 | CLASS_PLUGIN;
 $plugin_description = gettext('Handles logon from <em>OpenID</em> credential providers.');
@@ -194,7 +194,7 @@ class federated_logon {
 				$userobj->setCredentials($credentials);
 				$userobj->setName($name);
 				$userobj->setPass($user . HASH_SEED . gmdate('d M Y H:i:s'));
-				$userobj->setObjects(NULL);
+				$userobj->objects = NULL;
 				$userobj->setLanguage(getUserLocale());
 				$userobj->setObjects($groupobj->getObjects());
 				if (is_valid_email_zp($email)) {

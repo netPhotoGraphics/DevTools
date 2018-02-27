@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @package plugins/federated_logon
+ */
+
 $path_extra = dirname(__FILE__);
 $path = ini_get('include_path');
 $path = $path_extra . PATH_SEPARATOR . $path;
