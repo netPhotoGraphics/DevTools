@@ -17,7 +17,7 @@ $stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data');
 
 $_zp_resident_files[] = THEMEFOLDER;
 foreach ($_zp_gallery->getThemes() as $theme => $data) {
-	if (protectedTheme($theme, true)) {
+	if (protectedTheme($theme)) {
 		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
 		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
 	}
@@ -27,17 +27,12 @@ $_zp_resident_files[] = USER_PLUGIN_FOLDER;
 $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
-		$p = file_get_contents($path);
-
-		if ($str = isolate('@category', $p)) {
-			preg_match('~@category\s+([^\/^\s]*)~', $str, $matches);
-			if (isset($matches[1]) && $matches[1] == 'package') {
-				if (is_dir($dir = stripSuffix($path))) {
-					$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
-					$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($dir, $stdExclude));
-				}
-				$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
+		if (distributedPlugin($plugin)) {
+			if (is_dir($dir = stripSuffix($path))) {
+				$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
+				$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($dir, $stdExclude));
 			}
+			$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
 		}
 	}
 }

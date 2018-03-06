@@ -21,8 +21,8 @@ enableExtension('releaseNotes', 5 | CLASS_PLUGIN); //	at lease re-enable at setu
 
 function releaseNotesPublish($before, $object, $prefix = NULL) {
 	$tl = $object->getTitleLink();
-	if (IM_SUFFIX) {
-		$tl = substr($tl, 0, strlen($tl) - strlen(IM_SUFFIX));
+	if (RW_SUFFIX) {
+		$tl = substr($tl, 0, strlen($tl) - strlen(RW_SUFFIX));
 	}
 	if ($tl == 'zenphoto20-release-notes') {
 		$output = '<p class="checkbox">' . "\n" . '<label>' . "\n" . '<input type="checkbox" name="publishNotes' . $prefix . '" id="publishNotes'
