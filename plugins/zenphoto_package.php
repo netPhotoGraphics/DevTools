@@ -1,11 +1,21 @@
 <?php
 
-/* Creates the zenphoto.package file
+/* A tool to produce the ZenPhoto20 package file--a llist of all the files in
+ * the ZenPhoto20 distribution.
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/zenphoto_package
-
+ *
+ * To add new user plugins or themes to the distribution package edit the package
+ * file adding a line for each plugin/theme:
+ *
+ * themes/<i>themename</i> for a new theme
+ *
+ * plugins/<i>pluginname</i>.php for a new plugin
+ *
+ * Then run the package generator.
+ *
  * @pluginCategory development
  * @category ZenPhoto20Tools
  *
