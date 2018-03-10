@@ -10,7 +10,7 @@
  * To add new user plugins or themes to the distribution package edit the package
  * file adding a line for each plugin/theme:
  *
- * themes/<i>themename</i> for a new theme
+ * themes/<i>themename/theme_description.php</i> for a new theme
  *
  * plugins/<i>pluginname</i>.php for a new plugin
  *
