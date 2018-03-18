@@ -49,7 +49,6 @@ IF [%beta%]==[] GOTO TAG
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
-IF [%param%]==[] GOTO COMMIT
 rem set the version number into the release notes document
 
 setlocal
@@ -71,5 +70,5 @@ rem commit the changes
 
 @git add .
 @git commit -m"release build %NEW%"
-@git push
+
 :END
