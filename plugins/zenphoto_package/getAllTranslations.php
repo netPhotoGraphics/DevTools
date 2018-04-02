@@ -80,6 +80,7 @@ fwrite($f, "<?php\n/* This file contains language strings extracted from getAllT
 $seen = array();
 
 foreach ($scripts as $filename) {
+	set_time_limit(200);
 	$content = file_get_contents(SERVERPATH . '/' . internalToFilesystem($filename));
 	preg_match_all('~getAllTranslations\s*\(\s*([\'"])(.+?)\1\s*\)~is', $content, $matches);
 	if (isset($matches[2]) && !empty($matches[2])) {
@@ -112,5 +113,5 @@ $functs = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php
 preg_replace('~\$_subpackages = array\(.*?\);~i', $update, $functs);
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
 
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=getAllTranslations() updated.');
+header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=allTranslations.php updated.');
 exitZP();
