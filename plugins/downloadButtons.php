@@ -9,6 +9,11 @@
  * @pluginCategory ZenPhoto20
  * @category ZenPhoto20Tools
  */
+
+require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
+
+use Milo\Github;
+
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Provides support for the ZenPhoto20 website.");
 $plugin_author = "Stephen Billard (sbillard)";
@@ -20,15 +25,7 @@ zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
 class downloadButtons {
 
 	function __construct() {
-		purgeOption('getUpdates_lastCheck');
-	}
 
-	function getOptionsSupported() {
-		$options = array(gettext('Download release') => array('key' => 'downloadButtons_release', 'type' => OPTION_TYPE_TEXTBOX,
-						'order' => 1,
-						'desc' => gettext('The version number of the release download'))
-		);
-		return $options;
 	}
 
 	static function printGitHubButtons() {
@@ -70,7 +67,6 @@ class downloadButtons {
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 
-		setOption('downloadButtons_release', $currentVersion);
 		$current = explode('.', $currentVersion);
 		unset($current[3]);
 		$version = implode('.', $current);
@@ -99,23 +95,32 @@ class downloadButtons {
 		$article->setShow(1);
 		$article->save();
 
-		//$text = sprintf('ZenPhoto20 %1$s is now available: zenphoto20.us/news/ZenPhoto20-%2$s', $version, $version);
-		//self::announce('ZenPhoto20 ' . $version, $text);
+		setOption('downloadButtons_published', $version);
 	}
 
 	static function button($buttons) {
-		$prior = explode('.', getOption('downloadButtons_release'));
+		$api = new Github\Api;
+		$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'ZenPhoto20', 'repo' => 'ZenPhoto20'));
+		$fullRepoData = $api->decode($fullRepoResponse);
+		$assets = $fullRepoData->assets;
+		if (!empty($assets)) {
+			$item = array_pop($assets);
+			setOption('getUpdates_latest', $item->browser_download_url);
+		}
+
+		setOption('getUpdates_lastCheck', time());
+
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 
 		$current = explode('.', $currentVersion);
 		//ignore build
-		unset($prior[3]);
 		unset($current[3]);
 		$v = implode('.', $current);
+
 		$buttons[] = array(
 				'category' => gettext('Admin'),
-				'enable' => $prior != $current,
+				'enable' => $v != getOption('downloadButtons_published'),
 				'button_text' => sprintf(gettext('Publish %1$s'), $v),
 				'formname' => 'downloadButtons_button',
 				'action' => '',
@@ -126,6 +131,7 @@ class downloadButtons {
 				'rights' => ADMIN_RIGHTS,
 				'XSRFTag' => 'downloadButtons'
 		);
+
 		return $buttons;
 	}
 
