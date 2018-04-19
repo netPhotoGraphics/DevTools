@@ -86,7 +86,7 @@ try {
 	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
 
-	echo 'Done ...';
+	echo 'setup-' . $version . '.zip created';
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 }
