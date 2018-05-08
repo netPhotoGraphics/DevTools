@@ -1,12 +1,6 @@
-
+@echo off
 REM this script will update the "build" number of the ZenPhoto20 version and commit it
 REM copyright by Stephen Billard, all rights reserved.
-
-SET loc = "%CD%"
-FOR /F "tokens=1,2 delims=.'-" %%a in ("%CD%") DO (
-	SET base = %%a
-	SET dev=%%b
-)
 
 SET SOURCE=zp-core\version.php
 FOR /F "delims=" %%a in ('FINDSTR "ZENPHOTO_VERSION" %SOURCE%') DO SET REL=%%a
@@ -19,7 +13,6 @@ FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%") DO (
 	SET build=%%d
 	SET beta=%%e
 )
-
 SET param=%1
 IF [%param%]==[] GOTO BUILD
 SET option=%param:~0,3%
@@ -47,10 +40,8 @@ GOTO SETBETA
 SET /a build=%build%+1
 :SETBETA
 SET new=%major%.%minor%.%release%.%build%
-if [%dev%]=="DEV" (
-	SET new=%new%-dev
-)
-
+IF [%beta%]==[] GOTO TAG
+	SET new=%new%-%beta%
 :TAG
 
 >%SOURCE%	echo ^<?php
