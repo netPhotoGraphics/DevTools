@@ -55,13 +55,13 @@ SET new=%major%.%minor%.%release%.%build%
 IF [%beta%]==[] GOTO TAG
 if [%devbuild%]==[] goto DEVBUILD
 
-FOR /F "tokens=1,2 delims=.'_" %%a in ("%dev%") DO (
+FOR /F "tokens=1,2 delims=.'_" %%a in ("%devbuild%") DO (
 	SET base=%%a
 	SET devversion=%%b
 )
 :DEVBUILD
 SET /a devversion=%devversion%+1
-SET new=%new%-%beta%_%devversion%
+SET new=%new%.%beta%_%devversion%
 
 :TAG
 
