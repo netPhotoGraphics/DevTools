@@ -16,8 +16,6 @@ FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%") DO (
 SET beta=[]
 SET /a devversion=0
 
-
-SET loc = "%CD%"
 FOR /F "tokens=1,2 delims=.'-" %%a in ("%CD%") DO (
 	SET base = %%a
 	SET beta=%%b
@@ -30,8 +28,7 @@ SET option=%param:~0,3%
 IF [%option%]==[maj] GOTO MAJOR
 IF [%option%]==[min] GOTO MINOR
 IF [%option%]==[rel] GOTO RELEASE
-SET /a build=%build%+1
-GOTO SETVERSION
+GOTO BUILD
 :MAJOR
 SET /a major=%major%+1
 SET /a minor=0
@@ -70,7 +67,13 @@ SET new=%new%.%beta%_%devversion%
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
-rem set the version number into the release notes document
+rem set the version number into the release notes document if we are a dev build or not a simple build bump
+
+IF [%beta%]==[] (
+	IF [%param%]==[] (
+		GOTO COMMIT
+	}
+)
 
 setlocal
 
@@ -87,7 +90,6 @@ rem del %dest%
 ))>%dest%
 
 :COMMIT
-
 
 rem commit the changes
 
