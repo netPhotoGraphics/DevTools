@@ -67,14 +67,12 @@ SET new=%new%.%beta%_%devversion%
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
-rem set the version number into the release notes document if we are a dev build or not a simple build bump
+REM set the version number into the release notes document if we are a dev build or not a simple build bump
 
-IF [%beta%]==[] (
-	IF [%param%]==[] (
-		GOTO COMMIT
-	}
-)
+IF  NOT [%beta%]==[] GOTO DOCUPDATE
+IF [%param%]==[]  GOTO COMMIT
 
+:DOCUPDATE
 setlocal
 
 set dest="docs\release notes.htm"
