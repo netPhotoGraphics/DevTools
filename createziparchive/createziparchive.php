@@ -46,11 +46,6 @@ try {
 	$sourcefolder = '/Downloads/ZenPhoto20' . ((VARIENT)?'-'.VARIENT:'') . '-master/'; 
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
-	$v = explode('.',ZENPHOTO_VERSION);
-	if (array_key_exists(3, $v) && strlen($v[3]) == 1) {
-		$v[3] = '0' . $v[3];
-	}
-	$version = implode('.', $v);
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
 	if (file_exists(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip'))
 		unlink(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip');
@@ -80,13 +75,13 @@ try {
 	unlink($zipfilename);
 
 	$zipfile = new ZipArchive();
-	$zipfile->open(TARGET . 'setup-' . $version . '.zip', ZipArchive::CREATE);
+	$zipfile->open(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile('readme.txt', 'readme.txt');
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'release notes.htm');
 	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
 
-	echo 'setup-' . $version . '.zip created';
+	echo 'setup-' . ZENPHOTO_VERSION . '.zip created';
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 }

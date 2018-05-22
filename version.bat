@@ -45,10 +45,14 @@ SET /a release=%release%+1
 SET /a build=0
 GOTO SETVERSION
 :BUILD
-SET /a build=%build%+1
+SET /a N=1%build%-(11%build%-1%build%)/10
+SET /a build=%N%+1
+SET /a N=1%build%-(11%build%-1%build%)/10
+SET N=000000%N%
+SET build=%N:~-2%
 :SETVERSION
 SET new=%major%.%minor%.%release%.%build%
-
+@ECHO OFF
 IF [%beta%]==[] GOTO TAG
 if [%devbuild%]==[] goto DEVBUILD
 
@@ -57,7 +61,11 @@ FOR /F "tokens=1,2 delims=.'_" %%a in ("%devbuild%") DO (
 	SET devversion=%%b
 )
 :DEVBUILD
-SET /a devversion=%devversion%+1
+SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
+SET /a devversion=%N%+1
+SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
+SET N=000000%N%
+SET devversion=%N:~-2%
 SET new=%new%.%beta%_%devversion%
 
 :TAG
