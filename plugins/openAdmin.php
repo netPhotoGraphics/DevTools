@@ -23,7 +23,7 @@
 $plugin_is_filter = 1000 | FEATURE_PLUGIN;
 $plugin_description = gettext("Allow visitors to view the ZenPhoto20 Administrative pages.");
 
-if (!zp_loggedin()) {
+if (!(zp_loggedin() || isset($_GET['userlog']) && $_GET['userlog'] == 0)) {
 	zp_register_filter('admin_allow_access', 'openAdmin::access');
 	zp_register_filter('admin_head', 'openAdmin::head');
 	zp_register_filter('theme_body_close', 'openAdmin::close');
@@ -73,7 +73,7 @@ class openAdmin extends _Administrator {
 
 		unset($zenphoto_tabs['logs']['subtabs']['security']);
 		if (empty($zenphoto_tabs['logs']['subtabs'])) {
-			$zenphoto_tabs['logs']['link'] = '/' . ZENFOLDER . '/admin-logs.php?page=logs';
+			$zenphoto_tabs['logs']['link'] = WEBPATH . '/' . ZENFOLDER . '/admin-logs.php?page=logs';
 			$zenphoto_tabs['logs']['default'] = NULL;
 		} else {
 			$zenphoto_tabs['logs']['default'] = $default = current(array_keys($zenphoto_tabs['logs']['subtabs']));
@@ -116,6 +116,7 @@ class openAdmin extends _Administrator {
 			window.addEventListener('load', function () {
 				$("#file_upload_datum").attr("action", "#");	// disable uploads
 				$(".overview_utility_buttons").attr("action", "#");
+				$("#admin_logout").attr("href", "<?php echo WEBPATH . '/' . ZENFOLDER; ?>/admin.php?userlog=0");
 			}, false);
 			// ]]> -->
 		</script>
