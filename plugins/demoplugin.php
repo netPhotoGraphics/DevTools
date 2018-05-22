@@ -251,8 +251,7 @@ class demoplugin_options {
 					'key' => 'demoplugin_note',
 					'type' => OPTION_TYPE_NOTE,
 					'order' => 25,
-					'desc' => gettext_pl('<p class="notebox">Sometimes you might want to put out notes for example if someone tries to run the plugin but its server lacks support.
-																Then there is an option type for notes only</p>', 'emoplugin') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
+					'desc' => gettext_pl('<span class="notebox">Sometimes you might want to put out notes for example if someone tries to run the plugin but its server lacks support.Then there is an option type for notes only</span>', 'emoplugin') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
 			);
 		}
 
@@ -296,7 +295,7 @@ class demoplugin_options {
 				}
 
 				// monitor the input field for changes
-				$('#emoplugin_mask_input_show').bind('input', function () {
+				$('#emoplugin_mask_input_show').on('input', function () {
 					emoplugin_mask_input();
 				});
 
