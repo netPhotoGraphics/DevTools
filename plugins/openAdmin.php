@@ -23,21 +23,23 @@
 $plugin_is_filter = 1000 | FEATURE_PLUGIN;
 $plugin_description = gettext("Allow visitors to view the ZenPhoto20 Administrative pages.");
 
-if (!(zp_loggedin() || isset($_GET['userlog']) && $_GET['userlog'] == 0)) {
-	zp_register_filter('admin_allow_access', 'openAdmin::access');
+if (!zp_loggedin()) {
 	zp_register_filter('admin_head', 'openAdmin::head');
-	zp_register_filter('theme_body_close', 'openAdmin::close');
-	$master = $_zp_authority->getMasterUser();
-	$_zp_current_admin_obj = new openAdmin('Visitor', true, $master->getID());
-	$_zp_current_admin_obj->setRights($master->getRights());
-	$_zp_loggedin = $_zp_current_admin_obj->getRights();
-	if (OFFSET_PATH) {
-		zp_register_filter('database_query', 'openAdmin::query');
-		zp_register_filter('admin_note', 'openAdmin::notice');
-		if (isset($_GET['action'])) {
-			$allowedActions = array('save', 'sorttags', 'sortorder', 'saveoptions', 'external');
-			if (!in_array($_GET['action'], $allowedActions)) {
-				$_GET['action'] = 'NULL'; // block the action
+	if (!isset($_GET['userlog']) || $_GET['userlog'] != 0) {
+		zp_register_filter('admin_allow_access', 'openAdmin::access');
+		zp_register_filter('theme_body_close', 'openAdmin::close');
+		$master = $_zp_authority->getMasterUser();
+		$_zp_current_admin_obj = new openAdmin('Visitor', true, $master->getID());
+		$_zp_current_admin_obj->setRights($master->getRights());
+		$_zp_loggedin = $_zp_current_admin_obj->getRights();
+		if (OFFSET_PATH) {
+			zp_register_filter('database_query', 'openAdmin::query');
+			zp_register_filter('admin_note', 'openAdmin::notice');
+			if (isset($_GET['action'])) {
+				$allowedActions = array('save', 'sorttags', 'sortorder', 'saveoptions', 'external');
+				if (!in_array($_GET['action'], $allowedActions)) {
+					$_GET['action'] = 'NULL'; // block the action
+				}
 			}
 		}
 	}
@@ -117,6 +119,8 @@ class openAdmin extends _Administrator {
 				$("#file_upload_datum").attr("action", "#");	// disable uploads
 				$(".overview_utility_buttons").attr("action", "#");
 				$("#admin_logout").attr("href", "<?php echo WEBPATH . '/' . ZENFOLDER; ?>/admin.php?userlog=0");
+				$("#admin_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
+				$('#login').before('<p class="notebox"><?php echo gettext('Login with valid user credentials to bypass the <em>openAdmin</em> plugin.'); ?></p>');
 			}, false);
 			// ]]> -->
 		</script>
@@ -130,7 +134,8 @@ class openAdmin extends _Administrator {
 		<script type="text/javascript">
 			// <!-- <![CDATA[
 			window.addEventListener('load', function () {
-
+				$("#toolbox_logout").attr("href", "<?php echo WEBPATH . '/' . ZENFOLDER; ?>/admin.php?userlog=0");
+				$("#toolbox_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 			}, false);
 			// ]]> -->
 		</script>
