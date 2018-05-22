@@ -5,7 +5,6 @@
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/downloadButtons
-
  * @pluginCategory ZenPhoto20
  * @category ZenPhoto20Tools
  */
