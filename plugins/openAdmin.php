@@ -23,6 +23,8 @@
 $plugin_is_filter = 1000 | FEATURE_PLUGIN;
 $plugin_description = gettext("Allow visitors to view the ZenPhoto20 Administrative pages.");
 
+$option_interface = 'openAdmin';
+
 if (!zp_loggedin()) {
 	zp_register_filter('admin_head', 'openAdmin::head');
 	if (!isset($_GET['userlog']) || $_GET['userlog'] != 0) {
@@ -33,6 +35,7 @@ if (!zp_loggedin()) {
 		$_zp_current_admin_obj->setRights($master->getRights());
 		$_zp_loggedin = $_zp_current_admin_obj->getRights();
 		if (OFFSET_PATH) {
+			$_get_original = $_GET;
 			zp_register_filter('database_query', 'openAdmin::query');
 			zp_register_filter('admin_note', 'openAdmin::notice');
 			if (isset($_GET['action'])) {
@@ -47,7 +50,11 @@ if (!zp_loggedin()) {
 
 class openAdmin extends _Administrator {
 
-	function __construct($user, $valid, $id) {
+	function __construct($user = NULL, $valid = NULL, $id = NULL) {
+
+		if (OFFSET_PATH == 2) {
+			setOptionDefault('openAdmin_logging', 0);
+		}
 		$template = new _administrator('', 1, false);
 		$data = $template->getData();
 		foreach ($data as $key => $value) {
@@ -61,6 +68,14 @@ class openAdmin extends _Administrator {
 		$this->set('id', $id);
 	}
 
+	function getOptionsSupported() {
+		$options = array(
+				gettext('Log access') => array('key' => 'openAdmin_loging', 'type' => OPTION_TYPE_CHECKBOX,
+						'desc' => gettext('Log adminisrative pages visited.'))
+		);
+		return $options;
+	}
+
 	static function setAdmin() {
 		global $_zp_current_admin_obj, $_zp_authority;
 		$masterid = $_zp_current_admin_obj->getID();
@@ -72,8 +87,10 @@ class openAdmin extends _Administrator {
 		global $zenphoto_tabs;
 
 		self::setAdmin();
-
 		unset($zenphoto_tabs['logs']['subtabs']['security']);
+		unset($zenphoto_tabs['logs']['alert']['security']);
+		unset($zenphoto_tabs['logs']['subtabs']['openAdmin']);
+		unset($zenphoto_tabs['logs']['alert']['openAdmin']);
 		if (empty($zenphoto_tabs['logs']['subtabs'])) {
 			$zenphoto_tabs['logs']['link'] = WEBPATH . '/' . ZENFOLDER . '/admin-logs.php?page=logs';
 			$zenphoto_tabs['logs']['default'] = NULL;
@@ -112,6 +129,14 @@ class openAdmin extends _Administrator {
 	}
 
 	static function head() {
+		global $_get_original;
+		if (getOption('openAdmin_logging')) {
+			$uri = explode('?', getRequestURI());
+			$uri = trim(str_replace(WEBPATH, '', $uri[0]), '/');
+			$uri = trim(str_replace(ZENFOLDER, '', $uri), '/');
+			$uri = trim(str_replace(PLUGIN_FOLDER, '', $uri), '/');
+			self::Logger($uri, @$_get_original['page'], @$_get_original['tab'], @$_get_original['action']);
+		}
 		?>
 		<script type="text/javascript">
 			// <!-- <![CDATA[
@@ -171,6 +196,44 @@ class openAdmin extends _Administrator {
 		</div>
 
 		<?php
+	}
+
+	static function Logger($link, $page, $tab, $action) {
+		global $_zp_authority, $_zp_mutex;
+		$ip = sanitize($_SERVER['REMOTE_ADDR']);
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$proxy_list = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
+			$forwardedIP = trim(sanitize(end($proxy_list)));
+			if ($forwardedIP) {
+				$ip .= ' {' . $forwardedIP . '}';
+			}
+		}
+
+		$file = SERVERPATH . '/' . DATA_FOLDER . '/openAdmin.log';
+		$max = getOption('security_log_size'); // we are lazy, we will use this
+		$_zp_mutex->lock();
+		if ($max && @filesize($file) > $max) {
+			switchLog('openAdmin');
+		}
+		$preexists = file_exists($file) && filesize($file) > 0;
+		$f = fopen($file, 'a');
+		if ($f) {
+			if (!$preexists) { // add a header
+				@chmod($file, DATA_MOD);
+				fwrite($f, gettext('date' . "\t" . 'requestor’s IP' . "\t" . 'link' . "\t" . 'page' . "\t" . 'tab' . "\t" . 'action' . "\n"));
+			}
+			$message = date('Y-m-d H:i:s') . "\t";
+			$message .= $ip . "\t";
+			$message .= $link . "\t";
+			$message .= $page . "\t";
+			$message .= $tab . "\t";
+			$message .= $action;
+
+			fwrite($f, $message . "\n");
+			fclose($f);
+			clearstatcache();
+		}
+		$_zp_mutex->unlock();
 	}
 
 }
