@@ -27,13 +27,13 @@ $option_interface = 'openAdmin';
 
 if (!zp_loggedin()) {
 	zp_register_filter('admin_head', 'openAdmin::head');
-	if (!isset($_GET['userlog']) || $_GET['userlog'] != 0) {
+	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
 		zp_register_filter('admin_allow_access', 'openAdmin::access');
 		zp_register_filter('theme_body_close', 'openAdmin::close');
 		$master = $_zp_authority->getMasterUser();
 		$_zp_current_admin_obj = new openAdmin('Visitor', true, $master->getID());
 		$_zp_current_admin_obj->setRights($master->getRights());
-		$_zp_loggedin = $_zp_current_admin_obj->getRights();
+		$_COOKIE['zp_user_auth'] = $_zp_loggedin = $_zp_current_admin_obj->getRights();
 		if (OFFSET_PATH) {
 			$_get_original = $_GET;
 			zp_register_filter('database_query', 'openAdmin::query');
