@@ -15,7 +15,7 @@ use Milo\Github;
 
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Provides support for the ZenPhoto20 website.");
-$plugin_author = "Stephen Billard (sbillard)";
+
 $option_interface = 'downloadButtons';
 
 zp_register_filter('content_macro', 'downloadButtons::macro');

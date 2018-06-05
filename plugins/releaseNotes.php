@@ -12,7 +12,6 @@
  */
 $plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext('Allows using zenpage editing to create release notes.');
-$plugin_author = "Stephen Billard (sbillard)";
 
 zp_register_filter('general_zenpage_utilities', 'releaseNotesPublish');
 zp_register_filter('save_article_custom_data', 'releaseNotesExecute');
@@ -110,6 +109,15 @@ function releaseNotesExecute($custom, $object) {
 			a {
 				text-decoration: none;
 				color: #6c802e;
+			}
+			ol {
+				display: block;
+				list-style-type: decimal;
+				margin-top: 1em;
+				margin-bottom: 1em;
+				margin-left: 0;
+				margin-right: 0;
+				padding-left: 40px;
 			}
 		</style>
 	<body>
