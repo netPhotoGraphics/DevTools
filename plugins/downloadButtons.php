@@ -16,8 +16,6 @@ use Milo\Github;
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Provides support for the ZenPhoto20 website.");
 
-$option_interface = 'downloadButtons';
-
 zp_register_filter('content_macro', 'downloadButtons::macro');
 zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
 
@@ -32,7 +30,9 @@ class downloadButtons {
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
-			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release"><?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?></a>
+			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
+				<?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?>
+			</a>
 		</span>
 		<br />
 		<br />
@@ -98,10 +98,14 @@ class downloadButtons {
 	}
 
 	static function button($buttons) {
-		$api = new Github\Api;
-		$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'ZenPhoto20', 'repo' => 'ZenPhoto20'));
-		$fullRepoData = $api->decode($fullRepoResponse);
-		$assets = $fullRepoData->assets;
+		try {
+			$api = new Github\Api;
+			$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'ZenPhoto20', 'repo' => 'ZenPhoto20'));
+			$fullRepoData = $api->decode($fullRepoResponse);
+			$assets = $fullRepoData->assets;
+		} catch (Exception $e) {
+			debugLog('Github Api->' . $e->getMessage());
+		}
 		if (!empty($assets)) {
 			$item = array_pop($assets);
 			setOption('getUpdates_latest', $item->browser_download_url);
