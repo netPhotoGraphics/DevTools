@@ -1,12 +1,12 @@
 <?php
 /*
- * Provides support for the ZenPhoto20 website
+ * Provides support for the ZenPhotoGraphics website
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/downloadButtons
- * @pluginCategory ZenPhoto20
- * @category ZenPhoto20Tools
+ * @pluginCategory ZenPhotoGraphics
+ * @category developerTools
  */
 
 require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
@@ -14,7 +14,7 @@ require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitH
 use Milo\Github;
 
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
-$plugin_description = gettext("Provides support for the ZenPhoto20 website.");
+$plugin_description = gettext("Provides a button to download the latest version of the software.");
 
 zp_register_filter('content_macro', 'downloadButtons::macro');
 zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
@@ -31,7 +31,7 @@ class downloadButtons {
 		?>
 		<span class="buttons">
 			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?>
+				<?php echo ARROW_DOWN_GREEN; ?> ZenPhotoGraphics <?php echo $currentVersion; ?>
 			</a>
 		</span>
 		<br />
@@ -58,10 +58,6 @@ class downloadButtons {
 		return array_merge($macros, $my_macros);
 	}
 
-	static function announce($title, $content) {
-		$result = zp_mail($title, $content, array('zenphoto20' => 'zenphoto20@googlegroups.com'), array(), array(), NULL, false, array('ZenPhoto20' => 'no-reply@zenphoto20.us'));
-	}
-
 	static function makeArticle() {
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
@@ -70,10 +66,10 @@ class downloadButtons {
 		unset($current[3]);
 		$version = implode('.', $current);
 		//	set prior release posts to un-published
-		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhoto20"';
+		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhotoGraphics"';
 		query($sql);
 		//	create new article
-		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
+		$text = sprintf('<p>ZenPhotoGraphics %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
 
 		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
 		$i = strpos($f, '<body>');
@@ -84,11 +80,11 @@ class downloadButtons {
 
 		$text.= $doc;
 
-		$article = newArticle('ZenPhoto20-' . $version, true);
+		$article = newArticle('ZenPhotoGraphics-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
 		$article->setPublishDate(date('Y-m-d H:i:s'));
-		$article->setAuthor('ZenPhoto20');
-		$article->setTitle('ZenPhoto20 ' . $version);
+		$article->setAuthor('ZenPhotoGraphics');
+		$article->setTitle('ZenPhotoGraphics ' . $version);
 		$article->setContent($text);
 		$article->setCategories(array('announce'));
 		$article->setShow(1);
@@ -104,7 +100,7 @@ class downloadButtons {
 			$fullRepoData = $api->decode($fullRepoResponse);
 			$assets = $fullRepoData->assets;
 		} catch (Exception $e) {
-			debugLog('Github Api->' . $e->getMessage());
+			debugLog('downloadButtons::Github Api->' . $e->getMessage());
 		}
 		if (!empty($assets)) {
 			$item = array_pop($assets);

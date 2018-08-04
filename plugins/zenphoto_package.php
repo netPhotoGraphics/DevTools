@@ -1,7 +1,7 @@
 <?php
 
-/* A tool to produce the ZenPhoto20 package file--a llist of all the files in
- * the ZenPhoto20 distribution.
+/* A tool to produce the package file--a list of all the files in
+ * the distribution.
  *
  * @author Stephen Billard (sbillard)
  *
@@ -17,10 +17,10 @@
  * Then run the package generator.
  *
  * @pluginCategory development
- * @category ZenPhoto20Tools
+ * @category developerTools
  *
  * Copyright Stephen L Billard
- * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
+ * permission granted for use in conjunction with ZenPhotoGraphics. All other rights reserved
  */
 // force UTF-8 Ø
 

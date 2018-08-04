@@ -1,16 +1,16 @@
 <?php
 
-/* Creates the zenphoto database template file
+/* Creates the database template file
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/database_template
 
  * @pluginCategory development
- * @category ZenPhoto20Tools
+ * @category developerTools
  *
  * Copyright Stephen L Billard
- * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
+ * permission granted for use in conjunction with ZenPhotoGraphics. All other rights reserved
  */
 // force UTF-8 Ø
 

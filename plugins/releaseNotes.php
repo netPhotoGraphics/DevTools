@@ -8,22 +8,24 @@
  * @package plugins/releaseNotes
 
  * @pluginCategory development
- * @category ZenPhoto20Tools
+ * @category developerTools
  */
-$plugin_is_filter = 5 | CLASS_PLUGIN;
+$plugin_is_filter = 5 | FEATURE_PLUGIN;
 $plugin_description = gettext('Allows using zenpage editing to create release notes.');
 
 zp_register_filter('general_zenpage_utilities', 'releaseNotesPublish');
 zp_register_filter('save_article_custom_data', 'releaseNotesExecute');
 
-enableExtension('releaseNotes', 5 | CLASS_PLUGIN); //	at lease re-enable at setup incase it gets left disabled
+if (OFFSET_PATH == 2) {
+	enableExtension('releaseNotes', $plugin_is_filter); //	at lease re-enable at setup incase it gets left disabled
+}
 
 function releaseNotesPublish($before, $object, $prefix = NULL) {
 	$tl = $object->getTitleLink();
 	if (RW_SUFFIX) {
 		$tl = substr($tl, 0, strlen($tl) - strlen(RW_SUFFIX));
 	}
-	if ($tl == 'zenphoto20-release-notes') {
+	if ($tl == 'ZenPhotoGraphics-release-notes') {
 		$output = '<p class="checkbox">' . "\n" . '<label>' . "\n" . '<input type="checkbox" name="publishNotes' . $prefix . '" id="publishNotes'
 						. $prefix . '" value="1" checked="checked"/> '
 						. gettext('Publish Release Notes')
@@ -41,7 +43,7 @@ function releaseNotesExecute($custom, $object) {
 <html>
 	<head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="en">
-	<title>ZenPhoto20 release notes</title>
+	<title>ZenPhotoGraphics release notes</title>
 	</head>
 		<style type="text/css">
 			body, td, pre {
@@ -126,7 +128,7 @@ function releaseNotesExecute($custom, $object) {
 	</body>
 </html>";
 		fwrite($f, $h);
-		fwrite($f, "<h1>ZenPhoto20 release notes</h1>");
+		fwrite($f, "<h1>ZenPhotoGraphics release notes</h1>");
 		fwrite($f, $object->getContent());
 		fwrite($f, $e);
 		fclose($f);

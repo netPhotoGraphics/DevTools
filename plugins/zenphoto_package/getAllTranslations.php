@@ -9,7 +9,7 @@
  *
  * @author Stephen Billard (sbillard)
  * @package plugins/zenphoto_package
- * @category ZenPhoto20Tools
+ * @category developerTools
  */
 
 // force UTF-8 Ø
