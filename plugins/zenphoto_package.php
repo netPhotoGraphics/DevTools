@@ -19,8 +19,8 @@
  * @pluginCategory development
  * @category developerTools
  *
- * Copyright Stephen L Billard
- * permission granted for use in conjunction with ZenPhotoGraphics. All other rights reserved
+ * @Copyright Stephen L Billard
+ * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
  */
 // force UTF-8 Ø
 

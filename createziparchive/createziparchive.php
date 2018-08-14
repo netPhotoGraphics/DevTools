@@ -43,7 +43,7 @@ if (!isset($_GET['process'])) {
 	exit();
 }
 try {
-	$sourcefolder = '/Downloads/ZenPhoto20' . '-' . VARIENT . '/'; 
+	$sourcefolder = '/Downloads/netPhotoGraphics' . '-' . VARIENT . '/'; 
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
@@ -110,16 +110,16 @@ __HALT_COMPILER();<?php
 /*
  * 	This script is a derivitive work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
  *
- * 	The derivitive work is copyright � 2014 by Stephen Billard, all rights reserved
+ * 	The derivitive work is copyright (c) 2014 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
 Define('PHP_MIN_VERSION', '5.2');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
-	die(sprintf(gettext('ZenPhoto20 requires PHP version %s or greater'), PHP_MIN_VERSION));
+	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
 
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
-echo "<h1>Extracting ZenPhoto20 _VERSION_ files</h1>";
+echo "<h1>Extracting netPhotoGraphics _VERSION_ files</h1>";
 
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';

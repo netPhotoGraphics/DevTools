@@ -1,11 +1,11 @@
 <?php
 /*
- * Provides support for the ZenPhotoGraphics website
+ * Provides support for the netPhotoGraphics website
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/downloadButtons
- * @pluginCategory ZenPhotoGraphics
+ * @pluginCategory netPhotoGraphics
  * @category developerTools
  */
 
@@ -31,7 +31,7 @@ class downloadButtons {
 		?>
 		<span class="buttons">
 			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN; ?> ZenPhotoGraphics <?php echo $currentVersion; ?>
+				<?php echo ARROW_DOWN_GREEN; ?> netPhotoGraphics <?php echo $currentVersion; ?>
 			</a>
 		</span>
 		<br />
@@ -66,10 +66,10 @@ class downloadButtons {
 		unset($current[3]);
 		$version = implode('.', $current);
 		//	set prior release posts to un-published
-		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhotoGraphics"';
+		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="netPhotoGraphics"';
 		query($sql);
 		//	create new article
-		$text = sprintf('<p>ZenPhotoGraphics %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
+		$text = sprintf('<p>netPhotoGraphics %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
 
 		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
 		$i = strpos($f, '<body>');
@@ -80,11 +80,11 @@ class downloadButtons {
 
 		$text.= $doc;
 
-		$article = newArticle('ZenPhotoGraphics-' . $version, true);
+		$article = newArticle('netPhotoGraphics-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
 		$article->setPublishDate(date('Y-m-d H:i:s'));
-		$article->setAuthor('ZenPhotoGraphics');
-		$article->setTitle('ZenPhotoGraphics ' . $version);
+		$article->setAuthor('netPhotoGraphics');
+		$article->setTitle('netPhotoGraphics ' . $version);
 		$article->setContent($text);
 		$article->setCategories(array('announce'));
 		$article->setShow(1);
