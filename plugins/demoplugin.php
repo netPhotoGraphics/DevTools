@@ -13,8 +13,8 @@
  * 		(this should be kept)
  * @pluginCategory example
  * 		(sub tab/category your plugin should be shown on the backend, here: development)
- * @category ZenPhoto20Tools
- * 		Category is set here for ZenPhoto20 development purposes. You should leave it out
+ * @category developerTools
+ * 		Category is set here for development purposes. You should leave it out
  */
 /*
   flags this plugin as a filter type plugin and sets it load priority.
@@ -46,10 +46,6 @@ $plugin_is_filter = 5 | THEME_PLUGIN;
  */
 $plugin_description = gettext_pl('This is a raw functional example of a basic theme plugin', 'demoplugin');
 
-/*
-  The author of the plugin. This is also displayed on the plugins tab.
- */
-$plugin_author = 'Author';
 
 /*
   Version of the plugin. Official plugins always have the version of the release automatically
@@ -267,7 +263,13 @@ class demoplugin_options {
 		 */
 		if ($option == 'demoplugin_customoption') {
 			?>
-			<p>This is a custom option printing a custom "protected" input field. Custom option can be used if none of the above standard ones fit your purpose. The actual value of the text is <strong><span id="emoplugin_mask_input"><?php echo $currentValue; ?></span></strong></p>
+			<p>This is a custom option printing a custom "protected" input field. Custom option can be used if none of the above standard ones fit your purpose. The actual value of the text is
+				<strong>
+					<span id="emoplugin_mask_input">
+						<?php echo $currentValue; ?>
+					</span>
+				</strong>
+			</p>
 			<input type="textbox" id="emoplugin_mask_input_show" size="40"  style="width: 338px" value="<?php echo str_pad('', strlen($currentValue), '*'); ?>" />
 			<input type="hidden" id="emoplugin_mask_save" size="40" name="demoplugin_customoption" value="<?php echo html_encode($currentValue); ?>" />
 			<script type="text/javascript">

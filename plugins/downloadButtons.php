@@ -27,11 +27,12 @@ class downloadButtons {
 
 	static function printGitHubButtons() {
 		$newestVersionURI = getOption('getUpdates_latest');
+		$repro = basename(dirname(dirname(dirname(dirname($newestVersionURI)))));
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
 			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN; ?> netPhotoGraphics <?php echo $currentVersion; ?>
+				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . $currentVersion; ?>
 			</a>
 		</span>
 		<br />
@@ -94,20 +95,21 @@ class downloadButtons {
 	}
 
 	static function button($buttons) {
-		try {
-			$api = new Github\Api;
-			$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'ZenPhoto20', 'repo' => 'ZenPhoto20'));
-			$fullRepoData = $api->decode($fullRepoResponse);
-			$assets = $fullRepoData->assets;
-		} catch (Exception $e) {
-			debugLog('downloadButtons::Github Api->' . $e->getMessage());
+		if (getOption('getUpdates_lastCheck') + 8640 < time()) {
+			setOption('getUpdates_lastCheck', time());
+			try {
+				$api = new Github\Api;
+				$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => GITHUB_ORG, 'repo' => 'netPhotoGraphics'));
+				$fullRepoData = $api->decode($fullRepoResponse);
+				$assets = $fullRepoData->assets;
+				if (!empty($assets)) {
+					$item = array_pop($assets);
+					setOption('getUpdates_latest', $item->browser_download_url);
+				}
+			} catch (Exception $e) {
+				debugLog(gettext('GitHub repository not accessable [downloadButtona]. ') . $e);
+			}
 		}
-		if (!empty($assets)) {
-			$item = array_pop($assets);
-			setOption('getUpdates_latest', $item->browser_download_url);
-		}
-
-		setOption('getUpdates_lastCheck', time());
 
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));

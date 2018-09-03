@@ -48,34 +48,31 @@
  * @author Malte Müller (acrylian) <info@maltem.de>
  * @copyright 2014 Malte Müller
  * @license GPL v3 or later
- 
+
  * @pluginCategory media
  * @package plugins/mediaelementjs_player
  */
+if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
+	$plugin_is_filter = 5 | CLASS_PLUGIN;
+	$plugin_description = gettext("Enable <strong>mediaelement.js</strong> to handle multimedia files.");
+	$plugin_notice = gettext("<strong>IMPORTANT</strong>: Only one multimedia player plugin can be enabled at the time and the class-video plugin must be enabled, too.") . '<br /><br />' . gettext("Please see <a href='http://http://mediaelementjs.com'>mediaelementjs.com</a> for more info about the player and its license.");
+	$plugin_disable = zpFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'mediaelementjs_player' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('mediaelementjs_player not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
+}
 
-$plugin_is_filter = 5 | CLASS_PLUGIN;
-$plugin_description = gettext("Enable <strong>mediaelement.js</strong> to handle multimedia files.");
-$plugin_notice = gettext("<strong>IMPORTANT</strong>: Only one multimedia player plugin can be enabled at the time and the class-video plugin must be enabled, too.") . '<br /><br />' . gettext("Please see <a href='http://http://mediaelementjs.com'>mediaelementjs.com</a> for more info about the player and its license.");
-$plugin_author = "Malte Müller (acrylian)";
-$plugin_disable = zpFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'mediaelementjs_player' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('mediaelementjs_player not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
 $plugin_version = '1.1.1';
 $option_interface = 'mediaelementjs_options';
 
-if ($plugin_disable) {
-	enableExtension('mediaelementjs_player', 0);
-} else {
-	Gallery::addImageHandler('flv', 'Video');
-	Gallery::addImageHandler('mp3', 'Video');
-	Gallery::addImageHandler('mp4', 'Video');
-	Gallery::addImageHandler('m4v', 'Video');
-	Gallery::addImageHandler('m4a', 'Video');
+Gallery::addImageHandler('flv', 'Video');
+Gallery::addImageHandler('mp3', 'Video');
+Gallery::addImageHandler('mp4', 'Video');
+Gallery::addImageHandler('m4v', 'Video');
+Gallery::addImageHandler('m4a', 'Video');
 
-	$_zp_multimedia_extension = new mediaelementjs_player(); // claim to be the flash player.
-	zp_register_filter('content_macro', 'mediaelementjs_player::macro');
-	zp_register_filter('theme_head', 'mediaelementjs_player::mediaelementjs_js');
-	if (getOption('mediaelementjs_playlist')) {
-		zp_register_filter('theme_head', 'mediaelementjs_player::mediaelementjs_playlist_js');
-	}
+$_zp_multimedia_extension = new mediaelementjs_player(); // claim to be the flash player.
+zp_register_filter('content_macro', 'mediaelementjs_player::macro');
+zp_register_filter('theme_head', 'mediaelementjs_player::mediaelementjs_js');
+if (getOption('mediaelementjs_playlist')) {
+	zp_register_filter('theme_head', 'mediaelementjs_player::mediaelementjs_playlist_js');
 }
 
 class mediaelementjs_options {

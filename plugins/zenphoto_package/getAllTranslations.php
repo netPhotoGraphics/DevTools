@@ -5,7 +5,7 @@
  *
  * It will insert the text into gettext() calls and include within this source code.
  *
- * @Copyright 2017 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/ZenPhoto20 ZenPhoto20 and derivatives}
+ * @Copyright 2017 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics and derivatives}
  *
  * @author Stephen Billard (sbillard)
  * @package plugins/zenphoto_package
