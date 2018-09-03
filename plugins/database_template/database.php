@@ -1,14 +1,14 @@
 <?php
 
-/* Creates the zenphoto database template file
+/* Creates the database template file
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/database_template
- * @category ZenPhoto20Tools
+ * @category developerTools
  *
- * Copyright Stephen L Billard
- * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
+ * @Copyright Stephen L Billard
+ * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
  */
 // force UTF-8 Ø
 
@@ -88,6 +88,6 @@ foreach ($tables as $table) {
 
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
 
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("ZenPhoto20 database template created"));
+header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created"));
 exitZP();
 ?>

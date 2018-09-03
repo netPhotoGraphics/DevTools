@@ -1,12 +1,12 @@
 <?php
 /*
- * Provides support for the ZenPhoto20 website
+ * Provides support for the netPhotoGraphics website
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/downloadButtons
- * @pluginCategory ZenPhoto20
- * @category ZenPhoto20Tools
+ * @pluginCategory netPhotoGraphics
+ * @category developerTools
  */
 
 require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
@@ -14,9 +14,7 @@ require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitH
 use Milo\Github;
 
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
-$plugin_description = gettext("Provides support for the ZenPhoto20 website.");
-$plugin_author = "Stephen Billard (sbillard)";
-$option_interface = 'downloadButtons';
+$plugin_description = gettext("Provides a button to download the latest version of the software.");
 
 zp_register_filter('content_macro', 'downloadButtons::macro');
 zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
@@ -29,10 +27,13 @@ class downloadButtons {
 
 	static function printGitHubButtons() {
 		$newestVersionURI = getOption('getUpdates_latest');
+		$repro = basename(dirname(dirname(dirname(dirname($newestVersionURI)))));
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
-			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release"><?php echo ARROW_DOWN_GREEN; ?> ZenPhoto20 <?php echo $currentVersion; ?></a>
+			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
+				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . $currentVersion; ?>
+			</a>
 		</span>
 		<br />
 		<br />
@@ -58,10 +59,6 @@ class downloadButtons {
 		return array_merge($macros, $my_macros);
 	}
 
-	static function announce($title, $content) {
-		$result = zp_mail($title, $content, array('zenphoto20' => 'zenphoto20@googlegroups.com'), array(), array(), NULL, false, array('ZenPhoto20' => 'no-reply@zenphoto20.us'));
-	}
-
 	static function makeArticle() {
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
@@ -70,10 +67,10 @@ class downloadButtons {
 		unset($current[3]);
 		$version = implode('.', $current);
 		//	set prior release posts to un-published
-		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="ZenPhoto20"';
+		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="netPhotoGraphics"';
 		query($sql);
 		//	create new article
-		$text = sprintf('<p>ZenPhoto20 %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
+		$text = sprintf('<p>netPhotoGraphics %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
 
 		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
 		$i = strpos($f, '<body>');
@@ -84,11 +81,11 @@ class downloadButtons {
 
 		$text.= $doc;
 
-		$article = newArticle('ZenPhoto20-' . $version, true);
+		$article = newArticle('netPhotoGraphics-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
 		$article->setPublishDate(date('Y-m-d H:i:s'));
-		$article->setAuthor('ZenPhoto20');
-		$article->setTitle('ZenPhoto20 ' . $version);
+		$article->setAuthor('netPhotoGraphics');
+		$article->setTitle('netPhotoGraphics ' . $version);
 		$article->setContent($text);
 		$article->setCategories(array('announce'));
 		$article->setShow(1);
@@ -98,16 +95,21 @@ class downloadButtons {
 	}
 
 	static function button($buttons) {
-		$api = new Github\Api;
-		$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'ZenPhoto20', 'repo' => 'ZenPhoto20'));
-		$fullRepoData = $api->decode($fullRepoResponse);
-		$assets = $fullRepoData->assets;
-		if (!empty($assets)) {
-			$item = array_pop($assets);
-			setOption('getUpdates_latest', $item->browser_download_url);
+		if (getOption('getUpdates_lastCheck') + 8640 < time()) {
+			setOption('getUpdates_lastCheck', time());
+			try {
+				$api = new Github\Api;
+				$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => GITHUB_ORG, 'repo' => 'netPhotoGraphics'));
+				$fullRepoData = $api->decode($fullRepoResponse);
+				$assets = $fullRepoData->assets;
+				if (!empty($assets)) {
+					$item = array_pop($assets);
+					setOption('getUpdates_latest', $item->browser_download_url);
+				}
+			} catch (Exception $e) {
+				debugLog(gettext('GitHub repository not accessable [downloadButtona]. ') . $e);
+			}
 		}
-
-		setOption('getUpdates_lastCheck', time());
 
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));

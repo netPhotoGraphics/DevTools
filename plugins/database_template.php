@@ -1,22 +1,21 @@
 <?php
 
-/* Creates the zenphoto database template file
+/* Creates the database template file
  *
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/database_template
 
  * @pluginCategory development
- * @category ZenPhoto20Tools
+ * @category developerTools
  *
- * Copyright Stephen L Billard
- * permission granted for use in conjunction with ZenPhoto20. All other rights reserved
+ * @Copyright Stephen L Billard
+ * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
  */
 // force UTF-8 Ø
 
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates the <em>databaseTemplate</em> file.');
-$plugin_author = "Stephen Billard (sbillard)";
 
 zp_register_filter('admin_utilities_buttons', 'database_structure_button');
 

@@ -5,11 +5,11 @@
  *
  * It will insert the text into gettext() calls and include within this source code.
  *
- * @Copyright 2017 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/ZenPhoto20 ZenPhoto20}
+ * @Copyright 2017 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics and derivatives}
  *
  * @author Stephen Billard (sbillard)
  * @package plugins/zenphoto_package
- * @category ZenPhoto20Tools
+ * @category developerTools
  */
 
 // force UTF-8 Ø

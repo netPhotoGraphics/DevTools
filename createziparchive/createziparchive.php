@@ -33,7 +33,7 @@
  if (isset($_GET['source']) && $_GET['source']) {
 	 define('VARIENT',$_GET['source']);
  } else { 
-	 define('VARIENT','');
+	 define('VARIENT','master');
  }
 
 echo '<h1>Creating ' . VARIENT . ' extract zip file</h1>';
@@ -43,12 +43,12 @@ if (!isset($_GET['process'])) {
 	exit();
 }
 try {
-	$sourcefolder = '/Downloads/ZenPhoto20' . ((VARIENT)?'-'.VARIENT:'') . '-master/'; 
+	$sourcefolder = '/Downloads/netPhotoGraphics' . '-' . VARIENT . '/'; 
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
-	if (file_exists(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip'))
-		unlink(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip');
+	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip'))
+		unlink(TARGET . 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip');
 
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
@@ -75,13 +75,13 @@ try {
 	unlink($zipfilename);
 
 	$zipfile = new ZipArchive();
-	$zipfile->open(TARGET . 'setup-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
+	$zipfile->open(TARGET . 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile('readme.txt', 'readme.txt');
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'release notes.htm');
 	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
 
-	echo 'setup-' . ZENPHOTO_VERSION . '.zip created';
+	echo 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip created';
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 }
@@ -110,16 +110,16 @@ __HALT_COMPILER();<?php
 /*
  * 	This script is a derivitive work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
  *
- * 	The derivitive work is copyright � 2014 by Stephen Billard, all rights reserved
+ * 	The derivitive work is copyright (c) 2014 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
 Define('PHP_MIN_VERSION', '5.2');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
-	die(sprintf(gettext('ZenPhoto20 requires PHP version %s or greater'), PHP_MIN_VERSION));
+	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
 
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
-echo "<h1>Extracting ZenPhoto20 _VERSION_ files</h1>";
+echo "<h1>Extracting netPhotoGraphics _VERSION_ files</h1>";
 
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
