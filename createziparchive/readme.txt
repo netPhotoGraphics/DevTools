@@ -8,8 +8,8 @@ On your website rename extract.php.bin to extract.php
 
 If this is an upgrade to an existing installation you should be sure that you are logged in to your site before taking the next step. 
 
-Using your browser, visit http://mydomain.com/mygallery/extract.php (if you install ZenPhoto20 at root level, then visit http://mydomain.com/extract.php).
+Using your browser, visit http://mydomain.com/mygallery/extract.php (if you install netPhotoGraphics at root level, then visit http://mydomain.com/extract.php).
 
-The ZenPhoto20 files will self-extract and the setup process will start automatically.
+The netPhotoGraphics files will self-extract and the setup process will start automatically.
 
 Note: If you get a PHP Allowed memory size fatal error you will need to increase your PHP memory limit in the server PHP INI file. In the Resource Limits section change memory_limit to 128M.

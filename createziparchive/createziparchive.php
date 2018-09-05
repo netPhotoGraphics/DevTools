@@ -25,8 +25,8 @@
  * ************************************************************* */
 
 /*
- * 	Adapted for ZenPhoto20 by Stephen Billard
- * 	Copyright 2014 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/ZenPhoto20 ZenPhoto20}
+ * 	Adapted for netPhotoGraphics by Stephen Billard
+ * 	Copyright 2014 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/netPhotoGraphics ZenPhoto20}
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
  Define('TARGET', 'package/');
