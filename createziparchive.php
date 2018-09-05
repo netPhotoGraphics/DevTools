@@ -43,7 +43,7 @@ if (!isset($_GET['process'])) {
 	exit();
 }
 try {
-	$sourcefolder = '/Downloads/ZenPhoto20' . ((VARIENT)?'-'.VARIENT:'') . '-master/'; 
+	$sourcefolder = '/Downloads/netPhotoGraphics' . ((VARIENT)?'-'.VARIENT:'') . '-master/'; 
 	require_once($sourcefolder . 'zp-core/version.php');
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
@@ -115,11 +115,11 @@ __HALT_COMPILER();<?php
  */
 Define('PHP_MIN_VERSION', '5.2');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
-	die(sprintf(gettext('ZenPhoto20 requires PHP version %s or greater'), PHP_MIN_VERSION));
+	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
 
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
-echo "<h1>Extracting ZenPhoto20 _VERSION_ files</h1>";
+echo "<h1>Extracting netPhotoGraphics _VERSION_ files</h1>";
 
 if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
