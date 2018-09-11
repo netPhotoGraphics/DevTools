@@ -9,7 +9,7 @@
  *
  * @author Stephen Billard (sbillard)
  * @package plugins/zenphoto_package
- * @category developerTools
+ * @pluginCategory tools
  */
 
 // force UTF-8 Ø
@@ -50,27 +50,24 @@ foreach ($_zp_gallery->getThemes() as $theme => $data) {
 	}
 }
 
-$admintabs = array();
+$categoryNames = array();
 $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
-		$p = file_get_contents($path);
-		$i = strpos($p, '* @category');
-		if (($key = $i) !== false) {
-			$key = strtolower(trim(substr($p, $i + 11, strpos($p, "\n", $i) - $i - 11)));
-			if ($key == 'package') {
-				if (is_dir($dir = stripSuffix($path))) {
-					$scripts = array_merge($scripts, getPHPFiles($dir));
-				}
-				$scripts[] = str_replace(SERVERPATH . '/', '', $path);
+		if (distributedPlugin($plugin)) {
+			if (is_dir($dir = stripSuffix($path))) {
+				$scripts = array_merge($scripts, getPHPFiles($dir));
 			}
+			$scripts[] = str_replace(SERVERPATH . '/', '', $path);
 		}
-		$i = strpos($p, '* @pluginCategory');
-		if (($key = $i) !== false) {
-			$admintabs[] = strtolower(trim(substr($p, $i + 13, strpos($p, "\n", $i) - $i - 11)));
+		$p = file_get_contents($path);
+
+		if (preg_match('~@pluginCategory\s(.*)\n~i', $p, $matches)) {
+			$categoryNames[$name = trim($matches[1])] = $name;
 		}
 	}
 }
+$categoryNames = array_unique($categoryNames);
 
 $scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . ZENFOLDER));
 
@@ -98,19 +95,23 @@ foreach ($scripts as $filename) {
 
 fwrite($f, '?>');
 
+//set some standard categories
+$categoryNames['misc'] = 'misc';
+$categoryNames['theme'] = 'theme support';
+$categoryNames['admin'] = 'admin support';
 
-$update = "\$_subpackages = array (";
-$admintabs = array_unique($admintabs);
-natcasesort($admintabs);
-$sep = "\n\t";
-foreach ($admintabs as $text) {
-	$update .= $sep . "'$text'\t=>\tgettext('$text')";
-	$sep = ",\n\t";
+$update = "\$pluginCategoryNames = array (";
+$categoryNames = array_unique($categoryNames);
+natcasesort($categoryNames);
+$sep = "\n\t\t\t";
+foreach ($categoryNames as $name => $text) {
+	$update .= $sep . "'$name'\t=>\tgettext('$text')";
+	$sep = ",\n\t\t\t";
 }
-$update .= "\n);";
+$update .= "\n\t);";
 
 $functs = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php');
-preg_replace('~\$_subpackages = array\(.*?\);~i', $update, $functs);
+$functs = preg_replace('~\$pluginCategoryNames\s*=\s*array\s*\((.*)\);~isU', $update, $functs);
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
 
 header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=allTranslations.php updated.');

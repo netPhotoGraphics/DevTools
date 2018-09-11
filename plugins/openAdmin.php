@@ -13,7 +13,6 @@
  *
  * @package plugins/openAdmin
  * @pluginCategory netPhotoGraphics
- * @category developerTools
  *
  * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics and derivatives}
  */

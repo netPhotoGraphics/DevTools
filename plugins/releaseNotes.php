@@ -6,9 +6,7 @@
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/releaseNotes
-
- * @pluginCategory development
- * @category developerTools
+ * @pluginCategory tools
  */
 $plugin_is_filter = 5 | FEATURE_PLUGIN;
 $plugin_description = gettext('Allows using zenpage editing to create release notes.');

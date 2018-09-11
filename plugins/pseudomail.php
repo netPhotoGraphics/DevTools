@@ -11,7 +11,6 @@
  * @package plugins/pseudomail
 
  * @pluginCategory mail
- * @category developerTools
  * @Copyright Stephen L Billard
  * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
  */
