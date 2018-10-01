@@ -16,7 +16,7 @@
  */
 // force UTF-8 Ø
 
-$plugin_is_filter = 5 | FEATURE_PLUGIN;
+$plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext("Pseudo mailing handler for localhost testing.");
 $plugin_disable = (zp_has_filter('sendmail') && !extensionEnabled('pseudomail')) ? sprintf(gettext('Only one Email handler plugin may be enabled. <a href="#%1$s"><code>%1$s</code></a> is already enabled.'), stripSuffix(get_filterScript('sendmail'))) : '';
 
