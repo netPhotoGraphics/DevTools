@@ -5,9 +5,7 @@
  * @author Stephen Billard (sbillard)
  *
  * @package plugins/database_template
-
- * @pluginCategory development
- * @category developerTools
+ * @pluginCategory tools
  *
  * @Copyright Stephen L Billard
  * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved

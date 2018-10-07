@@ -28,7 +28,6 @@
  *
  * @package plugins/flowplayer5
  * @pluginCategory media
- * @category developerTools
  */
 if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
 	$plugin_is_filter = 5 | CLASS_PLUGIN;

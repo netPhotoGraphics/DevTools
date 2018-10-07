@@ -6,7 +6,6 @@
  *
  * @package plugins/downloadButtons
  * @pluginCategory netPhotoGraphics
- * @category developerTools
  */
 
 require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');

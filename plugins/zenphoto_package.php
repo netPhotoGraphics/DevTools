@@ -16,8 +16,8 @@
  *
  * Then run the package generator.
  *
- * @pluginCategory development
- * @category developerTools
+ * @package plugins/zenphoto_package
+ * @pluginCategory tools
  *
  * @Copyright Stephen L Billard
  * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
