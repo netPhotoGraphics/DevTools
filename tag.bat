@@ -20,5 +20,5 @@ IF [%beta%]==[] GOTO TAG
 :TAG
 echo "Tagging %VERSION%..."
 
-git tag -a -f -m"ZenPhoto20 version %VERSION%" ZenPhoto20-%VERSION%
+git tag -a -f -m"netPhotoGraphics version %VERSION%" netPhotoGraphics-%VERSION%
 git push --tags
