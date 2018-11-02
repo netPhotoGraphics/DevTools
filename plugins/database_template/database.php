@@ -89,5 +89,5 @@ foreach ($tables as $table) {
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
 
 header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created"));
-exitZP();
+exit();
 ?>
