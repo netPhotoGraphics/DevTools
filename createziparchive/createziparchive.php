@@ -103,7 +103,7 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 	$d = opendir($path);
 	while ($file = readdir($d)) {
 		set_time_limit(360);
-		if ($file{0} == "." || $file == 'Thumbs.db' || getSuffix($file) == 'md')
+		if ($file{0} == "." || $file == 'Thumbs.db' || ($sfx = getSuffix($file)) == 'md' || $sfx == 'bat')
 			continue;
 		$curfile = ($removeFolder) ? preg_replace('~^' . $removeFolder . '~', '', $path . $file) : $path . $file;
 		if (is_dir($path . $file)) {
