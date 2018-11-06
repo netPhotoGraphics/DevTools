@@ -30,6 +30,7 @@
  * 	Copyright 2014 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/netPhotoGraphics ZenPhoto20}
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
+@ini_set('memory_limit', '-1');
 Define('TARGET', 'package/');
 if (isset($_GET['source']) && $_GET['source']) {
 	define('VARIENT', $_GET['source']);
@@ -128,6 +129,7 @@ if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
 
+@ini_set('memory_limit', '-1');
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 echo "<h1>Extracting netPhotoGraphics _VERSION_ files</h1>";
 
