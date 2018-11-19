@@ -49,7 +49,7 @@ try {
 		case 'DEV':
 		case 'master':
 			$sourcefolder = '/Downloads/netPhotoGraphics' . '-' . VARIENT . '/';
-			breal;
+			break;
 		case 'GIT':
 			$sourcefolder = '/github/netPhotoGraphics-DEV/';
 			break;
