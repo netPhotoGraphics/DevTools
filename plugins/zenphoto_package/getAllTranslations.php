@@ -115,4 +115,4 @@ $functs = preg_replace('~\$pluginCategoryNames\s*=\s*array\s*\((.*)\);~isU', $up
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
 
 header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=allTranslations.php updated.');
-exitZP();
+exit();

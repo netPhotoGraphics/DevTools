@@ -70,9 +70,9 @@ Gallery::addImageHandler('m4a', 'Video');
 
 $_zp_multimedia_extension = new mediaelementjs_player(); // claim to be the flash player.
 zp_register_filter('content_macro', 'mediaelementjs_player::macro');
-zp_register_filter('theme_head', 'mediaelementjs_player::mediaelementjs_js');
+zp_register_filter('theme_body_close', 'mediaelementjs_player::js');
 if (getOption('mediaelementjs_playlist')) {
-	zp_register_filter('theme_head', 'mediaelementjs_player::mediaelementjs_playlist_js');
+	zp_register_filter('theme_body_close', 'mediaelementjs_player::playlist_js');
 }
 
 class mediaelementjs_options {
@@ -247,7 +247,7 @@ class mediaelementjs_player {
 		return $features;
 	}
 
-	static function mediaelementjs_js() {
+	static function js() {
 		/*
 		  $skin = getOption('mediaelementjs_skin');
 		  if(file_exists($skin)) {
@@ -256,16 +256,15 @@ class mediaelementjs_player {
 		  $skin = FULLWEBPATH.'/'.ZENFOLDER.'/'.PLUGIN_FOLDER.'/mediaelementjs_player/mediaelementplayer.css';
 		  }
 		 */
-		$skin = FULLWEBPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/mediaelementplayer.css';
 		$features = mediaelementjs_player::getFeatureOptions();
 		if (getOption('mediaelementjs_showcontrols')) {
 			$showcontrols = 'true';
 		} else {
 			$showcontrols = 'false';
 		}
+		scriptLoader(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/mediaelementplayer.css');
+		scriptLoader(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/mediaelement-and-player.min.js');
 		?>
-		<link href="<?php echo $skin; ?>" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="<?php echo FULLWEBPATH . '/' . USER_PLUGIN_FOLDER; ?>/mediaelementjs_player/mediaelement-and-player.min.js"></script>
 		<script>
 			window.addEventListener('load', function () {
 				$('audio.mep_player,video.mep_player').mediaelementplayer({
@@ -277,7 +276,7 @@ class mediaelementjs_player {
 		<?php
 	}
 
-	static function mediaelementjs_playlist_js() {
+	static function playlist_js() {
 		//$features = mediaelementjs_player::getFeatureOptions();
 		$playlistfeatures = "'playlistfeature', 'prevtrack', 'playpause', 'nexttrack', 'loop', 'shuffle', 'playlist', 'current', 'progress', 'duration', 'volume'";
 		//if(!empty($features)) {
@@ -288,9 +287,9 @@ class mediaelementjs_player {
 		} else {
 			$showcontrols = 'false';
 		}
+		scriptLoader(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/mep-feature-playlist.css');
+		scriptLoader(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/mep-feature-playlist.js');
 		?>
-		<link href="<?php echo FULLWEBPATH . '/' . USER_PLUGIN_FOLDER; ?>/mediaelementjs_player/mep-feature-playlist.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="<?php echo FULLWEBPATH . '/' . USER_PLUGIN_FOLDER; ?>/mediaelementjs_player/mep-feature-playlist.js"></script>
 		<script>
 			window.addEventListener('load', function () {
 				$('audio.mep_playlist,video.mep_playlist').mediaelementplayer({

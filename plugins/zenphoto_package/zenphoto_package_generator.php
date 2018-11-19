@@ -58,7 +58,7 @@ fwrite($fp, count($_zp_resident_files) + count($_special_files));
 fclose($fp);
 clearstatcache();
 header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=Package created and stored in the ' . getOption('zenphoto_package_path') . ' folder.');
-exitZP();
+exit();
 
 /**
  *
