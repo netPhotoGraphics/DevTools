@@ -31,7 +31,7 @@ class downloadButtons {
 		?>
 		<span class="buttons">
 			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . $currentVersion; ?>
+				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . str_replace('master-', '', $currentVersion); ?>
 			</a>
 		</span>
 		<br />
