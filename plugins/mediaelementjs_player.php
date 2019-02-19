@@ -544,7 +544,7 @@ class mediaelementjs_player {
 				'params' => array('string', 'string', 'int*', 'int*'),
 				'value' => 'mediaelementjs_player::getMacroPlayer',
 				'owner' => 'mediaelementjs_player',
-				'desc' => gettext('provide the album name (%1), media file name (%2), optional width (%3) and optional height (%4)')
+				'desc' => gettext('Provide the album name (%1), media file name (%2), optional width (%3) and optional height (%4)')
 		);
 		return $macros;
 	}

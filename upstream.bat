@@ -6,7 +6,7 @@ FOR /f "tokens=1-3 delims=-." %%i IN ("%mydate%") DO (
 	SET p3=%%k
 )
 
-SET upstream=%p1%%p2%%p3%
+SET upstream=zenphoto%p1%%p2%%p3%
 ECHO on
 
 git remote add %upstream% https://github.com/zenphoto/zenphoto.git

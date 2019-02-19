@@ -10,7 +10,7 @@
  */
 // force UTF-8 Ø
 
-define("OFFSET_PATH", 3);
+define('OFFSET_PATH', 3);
 require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-functions.php");
 
 $stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data');

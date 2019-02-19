@@ -12,7 +12,7 @@
  */
 // force UTF-8 Ø
 
-define("OFFSET_PATH", 3);
+define('OFFSET_PATH', 3);
 require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-globals.php");
 
 

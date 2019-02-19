@@ -106,7 +106,7 @@ class downloadButtons {
 					setOption('getUpdates_latest', $item->browser_download_url);
 				}
 			} catch (Exception $e) {
-				debugLog(gettext('GitHub repository not accessable [downloadButtona]. ') . $e);
+				debugLog(gettext('GitHub repository not accessible [downloadButtona]. ') . $e);
 			}
 		}
 
