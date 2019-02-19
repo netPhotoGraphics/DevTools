@@ -31,7 +31,7 @@ class downloadButtons {
 		?>
 		<span class="buttons">
 			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . $currentVersion; ?>
+				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . str_replace('master-', '', $currentVersion); ?>
 			</a>
 		</span>
 		<br />
@@ -106,7 +106,7 @@ class downloadButtons {
 					setOption('getUpdates_latest', $item->browser_download_url);
 				}
 			} catch (Exception $e) {
-				debugLog(gettext('GitHub repository not accessable [downloadButtona]. ') . $e);
+				debugLog(gettext('GitHub repository not accessible [downloadButtona]. ') . $e);
 			}
 		}
 

@@ -52,6 +52,7 @@ SET N=000000%N%
 SET build=%N:~-2%
 :SETVERSION
 SET new=%major%.%minor%.%release%.%build%
+SET doc=%new%
 @ECHO OFF
 IF [%beta%]==[] GOTO TAG
 if [%devbuild%]==[] goto DEVBUILD
@@ -68,6 +69,14 @@ SET N=000000%N%
 SET devversion=%N:~-2%
 SET new=%new%.%beta%_%devversion%
 
+REM for dev builds show doc as next build level
+SET /a N=1%build%-(11%build%-1%build%)/10
+SET /a build=%N%+1
+SET /a N=1%build%-(11%build%-1%build%)/10
+SET N=000000%N%
+SET build=%N:~-2%
+SET doc=%major%.%minor%.%release%.%build%
+
 :TAG
 
 >%SOURCE%	echo ^<?php
@@ -75,10 +84,6 @@ SET new=%new%.%beta%_%devversion%
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
-REM set the version number into the release notes document if we are a dev build or not a simple build bump
-
-IF  NOT [%beta%]==[] GOTO DOCUPDATE
-IF [%param%]==[]  GOTO COMMIT
 
 :DOCUPDATE
 setlocal
@@ -90,7 +95,7 @@ rem del %dest%
 (for /f "delims=" %%i in (D:\test_sites\dev\docs\release_notes.htm) do (
     set "line=%%i"
     setlocal enabledelayedexpansion
-    set "line=!line:$v$=%new%!"
+    set "line=!line:$v$=%doc%!"
     echo(!line!
     endlocal
 ))>%dest%

@@ -7,7 +7,7 @@
  * Video: <var>.m4v</var>/<var>.mp4</var>, <var>.flv</var> - Counterpart formats <var>.ogv</var> and <var>.webmv</var> supported (see note below!)
  *
  * IMPORTANT NOTE ON OGG AND WEBM COUNTERPART FORMATS:
- * The counterpart formats are not valid formats for Zenphoto itself and not recognized as items as that would confuse the management.
+ * The counterpart formats are not valid formats for netPhotoGraphics itself and not recognized as items as that would confuse the management.
  * Therefore these formats can be uploaded via FTP only.
  * The files need to have the same file name (beware the character case!). In single player usage, the player
  * will check via the file system if a counterpart file exists and if counterpart support is enabled.
@@ -434,7 +434,7 @@ class mediaelementjs_player {
 
 	/**
 	 * Gets the counterpart formats (webm,ogg) for html5 browser compatibilty
-	 * NOTE: These formats need to be uploaded via FTP as they are not valid file types for Zenphoto, to avoid confusion
+	 * NOTE: These formats need to be uploaded via FTP as they are not valid file types for netPhotoGraphics, to avoid confusion
 	 *
 	 * @param string $moviepath full link to the multimedia file to get counterpart formats from.
 	 * @param string $ext the file format extention to search the counterpart for (as we already have fetched that)
@@ -544,7 +544,7 @@ class mediaelementjs_player {
 				'params' => array('string', 'string', 'int*', 'int*'),
 				'value' => 'mediaelementjs_player::getMacroPlayer',
 				'owner' => 'mediaelementjs_player',
-				'desc' => gettext('provide the album name (%1), media file name (%2), optional width (%3) and optional height (%4)')
+				'desc' => gettext('Provide the album name (%1), media file name (%2), optional width (%3) and optional height (%4)')
 		);
 		return $macros;
 	}

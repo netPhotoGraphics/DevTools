@@ -130,7 +130,7 @@ class openAdmin extends _Administrator {
 		}
 
 		if (empty($zenphoto_tabs['logs']['subtabs'])) {
-			$zenphoto_tabs['logs']['link'] = WEBPATH . '/' . ZENFOLDER . '/admin-logs.php?page=logs';
+			$zenphoto_tabs['logs']['link'] = WEBPATH . '/' . ZENFOLDER . '/admin-tabs/logs.php?page=logs';
 			$zenphoto_tabs['logs']['default'] = NULL;
 		} else {
 			$zenphoto_tabs['logs']['default'] = $default = current(array_keys($zenphoto_tabs['logs']['subtabs']));
