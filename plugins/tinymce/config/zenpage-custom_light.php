@@ -7,8 +7,7 @@
  */
 $MCEcss = 'custom-light.css';
 $MCEselector = "textarea.content,textarea.desc,textarea.extracontent";
-$MCEspecial = "
-		style_formats: [
+$MCEspecial['style_formats'] = "[
 			{title: 'Block formats',
 				items: [
 					{title: 'heading 4', block: 'h4'},
@@ -29,7 +28,7 @@ $MCEspecial = "
 					{title: 'table_of_content_list', inline: 'span', classes: 'table_of_content_list'}
 				]
 			}
-		]";
+		];
 $MCEplugins = "advlist autolink lists link image charmap anchor " .
 				"searchreplace visualchars visualblocks code fullscreen " .
 				"insertdatetime media table paste directionality ";
