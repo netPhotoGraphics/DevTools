@@ -86,8 +86,34 @@ foreach ($tables as $table) {
 	}
 }
 
-file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
+$template = unserialize(file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate'));
 
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created"));
+//debug_var($template);
+
+$renamed = array();
+
+foreach ($template as $table => $row) {
+	$old = array_keys($template[$table]['fields']);
+	$new = array_keys($database[$table]['fields']);
+	if ($old != $new) {
+		$dif_old = array_diff($old, $new);
+		$dif_new = array_diff($new, $old);
+		foreach ($dif_old as $key => $field) {
+			if (isset($dif_new[$key])) {
+				$renamed[] = "array('table' => $table, 'was' => $field, 'is' => $dif_new[$key])";
+			}
+		}
+	}
+}
+
+file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
+if (empty($renamed)) {
+	$more = '';
+} else {
+	$more = '&more=database_template';
+	array_unshift($renamed, gettext('Possible field name changes detected.'));
+	$_SESSION['database_template'] = $renamed;
+}
+header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created") . $more);
 exit();
 ?>
