@@ -100,7 +100,7 @@ foreach ($template as $table => $row) {
 		$dif_new = array_diff($new, $old);
 		foreach ($dif_old as $key => $field) {
 			if (isset($dif_new[$key])) {
-				$renamed[] = "array('table' => $table, 'was' => $field, 'is' => $dif_new[$key])";
+				$renamed[] = "array('table' => '$table', 'was' => '$field', 'is' => '$dif_new[$key]'),";
 			}
 		}
 	}
@@ -110,6 +110,9 @@ file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize(
 if (empty($renamed)) {
 	$more = '';
 } else {
+	$setupdb = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/setup/database.php');
+	$setupdb = str_replace("\$renames = array(\n", "\$renames = array(\n\t\t" . implode("\n\t\t", $renamed) . "\n", $setupdb);
+	file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/setup/database.php', $setupdb);
 	$more = '&more=database_template';
 	array_unshift($renamed, gettext('Possible field name changes detected.'));
 	$_SESSION['database_template'] = $renamed;
