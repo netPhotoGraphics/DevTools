@@ -83,7 +83,7 @@ class downloadButtons {
 		$article = newArticle('netPhotoGraphics-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
 		$article->setPublishDate(date('Y-m-d H:i:s'));
-		$article->setAuthor('netPhotoGraphics');
+		$article->setOwner('netPhotoGraphics');
 		$article->setTitle('netPhotoGraphics ' . $version);
 		$article->setContent($text);
 		$article->setCategories(array('announce'));
