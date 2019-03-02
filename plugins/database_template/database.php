@@ -119,7 +119,7 @@ foreach ($template as $table => $row) {
 	}
 }
 
-//file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
+file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
 
 $more = '';
 if (!empty($renamed)) {
