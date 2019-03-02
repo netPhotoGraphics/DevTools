@@ -66,7 +66,7 @@ class downloadButtons {
 		unset($current[3]);
 		$version = implode('.', $current);
 		//	set prior release posts to un-published
-		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `author`="netPhotoGraphics"';
+		$sql = 'UPDATE ' . prefix('news') . ' SET `show`=0,`publishdate`=NULL,`expiredate`=NULL WHERE `owner`="netPhotoGraphics"';
 		query($sql);
 		//	create new article
 		$text = sprintf('<p>netPhotoGraphics %1$s is now available for <a href="%2$s">download</a>.</p>', $version, $newestVersionURI);
@@ -78,7 +78,7 @@ class downloadButtons {
 		$doc = preg_replace('~\<h1\>.+\</h1\>\s*\<h2\>Version.+?\</h2\>~i', '', $doc);
 		$doc = preg_replace('~\<p\> \</p\>~i', '', $doc);
 
-		$text.= $doc;
+		$text .= $doc;
 
 		$article = newArticle('netPhotoGraphics-' . $version, true);
 		$article->setDateTime(date('Y-m-d H:i:s'));
