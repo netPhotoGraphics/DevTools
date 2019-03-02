@@ -86,8 +86,55 @@ foreach ($tables as $table) {
 	}
 }
 
+$template = unserialize(file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate'));
+
+//debug_var($template);
+
+$dropped = $renamed = array();
+
+foreach ($template as $table => $row) {
+	$old = array_keys($template[$table]['fields']);
+	$new = array_keys($database[$table]['fields']);
+	if ($old != $new) {
+		$dif_old = array_diff($old, $new);
+		$dif_new = array_diff($new, $old);
+		foreach ($dif_old as $key => $field) {
+			if (isset($dif_new[$key])) {
+				$renamed[] = "array('table' => '$table', 'was' => '$field', 'is' => '$dif_new[$key]'),";
+				unset($dif_old[$key]);
+				unset($dif_new[$key]);
+			}
+		}
+
+		if (!empty($dif_old)) {
+			foreach ($dif_old as $field) {
+				$dropped[] = 'dropped ' . $table . ':' . $field;
+			}
+		}
+		if (!empty($dif_new)) {
+			foreach ($dif_new as $field) {
+				$dropped[] = 'added ' . $table . ':' . $field;
+			}
+		}
+	}
+}
+
 file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
 
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created"));
+$more = '';
+if (!empty($renamed)) {
+	$setupdb = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/setup/database.php');
+	$setupdb = str_replace("\$renames = array(\n", "\$renames = array(\n\t\t" . implode("\n\t\t", $renamed) . "\n", $setupdb);
+	file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/setup/database.php', $setupdb);
+	$more = '&more=database_template';
+	array_unshift($renamed, gettext('Possible field name changes detected.'));
+	array_unshift($renamed, '');
+}
+if (!empty($dropped)) {
+	$more = '&more=database_template';
+	array_unshift($dropped, '');
+}
+$_SESSION['database_template'] = array_merge($renamed, $dropped);
+header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created") . $more);
 exit();
 ?>

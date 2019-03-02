@@ -129,6 +129,12 @@ class Flowplayer5 {
 	 *
 	 */
 	function getPlayerConfig($movie, $movietitle = NULL) {
+		if (is_null($w)) {
+			$w = $this->getWidth();
+		}
+		if (is_null($h)) {
+			$h = $this->getHeight();
+		}
 		$moviepath = $movie->getFullImageURL(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4v', 'mp4', 'flv'))) {
@@ -140,7 +146,7 @@ class Flowplayer5 {
 		}
 		$videoThumb = '';
 		if (getOption('flowplayer5_poster')) {
-			$videoThumb = '$(".fp-engine").attr("poster","' . $movie->getCustomImage(null, $this->width, $this->height, $this->width, $this->height, null, null, true) . '");';
+			$videoThumb = '$(".fp-engine").attr("poster","' . $movie->getCustomImage(null, $w, $h, $w, $h, null, null, true) . '");';
 		}
 		$metadata = getImageMetaData(NULL, false);
 		$vidWidth = $metadata['VideoResolution_x'];

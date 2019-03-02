@@ -314,8 +314,13 @@ class mediaelementjs_player {
 	 * @param string $height Not used, set via plugin options.
 	 *
 	 */
-	function getPlayerConfig($movie, $movietitle = '', $width, $height) {
-		global $_zp_current_image;
+	function getPlayerConfig($movie, $movietitle = '', $width = NULL, $height = NULL) {
+		if (is_null($w)) {
+			$width = $this->getWidth();
+		}
+		if (is_null($h)) {
+			$height = $this->getHeight();
+		}
 		$moviepath = $movie->getFullImageURL(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4a', 'm4v', 'mp3', 'mp4', 'flv'))) {
@@ -333,12 +338,7 @@ class mediaelementjs_player {
 				$this->mode = 'video';
 				break;
 		}
-		if (is_object($_zp_current_image) || empty($width)) {
-			$width = $this->getWidth();
-		}
-		if (is_object($_zp_current_image) || empty($height)) {
-			$height = $this->getHeight();
-		}
+
 		if ($width == '100%') {
 			$style = ' style="max-width: 100%"';
 			$posterwidth = 600;

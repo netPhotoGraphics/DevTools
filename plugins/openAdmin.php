@@ -27,6 +27,7 @@ $option_interface = 'openAdmin';
 if (!zp_loggedin()) {
 
 	zp_register_filter('admin_head', 'openAdmin::head', 9999);
+	zp_register_filter('tinymce_config', 'openAdmin::tinyMCE');
 	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
 		zp_register_filter('admin_allow_access', 'openAdmin::access', 9999);
 		zp_register_filter('theme_body_close', 'openAdmin::close', 9999);
@@ -90,6 +91,17 @@ class openAdmin extends _Administrator {
 		$_zp_authority->admin_users[$masterid] = $_zp_current_admin_obj->getData();
 	}
 
+	/**
+	 * removes upload capability from tinyMCE
+	 *
+	 * @global type $MCEspecial
+	 */
+	static function tinyMCE() {
+		global $MCEspecial;
+		unset($MCEspecial['images_upload_url']);
+		unset($MCEspecial['file_picker_callback']);
+	}
+
 	static function access($allow, $url) {
 		global $zenphoto_tabs, $_zp_current_admin_obj;
 		self::setAdmin();
@@ -136,6 +148,7 @@ class openAdmin extends _Administrator {
 			$zenphoto_tabs['logs']['default'] = $default = current(array_keys($zenphoto_tabs['logs']['subtabs']));
 			$zenphoto_tabs['logs']['link'] = $zenphoto_tabs['logs']['subtabs'][$default];
 		}
+		//	protect against un-monitored uploading
 		if (isset($zenphoto_tabs['upload'])) {
 			foreach ($zenphoto_tabs['upload']['subtabs'] as $key => $link) {
 				if (strpos($link, '/elFinder/') !== false) {
