@@ -47,7 +47,6 @@ foreach ($tables as $table) {
 				$datum['Comment'] = 'zp20';
 			}
 			// remove don't care fields
-			unset($datum['Collation']);
 			unset($datum['Key']);
 			unset($datum['Extra']);
 			unset($datum['Privileges']);
@@ -78,7 +77,6 @@ foreach ($tables as $table) {
 		}
 		unset($index['Table']);
 		unset($index['Seq_in_index']);
-		unset($index['Collation']);
 		unset($index['Cardinality']);
 		unset($index['Comment']);
 
@@ -87,9 +85,6 @@ foreach ($tables as $table) {
 }
 
 $template = unserialize(file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate'));
-
-//debug_var($template);
-
 $dropped = $renamed = array();
 
 foreach ($template as $table => $row) {
