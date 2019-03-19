@@ -88,9 +88,8 @@ SET doc=%major%.%minor%.%release%.%build%
 :DOCUPDATE
 setlocal
 
+rem update the version number in the release notes
 set dest="docs\release notes.htm"
-
-rem del %dest%
 
 (for /f "delims=" %%i in (D:\test_sites\dev\docs\release_notes.htm) do (
     set "line=%%i"
@@ -99,6 +98,9 @@ rem del %dest%
     echo(!line!
     endlocal
 ))>%dest%
+
+rem update the user guide
+D:\github\DevTools\officetopdf.exe "D:\github\DevTools\user guide.docx" "docs/user guide.pdf"
 
 :COMMIT
 
