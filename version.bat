@@ -100,7 +100,7 @@ set dest="docs\release notes.htm"
 ))>%dest%
 
 rem update the user guide
-docto -f D:\github\DevTools\user guide.docx -O "docs\user guide.pdf" -T wdFormatPDF
+D:\github\DevTools\officetopdf.exe "D:\github\DevTools\user guide.docx" "docs/user guide.pdf"
 
 :COMMIT
 
