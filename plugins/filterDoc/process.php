@@ -35,15 +35,28 @@ function processFilters() {
 	}
 
 	$filterDescriptions = array();
+	$fetchClasses = false;
 	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
 		$t = file_get_contents($filterdesc);
 		$t = explode("\n", $t);
 		foreach ($t as $d) {
 			$d = trim($d);
-			if (!empty($d)) {
+			if ($d == '*reset*') {
+				$fetchClasses = true;
+			} else if (!empty($d)) {
 				$f = explode(':=', $d);
-				$filterDescriptions[$f[0]] = trim($f[1]);
+				$filter = $f[0];
+				if ($filter[0] == '*') {
+					$classes = array('class' => NULL, 'subclass' => NULL);
+				} else {
+					$classes = explode('>', $filter);
+					$filter = array_pop($classes);
+					if (empty($classes)) {
+						$classes = array('class' => NULL, 'subclass' => NULL);
+					}
+				}
+				$filterDescriptions[$filter] = array('class' => array_shift($classes), 'subclass' => array_shift($classes), 'desc' => trim($f[1]));
 			}
 		}
 	}
@@ -72,25 +85,36 @@ function processFilters() {
 			$script = str_replace(ZENFOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			$script = str_replace(ZENFOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
-			preg_match_all('|zp_apply_filter\s*\((.+?)\).?|', $text, $matches);
-			foreach ($matches[1] as $paramsstr) {
-				$filter = explode(',', $paramsstr);
-				foreach ($filter as $key => $element) {
-					$filter[$key] = myunQuote(trim($element));
-				}
-				$filtername = array_shift($filter);
-				if (array_key_exists($filtername, $filterlist)) {
-					$filterlist[$filtername][0][] = $script;
-				} else {
-					array_unshift($filter, array($script));
-					$filterlist[$filtername] = $filter;
+			preg_match_all('~zp_apply_filter\s*\\((?>[^()]|(?R))*\)~', $text, $matches);
+			if (!empty($matches)) {
+				foreach ($matches[0] as $paramsstr) {
+					$paramsstr = trim(str_replace('zp_apply_filter', '', $paramsstr), ')');
+					$paramsstr = trim($paramsstr, '(');
+					$paramsstr = trim($paramsstr, '(');
+					$filter = explode(',', $paramsstr);
+					foreach ($filter as $key => $element) {
+						$filter[$key] = myunQuote(trim($element));
+					}
+					$filtername = array_shift($filter);
+					if (array_key_exists($filtername, $filterlist)) {
+						$filterlist[$filtername][0][] = $script;
+					} else {
+						array_unshift($filter, array($script));
+						$filterlist[$filtername] = $filter;
+					}
 				}
 			}
-			preg_match_all('|zp_register_filter\s*\((.+?)\).?|', $text, $matches);
-			foreach ($matches[1] as $paramsstr) {
-				$filter = explode(',', $paramsstr);
-				$filtername = myunQuote(array_shift($filter));
-				$useagelist[] = array('filter' => $filtername, 'script' => $script, 'scriptsize' => $size);
+			preg_match_all('~zp_register_filter\s*\\((?>[^()]|(?R))*\)~', $text, $matches);
+			preg_match_all('~zp_register_filter\s*\((.+?)\).?~', $text, $matches);
+			if (!empty($matches)) {
+				foreach ($matches[0] as $paramsstr) {
+					$paramsstr = trim(str_replace('zp_register_filter', '', $paramsstr), ')');
+					$paramsstr = trim($paramsstr, '(');
+					$paramsstr = trim($paramsstr, '(');
+					$filter = explode(',', $paramsstr);
+					$filtername = myunQuote(array_shift($filter));
+					$useagelist[] = array('filter' => $filtername, 'script' => $script, 'scriptsize' => $size);
+				}
 			}
 		}
 	}
@@ -108,74 +132,89 @@ function processFilters() {
 			$count = 0;
 			foreach ($params[0] as $script) {
 				if (!$class) {
-					$basename = basename($script);
-					if (strpos($script, '<em>theme</em>') !== false) {
-						$class = 'Theme';
-						$subclass = 'Script';
-					} else if (strpos($basename, 'user') !== false || strpos($basename, 'auth') !== false ||
-									strpos($basename, 'logon') !== false || strpos($key, 'login') !== false) {
-						$class = 'User_management';
-						$subclass = 'Miscellaneous';
-					} else if (strpos($key, 'upload') !== false) {
-						$class = 'Upload';
-						$subclass = 'Miscellaneous';
-					} else if (strpos($key, 'texteditor') !== false) {
-						$class = 'Miscellaneous';
-						$subclass = 'Miscellaneous';
-					} else if (strpos($basename, 'class') !== false) {
-						$class = 'Object';
-						if (strpos($basename, 'zenpage') !== false) {
+					if ($fetchClasses && isset($filterDescriptions[$key]['class']) && $filterDescriptions[$key]['class']) {
+						//	class and subclass defined by filter descriptions file
+						$class = $filterDescriptions[$key]['class'];
+						$subclas = $filterDescriptions[$key]['subclass'];
+					} else {
+						//	make an educated guess
+						$basename = basename($script);
+						if (strpos($script, '<em>theme</em>') !== false || strpos($key, 'theme') !== false) {
+							$class = 'Theme';
+							$subclass = 'Script';
+						} else if (strpos($basename, 'user') !== false || strpos($basename, 'auth') !== false ||
+										strpos($basename, 'logon') !== false || strpos($key, 'login') !== false) {
+							$class = 'User_management';
+							$subclass = 'Miscellaneous';
+						} else if (strpos($key, 'upload') !== false) {
+							$class = 'Upload';
+							$subclass = 'Miscellaneous';
+						} else if (strpos($key, 'texteditor') !== false) {
+							$class = 'Miscellaneous';
+							$subclass = 'Miscellaneous';
+						} else if (strpos($basename, 'class') !== false) {
 							$class = 'Object';
-							$subclass = 'CMS';
-						} else {
-							if (!$subclass) {
-								switch ($basename) {
-									case 'classes.php':
-										$subclass = 'Root_class';
-										break;
-									case 'load_objectClasses.php':
-									case 'class-gallery.php':
-										$subclass = 'Miscellaneous';
-										break;
-									case 'class-album.php':
-									case 'class-image.php':
-									case 'class-textobject.php':
-									case 'class-textobject_core.php':
-									case 'class-Anyfile.php';
-									case 'class-video.php':
-									case 'Class-WEBdocs.php':
+							if (strpos($basename, 'zenpage') !== false) {
+								$class = 'Object';
+								$subclass = 'CMS';
+							} else {
+								if (!$subclass) {
+									switch ($basename) {
+										case 'classes.php':
+											$subclass = 'Root_class';
+											break;
+										case 'load_objectClasses.php':
+										case 'class-gallery.php':
+											$subclass = 'Miscellaneous';
+											break;
+										case 'class-album.php':
+										case 'class-image.php':
+										case 'class-textobject.php':
+										case 'class-textobject_core.php':
+										case 'class-Anyfile.php';
+										case 'class-video.php':
+										case 'Class-WEBdocs.php':
+											$subclass = 'Media';
+											break;
+										case 'class-comment.php':
+											$subclass = 'Comments';
+											break;
+										case 'class-search.php':
+											$subclass = 'Search';
+											break;
+									}
+									if (strpos($key, 'image') !== false || strpos($key, 'album') !== false) {
 										$subclass = 'Media';
-										break;
-									case 'class-comment.php':
-										$subclass = 'Comments';
-										break;
-									case 'class-search.php':
-										$subclass = 'Search';
-										break;
-								}
-								if (strpos($key, 'image') !== false || strpos($key, 'album') !== false) {
-									$subclass = 'Media';
+									}
 								}
 							}
-						}
-					} else if (strpos($script, 'admin') !== false) {
-						$class = 'Admin';
-						if (strpos($script, 'zenpage') !== false) {
-							$subclass = 'CMS';
-						} else if (strpos($basename, 'comment') !== false || strpos($key, 'comment')) {
-							$subclass = 'Comment';
+						} else if (strpos($script, 'admin') !== false) {
+							$class = 'Admin';
+							if (strpos($script, 'zenpage') !== false) {
+								$subclass = 'CMS';
+							} else if (strpos($basename, 'comment') !== false || strpos($key, 'comment')) {
+								$subclass = 'Comment';
+							} else if (strpos($basename, 'edit') !== false || strpos($key, 'album') !== false || strpos($key, 'image') !== false) {
+								$subclass = 'Media';
+							}
+						} else if (strpos($script, 'template') !== false) {
+							$class = 'Template';
+						} else if (strpos($basename, 'zenpage') !== false || strpos($key, 'category') !== false || strpos($key, 'article') !== false || strpos($key, 'page') !== false) {
+							$class = 'CMS';
+						} else if (strpos($basename, 'comment') !== false || strpos($key, 'comment') !== false) {
+							$class = 'Comment';
 						} else if (strpos($basename, 'edit') !== false || strpos($key, 'album') !== false || strpos($key, 'image') !== false) {
-							$subclass = 'Media';
+							$class = 'Media';
+						} else {
+							$class = 'Miscellaneous';
 						}
-					} else if (strpos($script, 'template') !== false) {
-						$class = 'Template';
-					} else if (strpos($basename, 'zenpage') !== false) {
-						$class = 'CMS';
-					} else {
-						$class = 'Miscellaneous';
-					}
-					if (!$subclass) {
-						$subclass = 'Miscellaneous';
+						if (!$subclass) {
+							$subclass = 'Miscellaneous';
+						}
+						if (array_key_exists($key, $filterDescriptions)) {
+							$filterDescriptions[$key]['class'] = $class;
+							$filterDescriptions[$key]['subclass'] = $subclass;
+						}
 					}
 
 					if (!array_key_exists($class, $filterCategories)) {
@@ -185,10 +224,10 @@ function processFilters() {
 						$filterCategories[$class . '_' . $subclass] = array('class' => $class, 'subclass' => $subclass, 'count' => $filterCategories[$class]['count'] ++);
 					}
 					if (!array_key_exists('*' . $class, $filterDescriptions)) {
-						$filterDescriptions['*' . $class] = '';
+						$filterDescriptions['*' . $class] = array('class' => NULL, 'subclass' => NULL, 'desc' => '');
 					}
 					if (!array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
-						$filterDescriptions['*' . $class . '.' . $subclass] = '';
+						$filterDescriptions['*' . $class . '.' . $subclass] = array('class' => NULL, 'subclass' => NULL, 'desc' => '');
 					}
 				}
 				if ($script == $lastscript) {
@@ -233,12 +272,9 @@ function processFilters() {
 					break;
 			}
 		}
-		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
-		if (!array_key_exists($key, $filterDescriptions)) {
-			$filterDescriptions[$key] = '';
-		}
-	}
 
+		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
+	}
 	foreach ($useagelist as $use) {
 		if (array_key_exists($use['filter'], $newfilterlist)) {
 			$newfilterlist[$use['filter']]['users'][] = $use['script'];
@@ -255,11 +291,11 @@ function processFilters() {
 	fwrite($f, "<!-- Begin filter descriptions -->\n");
 	$ulopen = false;
 	foreach ($newfilterlist as $filter) {
-		if (array_key_exists($filter['filter'], $filterDescriptions) && $filterDescriptions[$filter['filter']] != '*dummy') {
+		if (array_key_exists($filter['filter'], $filterDescriptions) && $filterDescriptions[$filter['filter']]['desc'] != '*dummy') {
 			if ($class !== $filter['class']) {
 				$class = $filter['class'];
 				if (array_key_exists('*' . $class, $filterDescriptions)) {
-					$classhead = '<p>' . $filterDescriptions['*' . $class] . '</p>';
+					$classhead = '<p>' . $filterDescriptions['*' . $class]['desc'] . '</p>';
 				} else {
 					$classhead = '';
 				}
@@ -276,7 +312,7 @@ function processFilters() {
 				}
 				$subclass = $filter['subclass'];
 				if (array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
-					$subclasshead = '<p>' . $filterDescriptions['*' . $class . '.' . $subclass] . '</p>';
+					$subclasshead = '<p>' . $filterDescriptions['*' . $class . '.' . $subclass]['desc'] . '</p>';
 				} else {
 					$subclasshead = '';
 				}
@@ -289,7 +325,7 @@ function processFilters() {
 			fwrite($f, "\t\t\t\t" . '<li class="filterdetail">' . "\n");
 			fwrite($f, "\t\t\t\t\t" . '<p class="filterdef"><span class="inlinecode"><strong>' . html_encode($filter['filter']) . '</strong></span>(<em>' . html_encode(implode(', ', $filter['params'])) . "</em>)</p>\n");
 			if (array_key_exists($filter['filter'], $filterDescriptions)) {
-				$filter['desc'] = '<p>' . $filterDescriptions[$filter['filter']] . '</p>';
+				$filter['desc'] = '<p>' . $filterDescriptions[$filter['filter']]['desc'] . '</p>';
 			}
 			fwrite($f, "\t\t\t\t\t" . '<!-- description(' . $class . '.' . $subclass . ')-' . $filter['filter'] . ' -->' . $filter['desc'] . "<!--e-->\n");
 
@@ -326,7 +362,7 @@ function processFilters() {
 	}
 	fclose($f);
 
-	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass', 'text'), false, false);
+	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 	$indexfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html';
 	$f = fopen($indexfile, 'w');
 	fwrite($f, "\t<ul>\n");
@@ -353,7 +389,7 @@ function processFilters() {
 						fwrite($f, "\t\t<ul>\n");
 						$ulopen = true;
 					}
-					fwrite($f, "\t\t\t\t" . '<li><a title="' . $subclass . ' ' . $class . ' filters" href="#' . $class . '_' . $subclass . '">' . $subclass . ' ' . str_replace('_', ' ', strtolower($class)) . " filters</a></li>\n");
+					fwrite($f, "\t\t\t\t" . '<li><a title="' . $subclass . ' ' . $class . ' filters" href="#' . $class . '_' . $subclass . '">' . $subclass . " filters</a></li>\n");
 				} else {
 					unset($filterDescriptions['*' . $class . '.' . $subclass]);
 				}
@@ -372,7 +408,10 @@ function processFilters() {
 	$f = fopen($filterdesc, 'w');
 	asort($filterDescriptions);
 	foreach ($filterDescriptions as $filter => $desc) {
-		fwrite($f, $filter . ':=' . $desc . "\n");
+		if (!empty($desc['class'])) {
+			$filter = $desc['class'] . '>' . $desc['subclass'] . '>' . $filter;
+		}
+		fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
 	}
 	fclose($f);
 }
@@ -382,10 +421,5 @@ function mytrim($str) {
 }
 
 function myunQuote($string) {
-	$string = trim($string);
-	$q = substr($string, 0, 1);
-	if ($q == '"' || $q == "'") {
-		$string = str_replace($q . '.$', '$', trim($string, $q));
-	}
-	return $string;
+	return preg_replace('~\s*[\"\']\s*~', '', trim($string));
 }
