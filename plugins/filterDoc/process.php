@@ -35,16 +35,14 @@ function processFilters() {
 	}
 
 	$filterDescriptions = array();
-	$fetchClasses = false;
+
 	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
 		$t = file_get_contents($filterdesc);
 		$t = explode("\n", $t);
 		foreach ($t as $d) {
 			$d = trim($d);
-			if ($d == '*reset*') {
-				$fetchClasses = true;
-			} else if (!empty($d)) {
+			if (!empty($d)) {
 				$f = explode(':=', $d);
 				$filter = $f[0];
 				if ($filter[0] == '*') {
@@ -131,7 +129,7 @@ function processFilters() {
 			$count = 0;
 			foreach ($params[0] as $script) {
 				if (!$class) {
-					if ($fetchClasses && isset($filterDescriptions[$key]['class']) && $filterDescriptions[$key]['class']) {
+					if (isset($filterDescriptions[$key]['class']) && $filterDescriptions[$key]['class']) {
 						//	class and subclass defined by filter descriptions file
 						$class = $filterDescriptions[$key]['class'];
 						$subclas = $filterDescriptions[$key]['subclass'];
