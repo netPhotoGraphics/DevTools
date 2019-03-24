@@ -44,7 +44,7 @@ function processFilters() {
 			$d = trim($d);
 			if (!empty($d)) {
 				$f = explode(':=', $d);
-				$filter = $f[0];
+				$filter = trim($f[0], '.');
 				if ($filter[0] == '*') {
 					$classes = array('class' => NULL, 'subclass' => NULL);
 				} else {
@@ -60,26 +60,27 @@ function processFilters() {
 	}
 
 	$stdExclude = Array('Thumbs.db', 'readme.md', 'data');
-	$lcFilesystem = file_exists(strtoupper(__FILE__));
+	if ($lcFilesystem = file_exists(strtoupper(__FILE__))) {
+		$serverpath = strtolower(SERVERPATH);
+	} else {
+		$serverpath = SERVERPATH;
+	}
+	getResidentZPFiles($serverpath . '/' . ZENFOLDER, $lcFilesystem, $stdExclude);
+	getResidentZPFiles($serverpath . '/' . THEMEFOLDER, $lcFilesystem, $stdExclude);
+	$key = array_search($serverpath . '/' . ZENFOLDER . '/functions-filter.php', $_zp_resident_files);
+	unset($_zp_resident_files[$key]);
+	$key = array_search($serverpath . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/deprecated-functions.php', $_zp_resident_files);
 
-	getResidentZPFiles(SERVERPATH . '/' . ZENFOLDER, $lcFilesystem, $stdExclude);
-	getResidentZPFiles(SERVERPATH . '/' . THEMEFOLDER, $lcFilesystem, $stdExclude);
-	$key = array_search(SERVERPATH . '/' . ZENFOLDER . '/functions-filter.php', $_zp_resident_files);
 	unset($_zp_resident_files[$key]);
-	$key = array_search(SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/deprecated-functions.php', $_zp_resident_files);
-	unset($_zp_resident_files[$key]);
+
 	$filterlist = array();
 	$useagelist = array();
 
-	foreach ($_zp_resident_files as $file) {
+	foreach ($_zp_resident_files as $key => $file) {
 		if (getSuffix($file) == 'php') {
 			$size = filesize($file);
 			$text = file_get_contents($file);
-			if ($lcFilesystem) {
-				$script = str_replace(strtolower(SERVERPATH) . '/', '', $file);
-			} else {
-				$script = str_replace(SERVERPATH . '/', '', $file);
-			}
+			$script = str_replace($serverpath . '/', '', $file);
 			$script = str_replace(ZENFOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			$script = str_replace(ZENFOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
@@ -120,6 +121,11 @@ function processFilters() {
 	$filterCategories = array();
 	$newfilterlist = array();
 	foreach ($filterlist as $key => $params) {
+
+		if ($key == '$hook') {
+			debug_var([$key => $params]);
+		}
+
 		if (count($params[0])) {
 			sort($params[0]);
 			$calls = array();
@@ -132,7 +138,7 @@ function processFilters() {
 					if (isset($filterDescriptions[$key]['class']) && $filterDescriptions[$key]['class']) {
 						//	class and subclass defined by filter descriptions file
 						$class = $filterDescriptions[$key]['class'];
-						$subclas = $filterDescriptions[$key]['subclass'];
+						$subclass = $filterDescriptions[$key]['subclass'];
 					} else {
 						//	make an educated guess
 						$basename = basename($script);
@@ -208,10 +214,11 @@ function processFilters() {
 						if (!$subclass) {
 							$subclass = 'Miscellaneous';
 						}
-						if (array_key_exists($key, $filterDescriptions)) {
-							$filterDescriptions[$key]['class'] = $class;
-							$filterDescriptions[$key]['subclass'] = $subclass;
+						if (!array_key_exists($key, $filterDescriptions)) {
+							$filterDescriptions[$key]['desc'] = '';
 						}
+						$filterDescriptions[$key]['class'] = $class;
+						$filterDescriptions[$key]['subclass'] = $subclass;
 					}
 
 					if (!array_key_exists($class, $filterCategories)) {
@@ -223,10 +230,11 @@ function processFilters() {
 					if (!array_key_exists('*' . $class, $filterDescriptions)) {
 						$filterDescriptions['*' . $class] = array('class' => NULL, 'subclass' => NULL, 'desc' => '');
 					}
-					if (!array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
+					if ($subclass && !array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
 						$filterDescriptions['*' . $class . '.' . $subclass] = array('class' => NULL, 'subclass' => NULL, 'desc' => '');
 					}
 				}
+
 				if ($script == $lastscript) {
 					$count ++;
 				} else {
@@ -272,6 +280,7 @@ function processFilters() {
 
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
+
 	foreach ($useagelist as $use) {
 		if (array_key_exists($use['filter'], $newfilterlist)) {
 			$newfilterlist[$use['filter']]['users'][] = $use['script'];
@@ -313,7 +322,7 @@ function processFilters() {
 				} else {
 					$subclasshead = '';
 				}
-				if ($subclass && $filterCategories[$class]['count'] > 1) { //	Class doc is adequate.
+				if ($filterCategories[$class]['count'] > 1) { //	Class doc is adequate.
 					fwrite($f, "\t\t\t" . '<h6 class="filter"><span id="' . $class . '_' . $subclass . '"></span>' . $subclass . "</h6>\n");
 					fwrite($f, "\t\t\t" . '<!-- subclasshead ' . $class . '.' . $subclass . ' -->' . $subclasshead . "<!--e-->\n");
 				}
@@ -360,7 +369,7 @@ function processFilters() {
 	fclose($f);
 
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
-	$indexfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html';
+	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html';
 	$f = fopen($indexfile, 'w');
 	fwrite($f, "\t<ul>\n");
 	$liopen = $ulopen = false;
@@ -386,7 +395,7 @@ function processFilters() {
 						fwrite($f, "\t\t<ul>\n");
 						$ulopen = true;
 					}
-					fwrite($f, "\t\t\t\t" . '<li><a title="' . $subclass . ' ' . $class . ' filters" href="#' . $class . '_' . $subclass . '">' . $subclass . " filters</a></li>\n");
+					fwrite($f, "\t\t\t\t" . '<li><a title="' . $subclass . ' ' . $class . ' filters" href="#' . $class . '_' . $subclass . '">' . $subclass . "</a></li>\n");
 				} else {
 					unset($filterDescriptions['*' . $class . '.' . $subclass]);
 				}
@@ -402,11 +411,33 @@ function processFilters() {
 	fwrite($f, "\t</ul>\n");
 	fclose($f);
 
-	$f = fopen($filterdesc, 'w');
-	asort($filterDescriptions);
+	$descriptions = array();
 	foreach ($filterDescriptions as $filter => $desc) {
 		if (!empty($desc['class'])) {
 			$filter = $desc['class'] . '>' . $desc['subclass'] . '>' . $filter;
+		}
+		$descriptions[$filter] = $desc;
+	}
+
+	ksort($descriptions);
+	$f = fopen($filterdesc, 'w');
+	$header = '*';
+	foreach ($descriptions as $filter => $desc) {
+		if (empty($desc['desc']) || $desc['desc'][0] == '*') {
+			if ($filter[0] != $header) {
+				fwrite($f, "\n");
+				$header = $filter[0];
+			}
+			fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
+			unset($descriptions[$filter]);
+		}
+	}
+	fwrite($f, "\n");
+	$header = '*';
+	foreach ($descriptions as $filter => $desc) {
+		if ($filter[0] != $header) {
+			fwrite($f, "\n");
+			$header = $filter[0];
 		}
 		fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
 	}
