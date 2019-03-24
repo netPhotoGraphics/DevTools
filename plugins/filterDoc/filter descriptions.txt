@@ -1,21 +1,21 @@
-*Admin.Miscellaneous:=
-*Comment:=
-*Object.Search:=
 *Zenpage:=
+*Admin.Media:=
+*Object.Search:=
 *Admin.CMS:=
 *CMS:=
-*Admin.Media:=
+*Admin.Miscellaneous:=
+*Comment:=
 *Media:=
-*Object.Miscellaneous:=
-*Miscellaneous.Miscellaneous:=
 *Miscellaneous:=
 *Admin.Zenpage:=
+*Miscellaneous.Miscellaneous:=
+*Object.Miscellaneous:=
 *Admin.Comment:=
-*Object.Root_class:=
-*Upload:=
 *Object.Media:=These filtera apply to "media" objects
 *Admin:=These filters allow for the extension of the administrator interface.
 *User_management:=These filters allow the extension of the user object and authentication.
+*Object.Root_class:=These filters apply generally to netPhotoGraphics objects
+*Upload:=These filters are used to implement upload handlers
 *Template:=These filters modify behavior of the functions that support themes.
 *Object:=These filters provide modifications to the behavior of object methods.
 *Theme:=These filters should be called from all themes. They provide a way for the core and for plugins to add HTML content to the theme.
@@ -74,9 +74,9 @@ Comment>Miscellaneous>:=Allows a plugin to provide data for the comment form.
 Comment>Miscellaneous>comment_post:=Invoked when a comment has been posted.
 Comment>Miscellaneous>handle_comment:=The hook for comment handling. Invoked from the controller to process comments.
 Media>Miscellaneous>image_processor_uri:=Called whenever an image processor URI is created for an image reference. Can be used, for instance, to note and then cache these images.
+Miscellaneous>Miscellaneous>zp_event:=*dummy
 Miscellaneous>Miscellaneous>zp_hook:=*dummy
 Miscellaneous>Miscellaneous>$hook:=*dummy
-Miscellaneous>Miscellaneous>zp_event:=*dummy
 Miscellaneous>Miscellaneous>setupTheme:=Allows a plugin to override the <em>theme</em> that will be used to display WEB pages.
 Miscellaneous>Miscellaneous>seoFriendly_js:=Allows a plugin to provide a JavaScript function to names that might contain diacritical marks into text that does not.
 Miscellaneous>Miscellaneous>database_query:=Allows filtering of database queries.
@@ -87,7 +87,7 @@ Miscellaneous>Miscellaneous>feature_plugin_load:=Applied just before feature plu
 Miscellaneous>Miscellaneous>tinymce_config:=Filter used by plugins to modify tinyMCE configurations.
 Miscellaneous>Miscellaneous>load_request:=Invoked by the front-end when a page is being loaded. The filter may cause the page load to be aborted.
 Miscellaneous>Miscellaneous>seoFriendly:=Invoked to transform names that might contain diacritical marks into text that does not.
-Miscellaneous>Miscellaneous>log_setup:=Invoked when <tt>setup</tt> creates the setup log.
+Miscellaneous>Miscellaneous>log_setup:=Invoked when <span class="tt">setup</span> creates the setup log.
 Miscellaneous>Miscellaneous>sendmail:=Invoked when attempting to send an e-mail. The plugin is presumed to handle the mailing.
 Miscellaneous>Miscellaneous>texteditor_config:=Provides configuration information to the Text Editor plugin (normally TinyMCE).
 Miscellaneous>Miscellaneous>zenphoto_information:=This filter is used to display the installation information HTML comment at the end of each page load
@@ -104,11 +104,11 @@ Object>Media>image_refresh:=Invoked when an image object is refreshed during a <
 Object>Miscellaneous>favoritesHandler_action:=Called when an object is added or removed from a user's favorites list
 Object>Root_class>check_credentials:=Called when an object is requested to verify that the logged on user is allowed to perform the <em>action</em> on the item.
 Object>Root_class>object_addComment:=Comment handlers attach to this filter to handle adding a comment to an object.
-Object>Root_class>copy_object:=Invoked when an object's <tt>copy</tt> method is called.
-Object>Root_class>move_object:=Invoked when an object's <tt>move</tt> method is called.
-Object>Root_class>remove_object:=Invoked when an object's <tt>remove</tt> method is called.
-Object>Root_class>save_object:=Invoked when an object's <tt>save</tt> method is invoked.
-Object>Root_class>show_change:=This filter is invoded whenever the <em>state</em> of the <tt>show</tt> property changes.
+Object>Root_class>copy_object:=Invoked when an object's <span class="tt">copy</span> method is called.
+Object>Root_class>move_object:=Invoked when an object's <span class="tt">move</span> method is called.
+Object>Root_class>remove_object:=Invoked when an object's <span class="tt">remove</span> method is called.
+Object>Root_class>save_object:=Invoked when an object's <span class="tt">save</span> method is invoked.
+Object>Root_class>show_change:=This filter is invoded whenever the <em>state</em> of the <span class="tt">show</span> property changes.
 Object>Search>search_criteria:=Allows a filter to modify a search.
 Object>Search>search_statistics:=Allows a plugin to record statistics about searches.
 Object>Search>searchable_fields:=Allows plugins to add to the searchEngine search_structure.

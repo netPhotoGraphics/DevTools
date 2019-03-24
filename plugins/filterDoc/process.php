@@ -104,7 +104,6 @@ function processFilters() {
 					}
 				}
 			}
-			preg_match_all('~zp_register_filter\s*\\((?>[^()]|(?R))*\)~', $text, $matches);
 			preg_match_all('~zp_register_filter\s*\((.+?)\).?~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[0] as $paramsstr) {
@@ -421,5 +420,16 @@ function mytrim($str) {
 }
 
 function myunQuote($string) {
-	return preg_replace('~\s*[\"\']\s*~', '', trim($string));
+	preg_match_all('~[\"\'](.*?)[\"\']~', $string, $matches);
+	if (!empty($matches)) {
+		foreach ($matches[0] as $key => $quoted) {
+			$string = str_replace($quoted, '#' . $key, $string);
+		}
+		$string = preg_replace('~\.~', '', $string);
+		$string = preg_replace('~\s~', '', $string);
+		foreach ($matches[1] as $key => $unquoted) {
+			$string = str_replace('#' . $key, $unquoted, $string);
+		}
+	}
+	return $string;
 }
