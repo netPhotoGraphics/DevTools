@@ -21,7 +21,7 @@
 *Upload.:=
 *Object.Miscellaneous:=
 *Admin.Comment:=
-*Object.Media:=These filtera apply to "media" objects
+*Object.Media:=These filters apply to "media" objects
 *Admin:=These filters allow for the extension of the administrator interface.
 *User_management:=These filters allow the extension of the user object and authentication.
 *Object.Root_class:=These filters apply generally to netPhotoGraphics objects
