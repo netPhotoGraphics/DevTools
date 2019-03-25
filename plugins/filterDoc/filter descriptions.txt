@@ -1,6 +1,8 @@
-#admin_toolbox_news:=template-functions.php
-#admin_toolbox_pages:=template-functions.php
+#These filters appear not to have a registration.
+!admin_toolbox_news:=template-functions.php
+!admin_toolbox_pages:=template-functions.php
 
+#These filters have no description
 *Admin.CMS:=
 *Admin.Comment:=
 *Admin.Media:=
@@ -76,10 +78,12 @@ CMS>Miscellaneous>general_zenpage_utilities:=Allows plugins to add items to the 
 CMS>Miscellaneous>publish_article_utilities:=Allows a plugin to process saves of items in the news article <em>Utilities</em> area.
 CMS>Miscellaneous>publish_category_utilities:=Allows a plugin to process saves of items in the Zenpage category <em>Utilities</em> area.
 CMS>Miscellaneous>publish_page_utilities:=Allows a plugin to process saves of items in the Zenpage page <em>Utilities</em> area.
+
 Comment>Miscellaneous>comment_post:=Invoked when a comment has been posted.
 Comment>Miscellaneous>handle_comment:=The hook for comment handling. Invoked from the controller to process comments.
 
 Media>Miscellaneous>image_processor_uri:=Called whenever an image processor URI is created for an image reference. Can be used, for instance, to note and then cache these images.
+
 Miscellaneous>Miscellaneous>database_query:=Allows filtering of database queries.
 Miscellaneous>Miscellaneous>feature_plugin_load:=Applied just before feature plugins are loaded for the front-end. Allows a CLASS plugin to take FEATURE actions.
 Miscellaneous>Miscellaneous>installation_information:=Allows plugins to show items in the "Installation Information" section of the overview page.
@@ -138,6 +142,7 @@ Template>Miscellaneous>isMyItemToView:=Invoked when checking if an object may be
 Template>Miscellaneous>next_object_loop:=Called from the bottom of functions like next_album passing the resultant object.
 Template>Miscellaneous>standard_album_thumb_html:=Allows a plugin to modify the HTML used to reference an album thumb.
 Template>Miscellaneous>standard_image_thumb_html:=Allows a plugin to modify the HTML used to reference an image thumb.
+
 Theme>Miscellaneous>content_macro:=Allows plugins and themes to provide macros for data substitutions.
 Theme>Script>admin_theme_buttons:=Allows a filter to insert buttons in the Theme tab actions column
 Theme>Script>colorbox_themepath:=allows overriding the path of the "custom" colorbox theme. getPlugin() will be called with this path to get the reference to the css when the selected colorbox theme is set to "custom".
@@ -160,6 +165,7 @@ Upload>Miscellaneous>upload_filetypes:=Allows a plugin to modify the file types 
 Upload>Miscellaneous>upload_handlers:=Allows a plugin to provide an upload handler for the Upload tab.
 Upload>Miscellaneous>upload_helper_js:=Allows a filter to insert JavaScript into the <em>upload</em> tab.
 Upload>Miscellaneous>upload_root_ui:=Allows a plugin to determine if a user may create root level albums.
+
 User_management>Miscellaneous>admin_alterrights:=Allows a plugin to control what user properties users are allowed to change.
 User_management>Miscellaneous>admin_login_attempt:=Reports logon attempts.
 User_management>Miscellaneous>authorization_cookie:=Allows a plugin to override cookie based authorization credentials.

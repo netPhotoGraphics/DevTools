@@ -42,13 +42,13 @@ function processFilters() {
 		$t = explode("\n", $t);
 		foreach ($t as $d) {
 			$d = trim($d);
-			if (!empty($d)) {
+			if (!empty($d) && $d[0] != '#') {
 				$f = explode(':=', $d);
 				$f[] = ''; //	be sure there is at least two elements
 				$filter = trim($f[0], '.');
 				if ($filter[0] == '*') {
 					$classes = array('class' => NULL, 'subclass' => NULL);
-				} else if ($filter[0] == '#') {
+				} else if ($filter[0] == '!') {
 					$uses[substr($filter, 1)] = $f[1];
 					continue;
 				} else {
@@ -436,34 +436,41 @@ function processFilters() {
 	ksort($descriptions);
 	$f = fopen($filterdesc, 'w');
 	if (!empty($unseen)) {
+		fwrite($f, "#These filters appear not to have a registration.\n");
 		foreach ($unseen as $filter) {
 			if (isset($uses[$filter])) {
 				$used = $uses[$filter];
 			} else {
 				$used = '';
 			}
-			fwrite($f, '#' . $filter . ":=$used\n");
+			fwrite($f, '!' . $filter . ":=$used\n");
 		}
 		fwrite($f, "\n");
 	}
 
-	$header = '*';
+	$class = '';
+	$msg = "#These filters have no description\n";
 	foreach ($descriptions as $filter => $desc) {
 		if (empty($desc['desc']) || $desc['desc'][0] == '*') {
-			if ($filter[0] != $header) {
+			if ($msg && empty($desc['desc'])) {
+				fwrite($f, $msg);
+				$msg = NULL;
+			}
+			if ($class != $desc['class']) {
 				fwrite($f, "\n");
-				$header = $filter[0];
+				$class = $desc['class'];
 			}
 			fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
 			unset($descriptions[$filter]);
 		}
 	}
 	fwrite($f, "\n");
-	$header = '*';
+
+	$class = '';
 	foreach ($descriptions as $filter => $desc) {
-		if ($filter[0] != $header) {
+		if ($class != $desc['class']) {
 			fwrite($f, "\n");
-			$header = $filter[0];
+			$class = $desc['class'];
 		}
 		fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
 	}
