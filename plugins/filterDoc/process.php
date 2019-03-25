@@ -90,12 +90,9 @@ function processFilters() {
 			preg_match_all('~(zp_apply_filter|zp_register_filter)\((.*?)\)[^,|\)]~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[2] as $which => $paramsstr) {
-					$filter = explode(',', $paramsstr);
-					foreach ($filter as $key => $element) {
-						$filter[$key] = myunQuote(trim($element));
-					}
-					$filtername = array_shift($filter);
-
+					preg_match_all('~([^,]+\(.*\))|([^,]+)~u', $paramsstr, $parameters);
+					$filter = $parameters[0];
+					$filtername = myunQuote(trim(array_shift($filter)));
 					if (!array_key_exists($filtername, $filterlist)) {
 						$filterlist[$filtername]['filter'] = $filtername;
 					}
@@ -216,7 +213,7 @@ function processFilters() {
 					if (!array_key_exists($class . '_' . $subclass, $filterCategories)) {
 						$filterCategories[$class . '_' . $subclass] = array('class' => $class, 'subclass' => $subclass, 'count' => $filterCategories[$class]['count'] ++);
 					}
-					if (!array_key_exists('*' . $class, $filterDescriptions)) {
+					if ($class && !array_key_exists('*' . $class, $filterDescriptions)) {
 						$filterDescriptions['*' . $class] = array('class' => NULL, 'subclass' => NULL, 'desc' => '');
 					}
 					if ($subclass && !array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
@@ -255,8 +252,6 @@ function processFilters() {
 				$filterDescriptions[$key]['subclass'] = 'Miscellaneous';
 			}
 		}
-
-
 		$newparms = array();
 		if (isset($filterData['params'])) {
 			foreach ($filterData['params'] as $param) {
@@ -278,7 +273,6 @@ function processFilters() {
 				}
 			}
 		}
-
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
 
@@ -434,12 +428,12 @@ function processFilters() {
 		ksort($unseen);
 		fwrite($f, "#These filters appear not to be applied.\n");
 		foreach ($unseen as $filter) {
-			if (isset($uses[$filter])) {
-				$used = $uses[$filter];
+			if (isset($uses[$filter]) && $uses[$filter]) {
+				$used = ':=' . $uses[$filter];
 			} else {
 				$used = '';
 			}
-			fwrite($f, '!' . $filter . ":=$used\n");
+			fwrite($f, '!' . $filter . $used . "\n");
 		}
 		fwrite($f, "\n");
 	}
@@ -447,12 +441,12 @@ function processFilters() {
 		ksort($unused);
 		fwrite($f, "#These filters appear not to be registered.\n");
 		foreach ($unused as $filter) {
-			if (isset($uses[$filter])) {
-				$used = $uses[$filter];
+			if (isset($uses[$filter]) && $uses[$filter]) {
+				$used = ':=' . $uses[$filter];
 			} else {
 				$used = '';
 			}
-			fwrite($f, '!' . $filter . ":=$used\n");
+			fwrite($f, '!' . $filter . $used . "\n");
 		}
 		fwrite($f, "\n");
 	}
