@@ -1,7 +1,3 @@
-#These filters appear not to have a registration.
-!admin_toolbox_news:=template-functions.php
-!admin_toolbox_pages:=template-functions.php
-
 #These filters have no description
 *Admin.CMS:=
 *Admin.Comment:=
