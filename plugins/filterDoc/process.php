@@ -74,11 +74,10 @@ function processFilters() {
 	$key = array_search($serverpath . '/' . ZENFOLDER . '/functions-filter.php', $_zp_resident_files);
 	unset($_zp_resident_files[$key]);
 	$key = array_search($serverpath . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/deprecated-functions.php', $_zp_resident_files);
-
 	unset($_zp_resident_files[$key]);
 
 	$filterlist = array();
-	$useagelist = array();
+	$registerList = array();
 
 	foreach ($_zp_resident_files as $key => $file) {
 		if (getSuffix($file) == 'php') {
@@ -88,55 +87,42 @@ function processFilters() {
 			$script = str_replace(ZENFOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			$script = str_replace(ZENFOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
-			preg_match_all('~zp_apply_filter\s*\((?>[^()]|(?R))*\)~', $text, $matches);
+			preg_match_all('~(zp_apply_filter|zp_register_filter)\((.*?)\)[^,|\)]~', $text, $matches);
 			if (!empty($matches)) {
-				foreach ($matches[0] as $paramsstr) {
-					$paramsstr = trim(str_replace('zp_apply_filter', '', $paramsstr), ')');
-					$paramsstr = trim($paramsstr, '(');
-					$paramsstr = trim($paramsstr, '(');
+				foreach ($matches[2] as $which => $paramsstr) {
 					$filter = explode(',', $paramsstr);
 					foreach ($filter as $key => $element) {
 						$filter[$key] = myunQuote(trim($element));
 					}
 					$filtername = array_shift($filter);
-					if (array_key_exists($filtername, $filterlist)) {
-						$filterlist[$filtername][0][] = $script;
-					} else {
-						array_unshift($filter, array($script));
-						$filterlist[$filtername] = $filter;
-					}
-				}
-			}
-			preg_match_all('~zp_register_filter\s*\((?>[^()]|(?R))*\)~', $text, $matches);
-			if (!empty($matches)) {
-				foreach ($matches[0] as $paramsstr) {
-					$paramsstr = trim(str_replace('zp_register_filter', '', $paramsstr), ')');
-					$paramsstr = trim($paramsstr, '(');
-					$paramsstr = trim($paramsstr, '(');
-					$filter = explode(',', $paramsstr);
-					$filtername = myunQuote(array_shift($filter));
-					$useagelist[] = array('filter' => $filtername, 'script' => $script, 'scriptsize' => $size);
+
 					if (!array_key_exists($filtername, $filterlist)) {
-						$filterlist[$filtername] = array(0 => array(0 => NULL));
+						$filterlist[$filtername]['filter'] = $filtername;
+					}
+
+					if ($matches[1][$which] == 'zp_apply_filter') {
+						$filterlist[$filtername]['applies'][] = $script;
+					} else {
+						$filterlist[$filtername]['params'] = $filter;
+						$filterlist[$filtername]['users'] = $script;
 					}
 				}
 			}
 		}
 	}
 
-	$useagelist = sortMultiArray($useagelist, 'scriptsize', false, false, false);
-
 	$filterCategories = array();
 	$newfilterlist = array();
-	foreach ($filterlist as $key => $params) {
-		if (count($params[0])) {
-			sort($params[0]);
-			$calls = array();
-			$class = '';
-			$subclass = '';
-			$lastscript = $params[0][0];
+	foreach ($filterlist as $key => $filterData) {
+		$calls = array();
+		$class = '';
+		$subclass = '';
+
+		if (isset($filterData['applies']) && count($filterData['applies'])) {
+			sort($filterData['applies']);
+			$lastscript = $filterData['applies'][0];
 			$count = 0;
-			foreach ($params[0] as $script) {
+			foreach ($filterData['applies'] as $script) {
 				if (!$class) {
 					if (isset($filterDescriptions[$key]['class']) && $filterDescriptions[$key]['class']) {
 						//	class and subclass defined by filter descriptions file
@@ -217,12 +203,12 @@ function processFilters() {
 						if (!$subclass) {
 							$subclass = 'Miscellaneous';
 						}
-						if (!array_key_exists($key, $filterDescriptions)) {
-							$filterDescriptions[$key]['desc'] = '';
-						}
-						$filterDescriptions[$key]['class'] = $class;
-						$filterDescriptions[$key]['subclass'] = $subclass;
 					}
+					if (!array_key_exists($key, $filterDescriptions)) {
+						$filterDescriptions[$key]['desc'] = '';
+					}
+					$filterDescriptions[$key]['class'] = $class;
+					$filterDescriptions[$key]['subclass'] = $subclass;
 
 					if (!array_key_exists($class, $filterCategories)) {
 						$filterCategories[$class] = array('class' => $class, 'subclass' => '', 'count' => 0);
@@ -263,40 +249,41 @@ function processFilters() {
 					$calls[] = $lastscript . $count;
 				}
 			}
+			if (!isset($filterDescriptions[$key])) {
+				$filterDescriptions[$key]['desc'] = '';
+				$filterDescriptions[$key]['class'] = 'Miscellaneous';
+				$filterDescriptions[$key]['subclass'] = 'Miscellaneous';
+			}
 		}
-		array_shift($params);
+
+
 		$newparms = array();
-		foreach ($params as $param) {
-			switch ($param) {
-				case 'true':
-				case 'false':
-					$newparms[] = 'bool';
-					break;
-				case '$this':
-					$newparms[] = 'object';
-					break;
-				default:
-					if (substr($param, 0, 1) == '$') {
-						$newparms[] = trim($param, '$');
-					} else {
-						$newparms[] = 'string';
-					}
-					break;
+		if (isset($filterData['params'])) {
+			foreach ($filterData['params'] as $param) {
+				switch ($param) {
+					case 'true':
+					case 'false':
+						$newparms[] = 'bool';
+						break;
+					case '$this':
+						$newparms[] = 'object';
+						break;
+					default:
+						if (substr($param, 0, 1) == '$') {
+							$newparms[] = trim($param, '$');
+						} else {
+							$newparms[] = 'string';
+						}
+						break;
+				}
 			}
 		}
 
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
 
-	foreach ($useagelist as $use) {
-		if (array_key_exists($use['filter'], $newfilterlist)) {
-			$newfilterlist[$use['filter']]['users'][] = $use['script'];
-		}
-	}
-
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
 
-	$unseen = array();
 	$f = fopen($htmlfile, 'w');
 	$class = $subclass = NULL;
 	if ($prolog) {
@@ -330,7 +317,7 @@ function processFilters() {
 				} else {
 					$subclasshead = '';
 				}
-				if ($filterCategories[$class]['count'] > 1) { //	Class doc is adequate.
+				if (isset($filterCategories[$class]['count']) && $filterCategories[$class]['count'] > 1) { //	Class doc is adequate.
 					fwrite($f, "\t\t\t" . '<h6 class="filter"><span id="' . $class . '_' . $subclass . '"></span>' . $subclass . "</h6>\n");
 					fwrite($f, "\t\t\t" . '<!-- subclasshead ' . $class . '.' . $subclass . ' -->' . $subclasshead . "<!--e-->\n");
 				}
@@ -344,7 +331,7 @@ function processFilters() {
 			fwrite($f, "\t\t\t\t\t" . '<!-- description(' . $class . '.' . $subclass . ')-' . $filter['filter'] . ' -->' . $filter['desc'] . "<!--e-->\n");
 
 			$user = array_shift($filter['users']);
-			if (!empty($user)) {
+			if ($user) {
 				fwrite($f, "\t\t\t\t\t" . '<p class="handlers">For example see ' . mytrim($user) . '</p>' . "\n");
 			}
 			fwrite($f, "\t\t\t\t\t" . '<p class="calls">Invoked from:' . "</p>\n");
@@ -354,7 +341,6 @@ function processFilters() {
 				if (isset($uses[$filter['filter']])) {
 					$calls[] = $uses[$filter['filter']];
 				}
-				$unseen[$filter['filter']] = $filter['filter'];
 			}
 			$limit = 4;
 			foreach ($calls as $call) {
@@ -425,8 +411,16 @@ function processFilters() {
 	fwrite($f, "\t</ul>\n");
 	fclose($f);
 
-	$descriptions = array();
+	$unseen = $unused = $descriptions = array();
 	foreach ($filterDescriptions as $filter => $desc) {
+		if ($filter[0] != '*') {
+			if (!isset($filterlist[$filter]['users'])) {
+				$unused[$filter] = $filter;
+			}
+			if (!isset($filterlist[$filter]['applies'])) {
+				$unseen[$filter] = $filter;
+			}
+		}
 		if (!empty($desc['class'])) {
 			$filter = $desc['class'] . '>' . $desc['subclass'] . '>' . $filter;
 		}
@@ -434,10 +428,25 @@ function processFilters() {
 	}
 
 	ksort($descriptions);
+
 	$f = fopen($filterdesc, 'w');
 	if (!empty($unseen)) {
-		fwrite($f, "#These filters appear not to have a registration.\n");
+		ksort($unseen);
+		fwrite($f, "#These filters appear not to be applied.\n");
 		foreach ($unseen as $filter) {
+			if (isset($uses[$filter])) {
+				$used = $uses[$filter];
+			} else {
+				$used = '';
+			}
+			fwrite($f, '!' . $filter . ":=$used\n");
+		}
+		fwrite($f, "\n");
+	}
+	if (!empty($unused)) {
+		ksort($unused);
+		fwrite($f, "#These filters appear not to be registered.\n");
+		foreach ($unused as $filter) {
 			if (isset($uses[$filter])) {
 				$used = $uses[$filter];
 			} else {
