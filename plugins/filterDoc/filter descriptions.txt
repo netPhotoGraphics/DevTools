@@ -1,3 +1,6 @@
+#admin_toolbox_news:=template-functions.php
+#admin_toolbox_pages:=template-functions.php
+
 *Admin.CMS:=
 *Admin.Comment:=
 *Admin.Media:=
@@ -9,6 +12,8 @@
 *Miscellaneous.Miscellaneous:=
 *Object.Miscellaneous:=
 *Object.Search:=
+*Theme.Miscellaneous:=
+*Theme.Script:=
 
 *Admin:=These filters allow for the extension of the administrator interface.
 *Object:=These filters provide modifications to the behavior of object methods.
@@ -71,7 +76,6 @@ CMS>Miscellaneous>general_zenpage_utilities:=Allows plugins to add items to the 
 CMS>Miscellaneous>publish_article_utilities:=Allows a plugin to process saves of items in the news article <em>Utilities</em> area.
 CMS>Miscellaneous>publish_category_utilities:=Allows a plugin to process saves of items in the Zenpage category <em>Utilities</em> area.
 CMS>Miscellaneous>publish_page_utilities:=Allows a plugin to process saves of items in the Zenpage page <em>Utilities</em> area.
-Comment>Miscellaneous>:=Allows a plugin to provide data for the comment form.
 Comment>Miscellaneous>comment_post:=Invoked when a comment has been posted.
 Comment>Miscellaneous>handle_comment:=The hook for comment handling. Invoked from the controller to process comments.
 
@@ -121,7 +125,7 @@ Template>Miscellaneous>admin_toolbox_gallery:=Allows plugins to insert links int
 Template>Miscellaneous>admin_toolbox_global:=Allows plugins to insert links into the <em>general</em> part of the "admin toolbox".
 Template>Miscellaneous>admin_toolbox_image:=Allows plugins to insert links into the <em>image</em> part of the "admin toolbox".
 Template>Miscellaneous>admin_toolbox_news:=Allows plugins to insert links into the <em>news</em> part of the "admin toolbox".
-Template>Miscellaneous>admin_toolbox_page:=Allows plugins to insert links into the <em>Zenpage page</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_pages:=Allows plugins to insert links into the <em>pages</em> part of the "admin toolbox".
 Template>Miscellaneous>admin_toolbox_search:=Allows plugins to insert links into the <em>search</em> part of the "admin toolbox".
 Template>Miscellaneous>admin_upload_process:=Allows plugins to modify the folder where an upload will place images.
 Template>Miscellaneous>checkForGuest:=Invoked when loading a front-end page. Allows plugins to determine if a visitor has logged on with the correct credentials for accessing the object.
@@ -135,7 +139,6 @@ Template>Miscellaneous>next_object_loop:=Called from the bottom of functions lik
 Template>Miscellaneous>standard_album_thumb_html:=Allows a plugin to modify the HTML used to reference an album thumb.
 Template>Miscellaneous>standard_image_thumb_html:=Allows a plugin to modify the HTML used to reference an image thumb.
 Theme>Miscellaneous>content_macro:=Allows plugins and themes to provide macros for data substitutions.
-Theme>Miscellaneous>iconColor:=Use this filter to customize the menu and gear icons used by adminToolbox and the themeSwitcher theme.
 Theme>Script>admin_theme_buttons:=Allows a filter to insert buttons in the Theme tab actions column
 Theme>Script>colorbox_themepath:=allows overriding the path of the "custom" colorbox theme. getPlugin() will be called with this path to get the reference to the css when the selected colorbox theme is set to "custom".
 Theme>Script>load_theme_script:=Allows for overriding the script loaded for a particular theme page

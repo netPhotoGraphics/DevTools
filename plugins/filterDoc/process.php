@@ -34,7 +34,7 @@ function processFilters() {
 		}
 	}
 
-	$filterDescriptions = array();
+	$uses = $filterDescriptions = array();
 
 	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
@@ -44,9 +44,13 @@ function processFilters() {
 			$d = trim($d);
 			if (!empty($d)) {
 				$f = explode(':=', $d);
+				$f[] = ''; //	be sure there is at least two elements
 				$filter = trim($f[0], '.');
 				if ($filter[0] == '*') {
 					$classes = array('class' => NULL, 'subclass' => NULL);
+				} else if ($filter[0] == '#') {
+					$uses[substr($filter, 1)] = $f[1];
+					continue;
 				} else {
 					$classes = explode('>', $filter);
 					$filter = array_pop($classes);
@@ -84,7 +88,7 @@ function processFilters() {
 			$script = str_replace(ZENFOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			$script = str_replace(ZENFOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
-			preg_match_all('~zp_apply_filter\s*\\((?>[^()]|(?R))*\)~', $text, $matches);
+			preg_match_all('~zp_apply_filter\s*\((?>[^()]|(?R))*\)~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[0] as $paramsstr) {
 					$paramsstr = trim(str_replace('zp_apply_filter', '', $paramsstr), ')');
@@ -112,20 +116,19 @@ function processFilters() {
 					$filter = explode(',', $paramsstr);
 					$filtername = myunQuote(array_shift($filter));
 					$useagelist[] = array('filter' => $filtername, 'script' => $script, 'scriptsize' => $size);
+					if (!array_key_exists($filtername, $filterlist)) {
+						$filterlist[$filtername] = array(0 => array(0 => NULL));
+					}
 				}
 			}
 		}
 	}
+
 	$useagelist = sortMultiArray($useagelist, 'scriptsize', false, false, false);
 
 	$filterCategories = array();
 	$newfilterlist = array();
 	foreach ($filterlist as $key => $params) {
-
-		if ($key == '$hook') {
-			debug_var([$key => $params]);
-		}
-
 		if (count($params[0])) {
 			sort($params[0]);
 			$calls = array();
@@ -243,7 +246,9 @@ function processFilters() {
 					} else {
 						$count = '';
 					}
-					$calls[] = $lastscript . $count;
+					if ($lastscript) {
+						$calls[] = $lastscript . $count;
+					}
 					$count = 1;
 					$lastscript = $script;
 				}
@@ -254,7 +259,9 @@ function processFilters() {
 				} else {
 					$count = '';
 				}
-				$calls[] = $lastscript . $count;
+				if ($lastscript) {
+					$calls[] = $lastscript . $count;
+				}
 			}
 		}
 		array_shift($params);
@@ -289,6 +296,7 @@ function processFilters() {
 
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
 
+	$unseen = array();
 	$f = fopen($htmlfile, 'w');
 	$class = $subclass = NULL;
 	if ($prolog) {
@@ -342,6 +350,12 @@ function processFilters() {
 			fwrite($f, "\t\t\t\t\t" . '<p class="calls">Invoked from:' . "</p>\n");
 			fwrite($f, "\t\t\t\t\t<ul><!-- calls -->\n");
 			$calls = $filter['calls'];
+			if (empty($calls)) {
+				if (isset($uses[$filter['filter']])) {
+					$calls[] = $uses[$filter['filter']];
+				}
+				$unseen[$filter['filter']] = $filter['filter'];
+			}
 			$limit = 4;
 			foreach ($calls as $call) {
 				$limit --;
@@ -421,6 +435,18 @@ function processFilters() {
 
 	ksort($descriptions);
 	$f = fopen($filterdesc, 'w');
+	if (!empty($unseen)) {
+		foreach ($unseen as $filter) {
+			if (isset($uses[$filter])) {
+				$used = $uses[$filter];
+			} else {
+				$used = '';
+			}
+			fwrite($f, '#' . $filter . ":=$used\n");
+		}
+		fwrite($f, "\n");
+	}
+
 	$header = '*';
 	foreach ($descriptions as $filter => $desc) {
 		if (empty($desc['desc']) || $desc['desc'][0] == '*') {
