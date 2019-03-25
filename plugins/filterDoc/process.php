@@ -107,7 +107,7 @@ function processFilters() {
 					}
 				}
 			}
-			preg_match_all('~zp_register_filter\s*\((.+?)\).?~', $text, $matches);
+			preg_match_all('~zp_register_filter\s*\((?>[^()]|(?R))*\)~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[0] as $paramsstr) {
 					$paramsstr = trim(str_replace('zp_register_filter', '', $paramsstr), ')');
