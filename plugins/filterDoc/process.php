@@ -91,16 +91,19 @@ function processFilters() {
 			if (!empty($matches)) {
 				foreach ($matches[2] as $which => $paramsstr) {
 					preg_match_all('~([^,]+\(.*\))|([^,]+)~u', $paramsstr, $parameters);
-					$filter = $parameters[0];
-					$filtername = myunQuote(trim(array_shift($filter)));
+					$parameters = $parameters[0];
+					foreach ($parameters as $key => $param) {
+						$parameters[$key] = trim($param);
+					}
+					$filtername = myunQuote(trim(array_shift($parameters)));
 					if (!array_key_exists($filtername, $filterlist)) {
 						$filterlist[$filtername]['filter'] = $filtername;
 					}
 
 					if ($matches[1][$which] == 'zp_apply_filter') {
 						$filterlist[$filtername]['applies'][] = $script;
+						$filterlist[$filtername]['params'] = $parameters;
 					} else {
-						$filterlist[$filtername]['params'] = $filter;
 						$filterlist[$filtername]['users'] = $script;
 					}
 				}
@@ -258,19 +261,19 @@ function processFilters() {
 				switch ($param) {
 					case 'true':
 					case 'false':
-						$newparms[] = 'bool';
-						break;
-					case '$this':
-						$newparms[] = 'object';
+						$newparm = 'bool';
 						break;
 					default:
-						if (substr($param, 0, 1) == '$') {
-							$newparms[] = trim($param, '$');
+						if (is_numeric($param)) {
+							$newparm = 'number';
+						} else if ($param[0] == '$') {
+							$newparm = 'var';
 						} else {
-							$newparms[] = 'string';
+							$newparm = 'string';
 						}
 						break;
 				}
+				$newparms[] = $newparm;
 			}
 		}
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
