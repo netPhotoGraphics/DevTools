@@ -64,17 +64,13 @@ function processFilters() {
 	}
 
 	$stdExclude = Array('Thumbs.db', 'readme.md', 'data');
-	if ($lcFilesystem = file_exists(strtoupper(__FILE__))) {
+	if (CASE_INSENSITIVE) {
 		$serverpath = strtolower(SERVERPATH);
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentZPFiles($serverpath . '/' . ZENFOLDER, $lcFilesystem, $stdExclude);
-	getResidentZPFiles($serverpath . '/' . THEMEFOLDER, $lcFilesystem, $stdExclude);
-	$key = array_search($serverpath . '/' . ZENFOLDER . '/functions-filter.php', $_zp_resident_files);
-	unset($_zp_resident_files[$key]);
-	$key = array_search($serverpath . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/deprecated-functions.php', $_zp_resident_files);
-	unset($_zp_resident_files[$key]);
+	getResidentZPFiles($serverpath . '/' . ZENFOLDER, array_merge($stdExclude, array('functions-filter.php', 'deprecated-functions.php')));
+	getResidentZPFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
 
 	$filterlist = array();
 	$registerList = array();
@@ -479,6 +475,17 @@ function processFilters() {
 	}
 	fclose($f);
 }
+
+//	create the doc file
+$doc = '<div style="float:left;width:70%;">' .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/intro.html') .
+				'</div>' .
+				'<div style="float:right;width:30%;">' .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html') .
+				'</div>' .
+				'<br clear="all">' .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list.html');
+file_put_contents(SERVERPATH . '/docs/filterDoc.htm', $doc);
 
 function mytrim($str) {
 	return trim(str_replace('<!--sort first-->/', '', $str));
