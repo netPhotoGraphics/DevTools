@@ -258,21 +258,18 @@ function processFilters() {
 		$newparms = array();
 		if (isset($filterData['params'])) {
 			foreach ($filterData['params'] as $param) {
-				switch ($param) {
-					case 'true':
-					case 'false':
-						$newparm = 'bool';
-						break;
-					default:
-						if (is_numeric($param)) {
-							$newparm = 'number';
-						} else if ($param[0] == '$') {
-							$newparm = 'var';
-						} else {
-							$newparm = 'string';
-						}
-						break;
+				if ($param == 'true' || $param == 'false') {
+					$newparm = 'bool';
+				} else if (substr($param, 0, 5) == 'array') {
+					$newparm = 'array';
+				} else if (is_numeric($param)) {
+					$newparm = 'number';
+				} else if ($param[0] == '$') {
+					$newparm = 'var';
+				} else {
+					$newparm = 'string';
 				}
+
 				$newparms[] = $newparm;
 			}
 		}
