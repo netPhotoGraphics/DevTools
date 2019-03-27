@@ -10,32 +10,10 @@ require_once(SERVERPATH . '/' . ZENFOLDER . '/setup/setup-functions.php');
 function processFilters() {
 	global $_zp_resident_files;
 
-	$classes = $subclasses = array();
+	$uses = $filterDescriptions = $classes = $subclasses = array();
+
+
 	$htmlfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list.html';
-	$prolog = $epilog = '';
-	if (file_exists($htmlfile)) {
-		$oldhtml = file_get_contents($htmlfile);
-		$i = strpos($oldhtml, '<!-- Begin filter descriptions -->');
-		if ($i !== false) {
-			$prolog = substr($oldhtml, 0, $i);
-		}
-		$i = strpos($oldhtml, '<!-- End filter descriptions -->');
-		if ($i !== false) {
-			$epilog = trim(substr($oldhtml, $i + 32));
-		}
-
-		preg_match_all('|<!-- classhead (.+?) -->(.+?)<!--e-->|', $oldhtml, $classheads);
-		foreach ($classheads[1] as $key => $head) {
-			$classes[$head] = $classheads[2][$key];
-		}
-		preg_match_all('|<!-- subclasshead (.+?) -->(.+?)<!--e-->|', $oldhtml, $subclassheads);
-		foreach ($subclassheads[1] as $key => $head) {
-			$subclasses[$head] = $subclassheads[2][$key];
-		}
-	}
-
-	$uses = $filterDescriptions = array();
-
 	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
 		$t = file_get_contents($filterdesc);
@@ -276,9 +254,7 @@ function processFilters() {
 
 	$f = fopen($htmlfile, 'w');
 	$class = $subclass = NULL;
-	if ($prolog) {
-		fwrite($f, $prolog);
-	}
+
 	fwrite($f, "<!-- Begin filter descriptions -->\n");
 	$ulopen = false;
 	foreach ($newfilterlist as $filter) {
@@ -353,12 +329,10 @@ function processFilters() {
 
 	fwrite($f, "\t\t\t" . '</ul><!-- filterdetail -->' . "\n");
 	fwrite($f, "<!-- End filter descriptions -->\n");
-	if ($epilog) {
-		fwrite($f, $epilog);
-	}
 	fclose($f);
 
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
+
 	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html';
 	$f = fopen($indexfile, 'w');
 	fwrite($f, "\t<ul>\n");
