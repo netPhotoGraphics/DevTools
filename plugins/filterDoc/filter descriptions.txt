@@ -1,0 +1,217 @@
+#These filters appear not to be registered.
+!admin_general_data
+!admin_headers
+!admin_theme_buttons
+!admin_toolbox_$gal
+!admin_toolbox_album
+!admin_toolbox_close
+!admin_toolbox_gallery
+!admin_upload_process
+!album_filter
+!bulk_category_actions
+!bulk_comment_actions
+!check_credentials
+!colorbox_themepath
+!comment_approve
+!comment_disapprove
+!comment_form_data
+!comment_post
+!database_query
+!edit_category_custom_data
+!favoritesHandler_action
+!image_filter
+!login_link
+!move_object
+!next_object_loop
+!plugin_tabs
+!processBulkCommentSave
+!processBulkMenuSave
+!register_user_form
+!register_user_registered
+!register_user_verified
+!search_criteria
+!search_instantiate
+!theme_file_end
+!theme_file_top
+!theme_headers
+!upload_root_ui
+!zp_logout
+
+#These filters have no description
+*Admin.CMS:=
+*Admin.Comment:=
+*Admin.Media:=
+*Admin.Miscellaneous:=
+*CMS:=
+*Comment:=
+*Media:=
+*Miscellaneous:=
+*Miscellaneous.Miscellaneous:=
+*Object.Miscellaneous:=
+*Object.Search:=
+*Theme.Miscellaneous:=
+*Theme.Script:=
+
+*Admin:=These filters allow for the extension of the administrator interface.
+*Object:=These filters provide modifications to the behavior of object methods.
+*Object.Media:=These filters apply to "media" objects
+*Object.Root_class:=These filters apply generally to netPhotoGraphics objects
+*Template:=These filters modify behavior of the functions that support themes.
+*Theme:=These filters should be called from all themes. They provide a way for the core and for plugins to add HTML content to the theme.
+*Upload:=These filters are used to implement upload handlers
+*User_management:=These filters allow the extension of the user object and authentication.
+
+Admin>CMS>new_article:=Invoked when a new CMS article is created.
+Admin>CMS>new_category:=Invoked when a new CMS category is created.
+Admin>CMS>new_page:=Invoked when a new CMS page is created.
+Admin>CMS>processBulkCMSSave:=Allow processing of the "category", "article", and "page" tab bulk action saves.
+Admin>CMS>save_article_custom_data:=Allows a plugin to manage custom data for news articles. This invocation is for when the article is saved.
+Admin>CMS>save_page_custom_data:=Allows a plugin to manage image data for Zenpage page. This invocation is for when the page is saved.
+Admin>CMS>update_article:=Invoked when a news article is updated.
+Admin>CMS>update_category:=Invoked when a Zenpage category is updated.
+Admin>CMS>update_page:=Invoked when a Zenpage page is updated.
+Admin>Comment>bulk_comment_actions:=Allow filtering of the "comment" tab bulk action items.
+Admin>Media>admin_managed_albums_access:=This filter allows a plugin to intervene when a request to edit an album is being denied for insufficient permissions.
+Admin>Media>admin_note:=This filter is invoked at the head of each admin page to allow a filter to place a note there.
+Admin>Media>bulk_album_actions:=Allows a filter to establish bulk album action items
+Admin>Media>bulk_image_actions:=Allows a filter to establish bulk image action items
+Admin>Media>edit_album_custom_data:=Allows a plugin to manage custom data for images. This invocation is for when the image is presented for editing.
+Admin>Media>edit_album_utilities:=Allows a plugin to place items in the <em>utilities</em> area for albums. This invocation is for when the album is presented for editing.
+Admin>Media>edit_error:=Provides an interface for plugins to report errors when saves.
+Admin>Media>edit_image_custom_data:=Allows a plugin to manage custom data for images. This invocation is for when the comment is presented for editing.
+Admin>Media>edit_image_utilities:=Allows a plugin to place items in the <em>utilities</em> area for images. This invocation is for when the image is presented for editing.
+Admin>Media>save_album_utilities_data:=Allows a plugin to process saves of items in the album <em>Utilities</em> area.
+Admin>Media>save_image_utilities_data:=Allows a plugin to place items in the <em>utilities</em> area for images. This invocation is for when the image is saved.
+Admin>Miscellaneous>admin_XSRF_access:=Invoked when an attempt at Cross Site Reference Forgery is detected.
+Admin>Miscellaneous>admin_allow_access:=Allows mitigation of the normal back-end security checks.
+Admin>Miscellaneous>admin_general_data:=Allows plugins to insert items onto the &lt;general%gt; tab.
+Admin>Miscellaneous>admin_head:=Allows plugins to place HTML into the &lt;head&gt; region of admin pages.
+Admin>Miscellaneous>admin_headers:=Allows plugins to place HTML into the header region of admin pages.
+Admin>Miscellaneous>admin_log_actions:=Reports when a log has been deleted, cleared, or downloaded.
+Admin>Miscellaneous>admin_overview:=Allows plugins to add items to the <em>Overview</em> page on the back-end.
+Admin>Miscellaneous>admin_tabs:=Allows plugins to add <em>Tabs</em> to the administrative pages.
+Admin>Miscellaneous>admin_utilities_buttons:=Allows plugins to add buttons to the admin utilities box on the <em>overview</em> page.
+Admin>Miscellaneous>alt_login_handler:=Allows filters to provide links to alternate logon handlers. This list is presented as a selection list on the logon form as alternates to the provided process.
+Admin>Miscellaneous>comment_approve:=Invoked when an administrator marks a comment.
+Admin>Miscellaneous>comment_disapprove:=Invoked when an administrator marks a comment as SPAM.
+Admin>Miscellaneous>plugin_tabs:=Use to add translatable tabs to the plugin main tab
+Admin>Miscellaneous>processBulkAlbumsSave:=Allow processing of the "albums" tab bulk action saves.
+Admin>Miscellaneous>processBulkCommentSave:=Allow processing of the "comment" tab bulk action saves.
+Admin>Miscellaneous>processBulkImageSave:=Allow processing of the "album/images" tab bulk action saves.
+Admin>Miscellaneous>processBulkMenuSave:=Allow processing of the "menu" tab bulk action saves.
+
+CMS>Miscellaneous>bulk_article_actions:=Allow filtering of the "article" tab bulk action items.
+CMS>Miscellaneous>bulk_category_actions:=Allow filtering of the "category" tab bulk action items.
+CMS>Miscellaneous>bulk_page_actions:=Allow filtering of the "page" tab bulk action items.
+CMS>Miscellaneous>edit_article_custom_data:=Allows a plugin to manage custom data for Article articles. This invocation is for when the news article is presented for editing.
+CMS>Miscellaneous>edit_category_custom_data:=Allows a plugin to manage custom data for Zenpage categories. This invocation is for when the category is presented for editing.
+CMS>Miscellaneous>edit_page_custom_data:=Allows a plugin to manage custom data for Zenpage pages. This invocation is for when the page object is presented for editing.
+CMS>Miscellaneous>general_zenpage_utilities:=Allows plugins to add items to the <em>General</em> area of the Zenpage edit pages.
+CMS>Miscellaneous>publish_article_utilities:=Allows a plugin to process saves of items in the news article <em>Utilities</em> area.
+CMS>Miscellaneous>publish_category_utilities:=Allows a plugin to process saves of items in the Zenpage category <em>Utilities</em> area.
+CMS>Miscellaneous>publish_page_utilities:=Allows a plugin to process saves of items in the Zenpage page <em>Utilities</em> area.
+
+Comment>Miscellaneous>comment_form_data:=Allows plugins to modify the data shown on comment forms
+Comment>Miscellaneous>comment_post:=Invoked when a comment has been posted.
+Comment>Miscellaneous>handle_comment:=The hook for comment handling. Invoked from the controller to process comments.
+
+Media>Miscellaneous>image_processor_uri:=Called whenever an image processor URI is created for an image reference. Can be used, for instance, to note and then cache these images.
+
+Miscellaneous>Miscellaneous>database_query:=Allows filtering of database queries.
+Miscellaneous>Miscellaneous>feature_plugin_load:=Applied just before feature plugins are loaded for the front-end. Allows a CLASS plugin to take FEATURE actions.
+Miscellaneous>Miscellaneous>installation_information:=Allows plugins to show items in the "Installation Information" section of the overview page.
+Miscellaneous>Miscellaneous>load_request:=Invoked by the front-end when a page is being loaded. The filter may cause the page load to be aborted.
+Miscellaneous>Miscellaneous>log_setup:=Invoked when <span class="tt">setup</span> creates the setup log.
+Miscellaneous>Miscellaneous>security_misc:=Allows plugins to supply miscellaneous information to the security logger
+Miscellaneous>Miscellaneous>sendmail:=Invoked when attempting to send an e-mail. The plugin is presumed to handle the mailing.
+Miscellaneous>Miscellaneous>seoFriendly:=Invoked to transform names that might contain diacritical marks into text that does not.
+Miscellaneous>Miscellaneous>seoFriendly_js:=Allows a plugin to provide a JavaScript function to names that might contain diacritical marks into text that does not.
+Miscellaneous>Miscellaneous>setupTheme:=Allows a plugin to override the <em>theme</em> that will be used to display WEB pages.
+Miscellaneous>Miscellaneous>site_upgrade_xml:=Allows plugins to add files to those processed by the site_upgrade plugin
+Miscellaneous>Miscellaneous>texteditor_config:=Provides configuration information to the Text Editor plugin (normally TinyMCE).
+Miscellaneous>Miscellaneous>tinymce_config:=Filter used by plugins to modify tinyMCE configurations.
+Miscellaneous>Miscellaneous>zenphoto_information:=This filter is used to display the installation information HTML comment at the end of each page load
+
+Object>Media>album_filter:=Allows plugins to remove some folders from the list of album folders that are discovered.
+Object>Media>album_instantiate:=Invoked when an album is instantiated.
+Object>Media>album_refresh:=Invoked during <em>garbage collection</em> when album object properties are updated.
+Object>Media>image_filter:=Allow a plugin to remove files from the list of images found in an album so that they are not treated as images.
+Object>Media>image_instantiate:=Invoked when an image object in instantiated.
+Object>Media>image_metadata:=Allows a plugin to modify image metadata when a new image is detected or when its metadata is refreshed.
+Object>Media>image_refresh:=Invoked when an image object is refreshed during a <em>garbage collect</em>.
+Object>Media>new_album:=Invoked when a new album is discovered.
+Object>Media>new_image:=Invoked when a new image is discovered.
+Object>Media>standard_image_html:=Allows a plugin to modify the HTML used to reference an image.
+Object>Miscellaneous>favoritesHandler_action:=Called when an object is added or removed from a user's favorites list
+Object>Root_class>check_credentials:=Called when an object is requested to verify that the logged on user is allowed to perform the <em>action</em> on the item.
+Object>Root_class>copy_object:=Invoked when an object's <span class="tt">copy</span> method is called.
+Object>Root_class>move_object:=Invoked when an object's <span class="tt">move</span> method is called.
+Object>Root_class>object_addComment:=Comment handlers attach to this filter to handle adding a comment to an object.
+Object>Root_class>remove_object:=Invoked when an object's <span class="tt">remove</span> method is called.
+Object>Root_class>save_object:=Invoked when an object's <span class="tt">save</span> method is invoked.
+Object>Root_class>show_change:=This filter is invoded whenever the <em>state</em> of the <span class="tt">show</span> property changes.
+Object>Search>search_criteria:=Allows a filter to modify a search.
+Object>Search>search_instantiate:=Called at the end of the class SearchEngine construct method.
+Object>Search>search_statistics:=Allows a plugin to record statistics about searches.
+Object>Search>searchable_fields:=Allows plugins to add to the searchEngine search_structure.
+
+Template>Miscellaneous>admin_toolbox_$gal:=This filter is applied for the catch-all page load. <code>$gal</code> is the running gallery page script.
+Template>Miscellaneous>admin_toolbox_album:=Allows plugins to insert links into the <em>album</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_close:=This filter is applied just before the Admin Toolbox "logout" link is emitted.
+Template>Miscellaneous>admin_toolbox_gallery:=Allows plugins to insert links into the <em>gallery</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_global:=Allows plugins to insert links into the <em>general</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_image:=Allows plugins to insert links into the <em>image</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_news:=Allows plugins to insert links into the <em>news</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_pages:=Allows plugins to insert links into the <em>pages</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_toolbox_search:=Allows plugins to insert links into the <em>search</em> part of the "admin toolbox".
+Template>Miscellaneous>admin_upload_process:=Allows plugins to modify the folder where an upload will place images.
+Template>Miscellaneous>checkForGuest:=Invoked when loading a front-end page. Allows plugins to determine if a visitor has logged on with the correct credentials for accessing the object.
+Template>Miscellaneous>checkPageValidity:=Called to process the "default" case in the page number validity function.
+Template>Miscellaneous>codeblock:=Allow plugins to create codeblock content on-the-fly.
+Template>Miscellaneous>custom_album_thumb_html:=Allows plugins to alter the HTML for an album thumbnail reference.
+Template>Miscellaneous>custom_image_html:=Allows plugins to alter the HTML for an image reference.
+Template>Miscellaneous>getLink:=Called each time a URL is generated.
+Template>Miscellaneous>isMyItemToView:=Invoked when checking if an object may be viewed by a user.
+Template>Miscellaneous>next_object_loop:=Called from the bottom of functions like next_album passing the resultant object.
+Template>Miscellaneous>standard_album_thumb_html:=Allows a plugin to modify the HTML used to reference an album thumb.
+Template>Miscellaneous>standard_image_thumb_html:=Allows a plugin to modify the HTML used to reference an image thumb.
+
+Theme>Miscellaneous>content_macro:=Allows plugins and themes to provide macros for data substitutions.
+Theme>Script>admin_theme_buttons:=Allows a filter to insert buttons in the Theme tab actions column
+Theme>Script>colorbox_themepath:=allows overriding the path of the "custom" colorbox theme. getPlugin() will be called with this path to get the reference to the css when the selected colorbox theme is set to "custom".
+Theme>Script>load_theme_script:=Allows for overriding the script loaded for a particular theme page
+Theme>Script>register_user_form:=Allows plugins to add to the <em>register user</em> form.
+Theme>Script>themeSwitcher_Controllink:=Invoked by themeSwitcher's theme_body_open filter. Allows themes to add to the selectors for theme related choices such as personality or color scheme.
+Theme>Script>themeSwitcher_head:=Invoded by themeSwitcher's theme_head filter. Allows themes to add to the HTML placed in the theme head when themeSwitcher is active. The parameter passed is a array of theme=>enabled values. If enabled is false the theme will not be included in the selector. Filters can change this value to control if specific themes may be chosen.
+Theme>Script>theme_body_close:=Invoked by all themes just before the &lt;/body&gt; HTML tag.
+Theme>Script>theme_body_open:=Invoked by all themes just after the &lt;body&gt; HTML tag.
+Theme>Script>theme_editor:=Allows a plugin to register as "Theme editor". See elFinder for an example.
+Theme>Script>theme_file_end:=Invoked at the very end of standard theme page scripts.
+Theme>Script>theme_file_top:=Invoked at the very beginning of standard theme page scripts.
+Theme>Script>theme_head:=Invoked by all themes just after the &lt;head&gt; HTML tag.
+Theme>Script>theme_headers:=Allows adding headers to the theme output. Called after the standard headers are sent
+
+Upload>Miscellaneous>check_upload_quota:=Invoked when images are being uploaded. The filter ay return an error indication. If so, the upload is aborted.
+Upload>Miscellaneous>get_upload_header_text:=Allows plugins to modify the header and/or error text for the <em>upload</em> tab.
+Upload>Miscellaneous>get_upload_limit:=Allows a plugin to override the size limits on image uplaods
+Upload>Miscellaneous>upload_filetypes:=Allows a plugin to modify the file types allowed for an upload.
+Upload>Miscellaneous>upload_handlers:=Allows a plugin to provide an upload handler for the Upload tab.
+Upload>Miscellaneous>upload_helper_js:=Allows a filter to insert JavaScript into the <em>upload</em> tab.
+Upload>Miscellaneous>upload_root_ui:=Allows a plugin to determine if a user may create root level albums.
+
+User_management>Miscellaneous>admin_alterrights:=Allows a plugin to control what user properties users are allowed to change.
+User_management>Miscellaneous>admin_login_attempt:=Reports logon attempts.
+User_management>Miscellaneous>authorization_cookie:=Allows a plugin to override cookie based authorization credentials.
+User_management>Miscellaneous>can_set_user_password:=Called from the "apply" processing of a user. Return "false" to prevent the password from being saved.
+User_management>Miscellaneous>edit_admin_custom_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is presented for editing.
+User_management>Miscellaneous>federated_login_attempt:=Invoked when a user logs on via a federated_Logon plugin. (As opposed to logging on through the normal authentication mechanism)
+User_management>Miscellaneous>guest_login_attempt:=Invoked when a visitor logs on with a guest password.
+User_management>Miscellaneous>login_link:=Overrides the login link so that an external handler handles the login
+User_management>Miscellaneous>login_redirect_link:=Filters the return link of the login form.
+User_management>Miscellaneous>register_user_registered:=Invoked when a new user registers.
+User_management>Miscellaneous>register_user_verified:=Invoked when a new user is verified.
+User_management>Miscellaneous>remove_user:=Called in Zenphoto_Administrator remove method to allow plugins to clean up anything associated with the user.
+User_management>Miscellaneous>save_admin_custom_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is saved.
+User_management>Miscellaneous>save_user:=Invoked when a user object is saved.
+User_management>Miscellaneous>save_user_complete:=Invoked after the userObj->save() method has been called. Used primarily for logging that a user has been updated.
+User_management>Miscellaneous>zp_logout:=Provides a link to an external logout handler

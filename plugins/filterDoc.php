@@ -1,0 +1,39 @@
+<?php
+
+/* Generates doc file for filters
+ *
+ * @author Stephen Billard (sbillard)
+ *
+ * @package plugins/filterDoc
+ * @pluginCategory development
+ */
+$plugin_is_filter = 5 | ADMIN_PLUGIN;
+$plugin_description = gettext('Generates and displays a Doc file for filters.');
+
+if (file_exists(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/process.php')) {
+	zp_register_filter('admin_utilities_buttons', 'filterDoc_button');
+}
+
+function filterDoc_button($buttons) {
+	if (isset($_REQUEST['filterDoc'])) {
+		XSRFdefender('filterDoc');
+		include (SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/process.php');
+		processFilters();
+	}
+	$buttons[] = array(
+			'category' => gettext('Development'),
+			'enable' => true,
+			'button_text' => gettext('Filter Doc Gen'),
+			'formname' => 'filterDoc_button',
+			'action' => '?filterDoc=gen',
+			'icon' => PLUS_ICON,
+			'title' => gettext('Generate filter document'),
+			'alt' => '',
+			'hidden' => '<input type="hidden" name="filterDoc" value="gen" />',
+			'rights' => ADMIN_RIGHTS,
+			'XSRFTag' => 'filterDoc'
+	);
+	return $buttons;
+}
+
+?>
