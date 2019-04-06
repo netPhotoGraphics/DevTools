@@ -16,22 +16,22 @@ $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Provides a button to download the latest version of the software.");
 
 zp_register_filter('content_macro', 'downloadButtons::macro');
-zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
+
+//zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
 
 class downloadButtons {
 
 	function __construct() {
-
+		purgeOption('getUpdates_lastCheck');
 	}
 
 	static function printGitHubButtons() {
 		$newestVersionURI = getOption('getUpdates_latest');
-		$repro = basename(dirname(dirname(dirname(dirname($newestVersionURI)))));
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
 			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN . ' ' . $repro . ' ' . str_replace('master-', '', $currentVersion); ?>
+				<?php echo ARROW_DOWN_GREEN . ' netPhotoGraphics ' . str_replace('master-', '', $currentVersion); ?>
 			</a>
 		</span>
 		<br />
@@ -106,7 +106,7 @@ class downloadButtons {
 					setOption('getUpdates_latest', $item->browser_download_url);
 				}
 			} catch (Exception $e) {
-				debugLog(gettext('GitHub repository not accessible [downloadButtona]. ') . $e);
+				debugLog(gettext('GitHub repository not accessible [downloadButtons]. ') . $e);
 			}
 		}
 
