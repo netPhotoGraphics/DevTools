@@ -61,13 +61,14 @@ FOR /F "tokens=1,2 delims=.'_" %%a in ("%devbuild%") DO (
 	SET base=%%a
 	SET devversion=%%b
 )
+if [%devversion%]==[] set /a devversion=%base%
 :DEVBUILD
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
 SET /a devversion=%N%+1
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
 SET N=000000%N%
 SET devversion=%N:~-2%
-SET new=%new%.%beta%_%devversion%
+SET new=%new%.%devversion%
 
 REM for dev builds show doc as next build level
 SET /a N=1%build%-(11%build%-1%build%)/10
