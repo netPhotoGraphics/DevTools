@@ -6,13 +6,14 @@ SET SOURCE=zp-core\version.php
 FOR /F "delims=" %%a in ('FINDSTR "ZENPHOTO_VERSION" %SOURCE%') DO SET REL=%%a
 SET REL=%REL:~28,-3%
 
-FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%") DO (
+FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%-") DO (
 	SET major=%%a
 	SET minor=%%b
 	SET release=%%c
 	SET build=%%d
 	SET devbuild=%%e
 	)
+
 SET beta=[]
 SET /a devversion=0
 
@@ -32,20 +33,18 @@ GOTO BUILD
 
 :MAJOR
 SET /a major=%major%+1
-SET /a minor=00
-SET /a release=00
-SET /a build=00
+SET /a minor=1000000
+SET /a release=1000000
+SET /a build=1000000
 GOTO SETVERSION
 
 :MINOR
 SET /a minor=%minor%+1
 SET /a N=1%minor%-(11%minor%-1%minor%)/10
-SET /a minor=%N%+1
-SET /a N=1%minor%-(11%minor%-1%minor%)/10
 SET N=000000%N%
 SET minor=%N:~-2%
-SET /a release=00
-SET /a build=00
+SET /a release=1000000
+SET /a build=1000000
 GOTO SETVERSION
 
 :RELEASE
@@ -53,22 +52,21 @@ SET /a release=%release%+1
 SET /a N=1%release%-(11%release%-1%release%)/10
 SET /a build=%N%+1
 SET /a N=1%release%-(11%release%-1%release%)/10
-SET N=000000%N%
-SET release=%N:~-2%
-SET /a build=00
+SET release=1000000%N%
+SET build=1000000
 GOTO SETVERSION
 
 :BUILD
 SET /a N=1%build%-(11%build%-1%build%)/10
 SET /a build=%N%+1
 SET /a N=1%build%-(11%build%-1%build%)/10
-SET N=000000%N%
-SET build=%N:~-2%
+SET build=1000000%N%
 
 :SETVERSION
-SET new=%major%.%minor%.%release%.%build%
+
+SET new=%major%.%minor:~-2%.%release:~-2%.%build:~-2%
 SET doc=%new%
-@ECHO OFF
+
 IF [%beta%]==[] GOTO TAG
 if [%devbuild%]==[] goto DEVBUILD
 
@@ -91,7 +89,7 @@ SET /a build=%N%+1
 SET /a N=1%build%-(11%build%-1%build%)/10
 SET N=000000%N%
 SET build=%N:~-2%
-SET doc=%major%.%minor%.%release%.%build%
+SET doc=%major%.%minor:~0,2%.%release:~0,2%.%build:~0,2%
 
 :TAG
 
@@ -100,6 +98,7 @@ SET doc=%major%.%minor%.%release%.%build%
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
+goto END
 
 :DOCUPDATE
 setlocal
