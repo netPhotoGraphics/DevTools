@@ -79,16 +79,14 @@ if [%devversion%]==[] set /a devversion=%base%
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
 SET /a devversion=%N%+1
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
-SET N=000000%N%
-SET devversion=%N:~-2%
-SET new=%new%.%devversion%
+SET devversion=1000000%N%
+SET new=%new%.%devversion:~-2%
 
 REM for dev builds show doc as next build level
 SET /a N=1%build%-(11%build%-1%build%)/10
 SET /a build=%N%+1
 SET /a N=1%build%-(11%build%-1%build%)/10
-SET N=000000%N%
-SET build=%N:~-2%
+SET build=1000000%N%
 SET doc=%major%.%minor:~0,2%.%release:~0,2%.%build:~0,2%
 
 :TAG
