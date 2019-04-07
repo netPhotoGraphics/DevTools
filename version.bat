@@ -96,8 +96,6 @@ SET doc=%major%.%minor:~0,2%.%release:~0,2%.%build:~0,2%
 >>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
-goto END
-
 :DOCUPDATE
 setlocal
 
