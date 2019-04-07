@@ -29,27 +29,42 @@ IF [%option%]==[maj] GOTO MAJOR
 IF [%option%]==[min] GOTO MINOR
 IF [%option%]==[rel] GOTO RELEASE
 GOTO BUILD
+
 :MAJOR
 SET /a major=%major%+1
-SET /a minor=0
-SET /a release=0
-SET /a build=0
+SET /a minor=00
+SET /a release=00
+SET /a build=00
 GOTO SETVERSION
+
 :MINOR
 SET /a minor=%minor%+1
-SET /a release=0
-SET /a build=0
+SET /a N=1%minor%-(11%minor%-1%minor%)/10
+SET /a minor=%N%+1
+SET /a N=1%minor%-(11%minor%-1%minor%)/10
+SET N=000000%N%
+SET minor=%N:~-2%
+SET /a release=00
+SET /a build=00
 GOTO SETVERSION
+
 :RELEASE
 SET /a release=%release%+1
-SET /a build=0
+SET /a N=1%release%-(11%release%-1%release%)/10
+SET /a build=%N%+1
+SET /a N=1%release%-(11%release%-1%release%)/10
+SET N=000000%N%
+SET release=%N:~-2%
+SET /a build=00
 GOTO SETVERSION
+
 :BUILD
 SET /a N=1%build%-(11%build%-1%build%)/10
 SET /a build=%N%+1
 SET /a N=1%build%-(11%build%-1%build%)/10
 SET N=000000%N%
 SET build=%N:~-2%
+
 :SETVERSION
 SET new=%major%.%minor%.%release%.%build%
 SET doc=%new%
