@@ -2,7 +2,9 @@ Installation instructions
 
 Existing netPhotoGraphics sites:
 
-Visit your admin/overview page. There will be a button to install the upgrade in the admin/Utility functions button section. Click the button and the upgrade will commence. If the button is not present follow the instructions below for a new installation.
+Visit your admin/overview page. There will be a button to install the upgrade in the Utility functions: Update button section. Click the button and the upgrade will commence. If the button does not appear, use the download button to download the current setup archive. Upload this archive to your site and refresh the overview page.
+
+If the update fails for any reason follow the instructions below for a new installation.
 
 New installations of netPhotoGraphics:
 
