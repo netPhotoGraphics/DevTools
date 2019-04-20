@@ -3,10 +3,6 @@
 /* A tool to produce the package file--a list of all the files in
  * the distribution.
  *
- * @author Stephen Billard (sbillard)
- *
- * @package plugins/zenphoto_package
- *
  * To add new user plugins or themes to the distribution package edit the package
  * file adding a line for each plugin/theme:
  *
@@ -16,6 +12,7 @@
  *
  * Then run the package generator.
  *
+ * @author Stephen Billard (sbillard)
  * @package plugins/zenphoto_package
  * @pluginCategory tools
  *
