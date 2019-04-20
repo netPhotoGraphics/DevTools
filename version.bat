@@ -63,7 +63,6 @@ SET /a N=1%build%-(11%build%-1%build%)/10
 SET build=1000000%N%
 
 :SETVERSION
-
 SET new=%major%.%minor:~-2%.%release:~-2%.%build:~-2%
 SET doc=%new%
 
@@ -74,7 +73,7 @@ FOR /F "tokens=1,2 delims=.'_" %%a in ("%devbuild%") DO (
 	SET base=%%a
 	SET devversion=%%b
 )
-if [%devversion%]==[] set /a devversion=%base%
+if [%devversion%]==[] set devversion=%base%
 :DEVBUILD
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
 SET /a devversion=%N%+1
