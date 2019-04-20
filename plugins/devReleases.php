@@ -28,27 +28,30 @@ if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
 use Milo\Github;
 
 if (class_exists('Milo\Github\Api') && zpFunctions::hasPrimaryScripts()) {
-	try {
-		$api = new Github\Api;
-		$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'sbillard', 'repo' => 'netPhotoGraphics-DEV'));
-		$fullRepoData = $api->decode($fullRepoResponse);
-		$assets = $fullRepoData->assets;
+	if (getOption('getDEVUpdates_lastCheck') + 8640 < time()) {
+		setOption('getDEVUpdates_lastCheck', time());
+		try {
+			$api = new Github\Api;
+			$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => 'sbillard', 'repo' => 'netPhotoGraphics-DEV'));
+			$fullRepoData = $api->decode($fullRepoResponse);
+			$assets = $fullRepoData->assets;
 
-		if (!empty($assets)) {
-			$item = array_pop($assets);
-			$devVersionURI = $item->browser_download_url;
-			$devVersion = preg_replace('~[^0-9,.]~', '', str_replace('setup-', '', stripSuffix(basename($devVersionURI))));
-			$zenphoto_version = explode('-', ZENPHOTO_VERSION);
-			$zenphoto_version = preg_replace('~[^0-9,.]~', '', array_shift($zenphoto_version));
-			if (version_compare($devVersion, $zenphoto_version, '>')) {
-				zp_register_filter('admin_utilities_buttons', 'devRelease::buttons');
+			if (!empty($assets)) {
+				$item = array_pop($assets);
+				setOption('getUpdates_latest', $item->browser_download_url);
 			}
+		} catch (Exception $e) {
+			debugLog(gettext('GitHub repository not accessible. ') . $e);
 		}
-	} catch (Exception $e) {
-		debugLog(gettext('GitHub repository not accessible. ') . $e);
+	}
+	$devVersionURI = getOption('getUpdates_latest');
+	$devVersion = preg_replace('~[^0-9,.]~', '', str_replace('setup-', '', stripSuffix(basename($devVersionURI))));
+	$zenphoto_version = explode('-', ZENPHOTO_VERSION);
+	$zenphoto_version = preg_replace('~[^0-9,.]~', '', array_shift($zenphoto_version));
+	if (version_compare($devVersion, $zenphoto_version, '>')) {
+		zp_register_filter('admin_utilities_buttons', 'devRelease::buttons');
 	}
 }
-
 if (isset($_GET['action']) && $_GET['action'] == 'install_dev') {
 	XSRFdefender('install_update');
 	$msg = FALSE;
@@ -88,6 +91,10 @@ if (isset($_GET['action']) && $_GET['action'] == 'install_dev') {
 			$class = 'errorbox';
 			$msg = gettext('Did not find the <code>extract.php.bin</code> file.');
 		}
+	}
+	if ($msg) {
+		header('location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&error&msg=' . html_encode($msg));
+		exit();
 	}
 }
 
