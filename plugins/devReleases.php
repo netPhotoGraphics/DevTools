@@ -38,13 +38,13 @@ if (class_exists('Milo\Github\Api') && zpFunctions::hasPrimaryScripts()) {
 
 			if (!empty($assets)) {
 				$item = array_pop($assets);
-				setOption('getUpdates_latest', $item->browser_download_url);
+				setOption('getDEVUpdates_latest', $item->browser_download_url);
 			}
 		} catch (Exception $e) {
 			debugLog(gettext('GitHub repository not accessible. ') . $e);
 		}
 	}
-	$devVersionURI = getOption('getUpdates_latest');
+	$devVersionURI = getOption('getDEVUpdates_latest');
 	$devVersion = preg_replace('~[^0-9,.]~', '', str_replace('setup-', '', stripSuffix(basename($devVersionURI))));
 	$zenphoto_version = explode('-', ZENPHOTO_VERSION);
 	$zenphoto_version = preg_replace('~[^0-9,.]~', '', array_shift($zenphoto_version));
