@@ -109,6 +109,8 @@ set dest="docs\release notes.htm"
     endlocal
 ))>%dest%
 
+IF NOT [%beta%]==[] GOTO COMMIT
+
 rem update the user guide
 D:\github\DevTools\officetopdf.exe "D:\github\DevTools\user guide.docx" "docs/user guide.pdf"
 
