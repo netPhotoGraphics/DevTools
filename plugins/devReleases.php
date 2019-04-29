@@ -62,17 +62,9 @@ if (isset($_GET['action'])) {
 		exit();
 	}
 	if ($_GET['action'] == 'install_dev') {
-
-		$msg = FALSE;
-		@ini_set('allow_url_fopen', 1);
-		if (!(($fopen = ini_get('allow_url_fopen')) && @copy($devVersionURI, SERVERPATH . '/' . basename($devVersionURI)))) {
+		if ($msg = getRemoteFile($devVersionURI, SERVERPATH)) {
 			$class = 'errorbox';
-			$msg = gettext('netPhotoGraphics could not download the update.');
-			if (!$fopen) {
-				$msg .= ' ' . gettext('<em>allow_url_fopen</em> is not enabled in your PHP.ini configuration file. ');
-			}
-		}
-		if (!$msg) {
+		} else {
 			$found = safe_glob(SERVERPATH . '/setup-*.zip');
 			if (!empty($found)) {
 				$file = array_shift($found);
@@ -116,7 +108,15 @@ class devRelease {
 	}
 
 	static function buttons($buttons) {
-		global $devVersion, $zenphoto_version;
+		global $devVersion, $zenphoto_version, $newestVersion;
+		$check = true;
+		foreach ($buttons as $button) {
+			if (isset($button['category']) && $button['category'] == gettext('Updates')) {
+				$check = false;
+				$zenphoto_version = $newestVersion;
+				break;
+			}
+		}
 		if (version_compare($devVersion, $zenphoto_version, '>')) {
 			$buttons[] = array(
 					'XSRFTag' => 'install_update',
@@ -132,13 +132,6 @@ class devRelease {
 					'rights' => ADMIN_RIGHTS
 			);
 		} else {
-			$check = true;
-			foreach ($buttons as $button) {
-				if (isset($button['category']) && $button['category'] == gettext('Updates')) {
-					$check = false;
-					break;
-				}
-			}
 			if ($check) {
 				$buttons[] = array(
 						'XSRFTag' => 'check_update',
