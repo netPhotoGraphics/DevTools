@@ -64,6 +64,8 @@ if (isset($_GET['action'])) {
 	if ($_GET['action'] == 'install_dev') {
 		if ($msg = getRemoteFile($devVersionURI, SERVERPATH)) {
 			$class = 'errorbox';
+			purgeOption('getDEVUpdates_lastCheck');
+			purgeOption('getUpdates_lastCheck');
 		} else {
 			$found = safe_glob(SERVERPATH . '/setup-*.zip');
 			if (!empty($found)) {
