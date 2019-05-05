@@ -95,7 +95,7 @@ if (isset($_GET['action'])) {
 			}
 		}
 		if ($msg) {
-			header('location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&error&msg=' . html_encode($msg));
+			header('location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&error&msg=' . html_encodeTagged($msg));
 			exit();
 		}
 	}
