@@ -105,11 +105,9 @@ CMS>Miscellaneous>bulk_category_actions:=Allow filtering of the "category" tab b
 CMS>Miscellaneous>bulk_page_actions:=Allow filtering of the "page" tab bulk action items.
 CMS>Miscellaneous>edit_article_custom_data:=Allows a plugin to manage custom data for Article articles. This invocation is for when the news article is presented for editing.
 CMS>Miscellaneous>edit_category_custom_data:=Allows a plugin to manage custom data for Zenpage categories. This invocation is for when the category is presented for editing.
+CMS>Miscellaneous>edit_cms_utilities:=Allows a plugin to place items in the <em>Utilities</em> area of the edit page for CMS objects.
 CMS>Miscellaneous>edit_page_custom_data:=Allows a plugin to manage custom data for Zenpage pages. This invocation is for when the page object is presented for editing.
 CMS>Miscellaneous>general_zenpage_utilities:=Allows plugins to add items to the <em>General</em> area of the Zenpage edit pages.
-CMS>Miscellaneous>publish_article_utilities:=Allows a plugin to process saves of items in the news article <em>Utilities</em> area.
-CMS>Miscellaneous>publish_category_utilities:=Allows a plugin to process saves of items in the Zenpage category <em>Utilities</em> area.
-CMS>Miscellaneous>publish_page_utilities:=Allows a plugin to process saves of items in the Zenpage page <em>Utilities</em> area.
 
 Comment>Miscellaneous>comment_form_data:=Allows plugins to modify the data shown on comment forms
 Comment>Miscellaneous>comment_post:=Invoked when a comment has been posted.
