@@ -35,7 +35,7 @@ function releaseNotesPublish($before, $object, $prefix = NULL) {
 	}
 }
 
-function releaseNotesExecute($custom, $object) {
+function releaseNotesExecute($object) {
 	if (isset($_POST['publishNotes'])) {
 		$f = fopen(SERVERPATH . '/docs/release_notes.htm', 'w');
 		$h = '<!DOCTYPE html>
