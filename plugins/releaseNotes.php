@@ -12,7 +12,7 @@ $plugin_is_filter = 5 | FEATURE_PLUGIN;
 $plugin_description = gettext('Allows using zenpage editing to create release notes.');
 
 zp_register_filter('general_zenpage_utilities', 'releaseNotesPublish');
-zp_register_filter('save_article_custom_data', 'releaseNotesExecute');
+zp_register_filter('save_article_data', 'releaseNotesExecute');
 
 if (OFFSET_PATH == 2) {
 	enableExtension('releaseNotes', $plugin_is_filter); //	at lease re-enable at setup incase it gets left disabled

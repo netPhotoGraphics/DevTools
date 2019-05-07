@@ -116,7 +116,7 @@ class openAdmin extends _Administrator {
 		zp_remove_filter('admin_allow_access', 'security_logger::adminGate');
 		zp_remove_filter('authorization_cookie', 'security_logger::adminCookie', 0);
 		zp_remove_filter('admin_managed_albums_access', 'security_logger::adminAlbumGate');
-		zp_remove_filter('save_user', 'security_logger::UserSave');
+		zp_remove_filter('save_user_complete', 'security_logger::UserSave');
 		zp_remove_filter('admin_XSRF_access', 'security_logger::admin_XSRF_access');
 		zp_remove_filter('admin_log_actions', 'security_logger::log_action');
 		zp_remove_filter('log_setup', 'security_logger::log_setup');
