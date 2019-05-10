@@ -17,7 +17,7 @@
 !comment_form_data
 !comment_post
 !database_query
-!edit_category_custom_data
+!edit_category_custom
 !favoritesHandler_action
 !image_filter
 !login_link
@@ -77,10 +77,10 @@ Admin>Media>admin_managed_albums_access:=This filter allows a plugin to interven
 Admin>Media>admin_note:=This filter is invoked at the head of each admin page to allow a filter to place a note there.
 Admin>Media>bulk_album_actions:=Allows a filter to establish bulk album action items
 Admin>Media>bulk_image_actions:=Allows a filter to establish bulk image action items
-Admin>Media>edit_album_custom_data:=Allows a plugin to manage custom data for images. This invocation is for when the image is presented for editing.
+Admin>Media>edit_album_custom:=Allows a plugin to manage custom data for images. This invocation is for when the image is presented for editing.
 Admin>Media>edit_album_utilities:=Allows a plugin to place items in the <em>utilities</em> area for albums. This invocation is for when the album is presented for editing.
 Admin>Media>edit_error:=Provides an interface for plugins to report errors when saves.
-Admin>Media>edit_image_custom_data:=Allows a plugin to manage custom data for images. This invocation is for when the comment is presented for editing.
+Admin>Media>edit_image_custom:=Allows a plugin to manage custom data for images. This invocation is for when the comment is presented for editing.
 Admin>Media>edit_image_utilities:=Allows a plugin to place items in the <em>utilities</em> area for images. This invocation is for when the image is presented for editing.
 Admin>Media>save_album_data:=Allows a plugin to process saves of items in the album <em>Utilities</em> area.
 Admin>Media>save_image_data:=Allows a plugin to place items in the <em>utilities</em> area for images. This invocation is for when the image is saved.
@@ -105,10 +105,10 @@ Admin>Miscellaneous>processBulkMenuSave:=Allow processing of the "menu" tab bulk
 CMS>Miscellaneous>bulk_article_actions:=Allow filtering of the "article" tab bulk action items.
 CMS>Miscellaneous>bulk_category_actions:=Allow filtering of the "category" tab bulk action items.
 CMS>Miscellaneous>bulk_page_actions:=Allow filtering of the "page" tab bulk action items.
-CMS>Miscellaneous>edit_article_custom_data:=Allows a plugin to manage custom data for Article articles. This invocation is for when the news article is presented for editing.
-CMS>Miscellaneous>edit_category_custom_data:=Allows a plugin to manage custom data for Zenpage categories. This invocation is for when the category is presented for editing.
+CMS>Miscellaneous>edit_article_custom:=Allows a plugin to manage custom data for Article articles. This invocation is for when the news article is presented for editing.
+CMS>Miscellaneous>edit_category_custom:=Allows a plugin to manage custom data for Zenpage categories. This invocation is for when the category is presented for editing.
 CMS>Miscellaneous>edit_cms_utilities:=Allows a plugin to place items in the <em>Utilities</em> area of the edit page for CMS objects.
-CMS>Miscellaneous>edit_page_custom_data:=Allows a plugin to manage custom data for Zenpage pages. This invocation is for when the page object is presented for editing.
+CMS>Miscellaneous>edit_page_custom:=Allows a plugin to manage custom data for Zenpage pages. This invocation is for when the page object is presented for editing.
 CMS>Miscellaneous>general_zenpage_utilities:=Allows plugins to add items to the <em>General</em> area of the Zenpage edit pages.
 
 Comment>Miscellaneous>comment_form_data:=Allows plugins to modify the data shown on comment forms
@@ -203,7 +203,7 @@ User_management>Miscellaneous>admin_alterrights:=Allows a plugin to control what
 User_management>Miscellaneous>admin_login_attempt:=Reports logon attempts.
 User_management>Miscellaneous>authorization_cookie:=Allows a plugin to override cookie based authorization credentials.
 User_management>Miscellaneous>can_set_user_password:=Called from the "apply" processing of a user. Return "false" to prevent the password from being saved.
-User_management>Miscellaneous>edit_admin_custom_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is presented for editing.
+User_management>Miscellaneous>edit_admin_custom:=Allows a plugin to manage custom data for users. This invocation is for when the user object is presented for editing.
 User_management>Miscellaneous>federated_login_attempt:=Invoked when a user logs on via a federated_Logon plugin. (As opposed to logging on through the normal authentication mechanism)
 User_management>Miscellaneous>guest_login_attempt:=Invoked when a visitor logs on with a guest password.
 User_management>Miscellaneous>login_link:=Overrides the login link so that an external handler handles the login
