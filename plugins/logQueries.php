@@ -16,7 +16,6 @@
 $plugin_is_filter = 1000 | FEATURE_PLUGIN;
 $plugin_description = gettext("Log database queries.");
 
-
 zp_register_filter('database_query', 'logQueries::query', 9999);
 
 class logQueries {
