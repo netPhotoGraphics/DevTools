@@ -14,7 +14,7 @@
  * @package plugins/openAdmin
  * @pluginCategory netPhotoGraphics
  *
- * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics and derivatives}
+ * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
 
 // force UTF-8 Ø
