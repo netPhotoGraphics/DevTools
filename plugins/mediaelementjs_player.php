@@ -253,7 +253,7 @@ class mediaelementjs_player {
 		  if(file_exists($skin)) {
 		  $skin = replaceScriptPath(Sskin,FULLWEBPATH); //replace SERVERPATH as that does not work as a CSS link
 		  } else {
-		  $skin = FULLWEBPATH.'/'.ZENFOLDER.'/'.PLUGIN_FOLDER.'/mediaelementjs_player/mediaelementplayer.css';
+		  $skin = FULLWEBPATH.'/'.CORE_FOLDER.'/'.PLUGIN_FOLDER.'/mediaelementjs_player/mediaelementplayer.css';
 		  }
 		 */
 		$features = mediaelementjs_player::getFeatureOptions();

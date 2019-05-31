@@ -142,7 +142,7 @@ class openAdmin extends _Administrator {
 		}
 
 		if (empty($zenphoto_tabs['logs']['subtabs'])) {
-			$zenphoto_tabs['logs']['link'] = WEBPATH . '/' . ZENFOLDER . '/admin-tabs/logs.php?page=logs';
+			$zenphoto_tabs['logs']['link'] = getAdminLink('admin-tabs/logs.php') . '?page=logs';
 			$zenphoto_tabs['logs']['default'] = NULL;
 		} else {
 			$zenphoto_tabs['logs']['default'] = $default = current(array_keys($zenphoto_tabs['logs']['subtabs']));
@@ -187,8 +187,10 @@ class openAdmin extends _Administrator {
 		if (getOption('openAdmin_logging')) {
 			$uri = explode('?', getRequestURI());
 			$uri = trim(str_replace(WEBPATH, '', $uri[0]), '/');
-			$uri = trim(str_replace(ZENFOLDER, '', $uri), '/');
+			$uri = trim(str_replace(CORE_FOLDER, '', $uri), '/');
+			$uri = trim(str_replace(CORE_PATH, '', $uri), '/');
 			$uri = trim(str_replace(PLUGIN_FOLDER, '', $uri), '/');
+			$uri = trim(str_replace(PLUGIN_PATH, '', $uri), '/');
 			self::Logger($uri, @$_get_original['page'], @$_get_original['tab'], @$_get_original['action']);
 		}
 		?>
@@ -196,7 +198,7 @@ class openAdmin extends _Administrator {
 			// <!-- <![CDATA[
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
-				$("#admin_logout").attr("href", "<?php echo WEBPATH . '/' . ZENFOLDER; ?>/admin.php?userlog=0");
+				$("#admin_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?userlog=0");
 				$("#admin_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 				$('#login').before('<p class="notebox"><?php echo gettext('Login with valid user credentials to bypass the <em>openAdmin</em> plugin.'); ?></p>');
 				$('#auth').remove();	//	disable any auth passing, currently only for uploader stuff
@@ -213,7 +215,7 @@ class openAdmin extends _Administrator {
 		<script type="text/javascript">
 			// <!-- <![CDATA[
 			window.addEventListener('load', function () {
-				$("#toolbox_logout").attr("href", "<?php echo WEBPATH . '/' . ZENFOLDER; ?>/admin.php?userlog=0");
+				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?userlog=0");
 				$("#toolbox_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 			}, false);
 			// ]]> -->

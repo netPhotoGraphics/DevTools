@@ -5,7 +5,7 @@
  *
  * @package plugins/filterDoc
  */
-require_once(SERVERPATH . '/' . ZENFOLDER . '/setup/setup-functions.php');
+require_once(CORE_SERVERPATH . 'setup/setup-functions.php');
 
 function processFilters() {
 	global $_zp_resident_files;
@@ -47,7 +47,7 @@ function processFilters() {
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentZPFiles($serverpath . '/' . ZENFOLDER, array_merge($stdExclude, array('functions-filter.php', 'deprecated-functions.php')));
+	getResidentZPFiles($serverpath . '/' . CORE_FOLDER, array_merge($stdExclude, array('functions-filter.php', 'deprecated-functions.php')));
 	getResidentZPFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
 
 	$filterlist = array();
@@ -58,8 +58,8 @@ function processFilters() {
 			$size = filesize($file);
 			$text = file_get_contents($file);
 			$script = str_replace($serverpath . '/', '', $file);
-			$script = str_replace(ZENFOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
-			$script = str_replace(ZENFOLDER . '/', '<!--sort first-->/', $script);
+			$script = str_replace(CORE_FOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
+			$script = str_replace(CORE_FOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
 			preg_match_all('~(zp_apply_filter|zp_register_filter)\((.*?)\)[^,|\)]~', $text, $matches);
 			if (!empty($matches)) {

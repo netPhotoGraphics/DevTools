@@ -8,7 +8,7 @@
  * @pluginCategory netPhotoGraphics
  */
 
-require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
+require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
 
 use Milo\Github;
 

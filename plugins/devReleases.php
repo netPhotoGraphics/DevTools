@@ -21,7 +21,7 @@ $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Provides an install button from the development releases.');
 
 if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
-	require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
+	require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
 }
 
 use Milo\Github;
@@ -58,7 +58,7 @@ if (isset($_GET['action'])) {
 		XSRFdefender('check_update');
 		purgeOption('getDEVUpdates_lastCheck');
 		purgeOption('getUpdates_lastCheck');
-		header('location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?update_check');
+		header('location: ' . getAdminLink('admin.php') . '?update_check');
 		exit();
 	}
 	if ($_GET['action'] == 'install_dev') {
@@ -95,19 +95,13 @@ if (isset($_GET['action'])) {
 			}
 		}
 		if ($msg) {
-			header('location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&error&msg=' . html_encodeTagged($msg));
+			header('location: ' . getAdminLink('admin.php') . '?action=external&error&msg=' . html_encodeTagged($msg));
 			exit();
 		}
 	}
 }
 
 class devRelease {
-
-	function __construct() {
-		if (OFFSET_PATH == 2) {
-			setOptionDefault('zenphoto_package_path', ZENFOLDER);
-		}
-	}
 
 	static function buttons($buttons) {
 		global $devVersion, $zenphoto_version, $newestVersion;
@@ -126,7 +120,7 @@ class devRelease {
 					'enable' => 2,
 					'button_text' => sprintf(gettext('Install DEV %1$s'), $devVersion),
 					'formname' => 'download_update',
-					'action' => FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=install_dev',
+					'action' => getAdminLink('admin.php') . '?action=install_dev',
 					'icon' => INSTALL,
 					'alt' => '',
 					'title' => sprintf(gettext('Download and install netPhotoGraphics development version %1$s on your site.'), $devVersion),
@@ -141,7 +135,7 @@ class devRelease {
 						'enable' => 1,
 						'button_text' => gettext('Check for updates'),
 						'formname' => 'check_update',
-						'action' => FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=check_updates',
+						'action' => getAdminLink('admin.php') . '?action=check_updates',
 						'icon' => CLOCKWISE_OPEN_CIRCLE_ARROW_GREEN,
 						'alt' => '',
 						'title' => gettext('Check for newer versions of netPhotoGraphics.'),

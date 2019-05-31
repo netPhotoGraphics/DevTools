@@ -4,7 +4,7 @@
  * Package list generator
  *
  * @author Stephen Billard (sbillard)
- * @package plugins/zenphoto_package
+ * @package plugins/package
 
  * @category plugins/developerTools
  */
@@ -37,14 +37,14 @@ foreach ($paths as $plugin => $path) {
 	}
 }
 
-$_zp_resident_files[] = ZENFOLDER;
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . ZENFOLDER, array_merge($stdExclude, array('setup', 'version.php'))));
+$_zp_resident_files[] = CORE_FOLDER;
+$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . CORE_FOLDER, array_merge($stdExclude, array('setup', 'version.php'))));
 
-$_special_files[] = ZENFOLDER . '/version.php';
-$_special_files[] = ZENFOLDER . '/setup';
-$_special_files = array_merge($_special_files, getResidentFiles(SERVERPATH . '/' . ZENFOLDER . '/setup', $stdExclude));
+$_special_files[] = CORE_FOLDER . '/version.php';
+$_special_files[] = CORE_FOLDER . '/setup';
+$_special_files = array_merge($_special_files, getResidentFiles(CORE_SERVERPATH . 'setup', $stdExclude));
 
-$filepath = SERVERPATH . '/' . getOption('zenphoto_package_path') . '/zenphoto.package';
+$filepath = SERVERPATH . '/' . getOption('package_path') . '/zenphoto.package';
 @chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
 foreach ($_zp_resident_files as $component) {
@@ -57,7 +57,7 @@ foreach ($_special_files as $component) {
 fwrite($fp, count($_zp_resident_files) + count($_special_files));
 fclose($fp);
 clearstatcache();
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=Package created and stored in the ' . getOption('zenphoto_package_path') . ' folder.');
+header('Location: ' . getAdminLink('admin.php') . '?action=external&msg=Package created and stored in the ' . getOption('package_path') . ' folder.');
 exit();
 
 /**

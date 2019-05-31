@@ -13,7 +13,7 @@
  * Then run the package generator.
  *
  * @author Stephen Billard (sbillard)
- * @package plugins/zenphoto_package
+ * @package plugins/package
  * @pluginCategory tools
  *
  * @Copyright Stephen L Billard
@@ -23,21 +23,21 @@
 
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates the <em>zenphoto.package</em> file.');
-$option_interface = 'zenphoto_package';
+$option_interface = 'package';
 
-zp_register_filter('admin_utilities_buttons', 'zenphoto_package::buttons');
+zp_register_filter('admin_utilities_buttons', 'package::buttons');
 
-class zenphoto_package {
+class package {
 
 	function __construct() {
 		if (OFFSET_PATH == 2) {
-			setOptionDefault('zenphoto_package_path', ZENFOLDER);
+			setOptionDefault('package_path', CORE_FOLDER);
 		}
 	}
 
 	function getOptionsSupported() {
-		return array(gettext('Folder') => array('key' => 'zenphoto_package_path', 'type' => OPTION_TYPE_SELECTOR,
-						'selections' => array(DATA_FOLDER => DATA_FOLDER, ZENFOLDER => ZENFOLDER, UPLOAD_FOLDER => UPLOAD_FOLDER),
+		return array(gettext('Folder') => array('key' => 'package_path', 'type' => OPTION_TYPE_SELECTOR,
+						'selections' => array(DATA_FOLDER => DATA_FOLDER, CORE_FOLDER => CORE_FOLDER, UPLOAD_FOLDER => UPLOAD_FOLDER),
 						'desc' => gettext('Place the package file in this folder.')));
 	}
 
@@ -47,7 +47,7 @@ class zenphoto_package {
 				'enable' => true,
 				'button_text' => gettext('extract getAllTranslations'),
 				'formname' => 'zenphoto_translations_button',
-				'action' => FULLWEBPATH . '/plugins/zenphoto_package/getAllTranslations.php',
+				'action' => FULLWEBPATH . '/plugins/package/getAllTranslations.php',
 				'icon' => ARROW_DOWN_GREEN,
 				'title' => gettext('Extract "allTranslations" strings'),
 				'alt' => '',
@@ -58,8 +58,8 @@ class zenphoto_package {
 				'category' => gettext('Development'),
 				'enable' => true,
 				'button_text' => gettext('Create package'),
-				'formname' => 'zenphoto_package_button',
-				'action' => FULLWEBPATH . '/plugins/zenphoto_package/zenphoto_package_generator.php',
+				'formname' => 'package_button',
+				'action' => FULLWEBPATH . '/plugins/package/package_generator.php',
 				'icon' => ARROW_DOWN_GREEN,
 				'title' => gettext('Download new package file'),
 				'alt' => '',
