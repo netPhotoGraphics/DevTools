@@ -121,7 +121,6 @@ class devRelease {
 					'rights' => ADMIN_RIGHTS
 			);
 		} else {
-
 			$buttons[] = array(
 					'XSRFTag' => 'check_update',
 					'category' => gettext('Updates'),
