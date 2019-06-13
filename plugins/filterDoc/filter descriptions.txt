@@ -35,7 +35,7 @@
 !theme_file_top
 !theme_headers
 !upload_root_ui
-!zp_logout
+!logout
 
 #These filters have no description
 *Admin.CMS:=
@@ -68,10 +68,10 @@ Admin>CMS>new_category:=Invoked when a new CMS category is created.
 Admin>CMS>new_page:=Invoked when a new CMS page is created.
 Admin>CMS>processBulkCMSSave:=Allow processing of the "category", "article", and "page" tab bulk action saves.
 Admin>CMS>save_article_data:=Allows a plugin to manage custom data for news articles. This invocation is for when the article is saved.
-Admin>CMS>save_page_data:=Allows a plugin to manage image data for Zenpage page. This invocation is for when the page is saved.
+Admin>CMS>save_page_data:=Allows a plugin to manage image data for page. This invocation is for when the page is saved.
 Admin>CMS>update_article:=Invoked when a news article is updated.
-Admin>CMS>update_category:=Invoked when a Zenpage category is updated.
-Admin>CMS>update_page:=Invoked when a Zenpage page is updated.
+Admin>CMS>update_category:=Invoked when a CMS category is updated.
+Admin>CMS>update_page:=Invoked when a CMS page is updated.
 Admin>Comment>bulk_comment_actions:=Allow filtering of the "comment" tab bulk action items.
 Admin>Media>admin_managed_albums_access:=This filter allows a plugin to intervene when a request to edit an album is being denied for insufficient permissions.
 Admin>Media>admin_note:=This filter is invoked at the head of each admin page to allow a filter to place a note there.
@@ -109,7 +109,7 @@ CMS>Miscellaneous>edit_article_custom:=Allows a plugin to manage custom data for
 CMS>Miscellaneous>edit_category_custom:=Allows a plugin to manage custom data for Zenpage categories. This invocation is for when the category is presented for editing.
 CMS>Miscellaneous>edit_cms_utilities:=Allows a plugin to place items in the <em>Utilities</em> area of the edit page for CMS objects.
 CMS>Miscellaneous>edit_page_custom:=Allows a plugin to manage custom data for Zenpage pages. This invocation is for when the page object is presented for editing.
-CMS>Miscellaneous>general_zenpage_utilities:=Allows plugins to add items to the <em>General</em> area of the Zenpage edit pages.
+CMS>Miscellaneous>general_utilities:=Allows plugins to add items to the <em>General</em> area of the Zenpage edit pages.
 
 Comment>Miscellaneous>comment_form_data:=Allows plugins to modify the data shown on comment forms
 Comment>Miscellaneous>comment_post:=Invoked when a comment has been posted.
@@ -130,7 +130,7 @@ Miscellaneous>Miscellaneous>setupTheme:=Allows a plugin to override the <em>them
 Miscellaneous>Miscellaneous>site_upgrade_xml:=Allows plugins to add files to those processed by the site_upgrade plugin
 Miscellaneous>Miscellaneous>texteditor_config:=Provides configuration information to the Text Editor plugin (normally TinyMCE).
 Miscellaneous>Miscellaneous>tinymce_config:=Filter used by plugins to modify tinyMCE configurations.
-Miscellaneous>Miscellaneous>zenphoto_information:=This filter is used to display the installation information HTML comment at the end of each page load
+Miscellaneous>Miscellaneous>software_information:=This filter is used to display the installation information HTML comment at the end of each page load
 
 Object>Media>album_filter:=Allows plugins to remove some folders from the list of album folders that are discovered.
 Object>Media>album_instantiate:=Invoked when an album is instantiated.
@@ -210,7 +210,7 @@ User_management>Miscellaneous>login_link:=Overrides the login link so that an ex
 User_management>Miscellaneous>login_redirect_link:=Filters the return link of the login form.
 User_management>Miscellaneous>register_user_registered:=Invoked when a new user registers.
 User_management>Miscellaneous>register_user_verified:=Invoked when a new user is verified.
-User_management>Miscellaneous>remove_user:=Called in Zenphoto_Administrator remove method to allow plugins to clean up anything associated with the user.
+User_management>Miscellaneous>remove_user:=Called in _Administrator remove method to allow plugins to clean up anything associated with the user.
 User_management>Miscellaneous>save_admin_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is saved.
 User_management>Miscellaneous>save_user_complete:=Invoked after the userObj->save() method has been called. Used primarily for logging that a user has been updated.
-User_management>Miscellaneous>zp_logout:=Provides a link to an external logout handler
+User_management>Miscellaneous>logout:=Provides a link to an external logout handler

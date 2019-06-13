@@ -24,22 +24,22 @@ $plugin_description = gettext("Allow visitors to view the Administrative pages."
 
 $option_interface = 'openAdmin';
 
-if (!zp_loggedin()) {
+if (!npg_loggedin()) {
 
-	zp_register_filter('admin_head', 'openAdmin::head', 9999);
-	zp_register_filter('tinymce_config', 'openAdmin::tinyMCE');
+	npgFilters::register('admin_head', 'openAdmin::head', 9999);
+	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
 	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
-		zp_register_filter('admin_allow_access', 'openAdmin::access', 9999);
-		zp_register_filter('theme_body_close', 'openAdmin::close', 9999);
-		$master = $_zp_authority->getMasterUser();
-		$_zp_current_admin_obj = new openAdmin('Visitor', 1, $master->getID());
-		$_zp_current_admin_obj->setRights($master->getRights());
-		$_COOKIE['zp_user_auth'] = $_zp_loggedin = $_zp_current_admin_obj->getRights();
+		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
+		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
+		$master = $_authority->getMasterUser();
+		$_current_admin_obj = new openAdmin('Visitor', 1, $master->getID());
+		$_current_admin_obj->setRights($master->getRights());
+		$_COOKIE['user_auth'] = $_loggedin = $_current_admin_obj->getRights();
 
 		if (OFFSET_PATH) {
 			$_get_original = $_GET;
-			zp_register_filter('database_query', 'openAdmin::query', 9999);
-			zp_register_filter('admin_note', 'openAdmin::notice', 9999);
+			npgFilters::register('database_query', 'openAdmin::query', 9999);
+			npgFilters::register('admin_note', 'openAdmin::notice', 9999);
 			if (isset($_GET['action'])) {
 				$allowedActions = array('save', 'sorttags', 'sortorder', 'saveoptions', 'external');
 				if (!in_array($_GET['action'], $allowedActions)) {
@@ -72,7 +72,7 @@ class openAdmin extends _Administrator {
 	function setPolicyACK($v) {
 		parent::setPolicyACK($v);
 		if ($v) {
-			zp_setCookie('policyACK', getOption('GDPR_cookie')); //	since the object is not persistent
+			setNPGCookie('policyACK', getOption('GDPR_cookie')); //	since the object is not persistent
 		}
 	}
 
@@ -85,10 +85,10 @@ class openAdmin extends _Administrator {
 	}
 
 	static function setAdmin() {
-		global $_zp_current_admin_obj, $_zp_authority;
-		$masterid = $_zp_current_admin_obj->getID();
-		$_zp_authority->admin_all[$masterid] = $_zp_current_admin_obj->getData();
-		$_zp_authority->admin_users[$masterid] = $_zp_current_admin_obj->getData();
+		global $_current_admin_obj, $_authority;
+		$masterid = $_current_admin_obj->getID();
+		$_authority->admin_all[$masterid] = $_current_admin_obj->getData();
+		$_authority->admin_users[$masterid] = $_current_admin_obj->getData();
 	}
 
 	/**
@@ -103,28 +103,28 @@ class openAdmin extends _Administrator {
 	}
 
 	static function access($allow, $url) {
-		global $zenphoto_tabs, $_zp_current_admin_obj;
+		global $_admin_menu, $_current_admin_obj;
 		self::setAdmin();
 		if (!isset($_POST['policy_acknowledge']) || $_POST['policy_acknowledge'] == md5(getUserID() . getOption('GDPR_cookie'))) {
-			if (class_exists('GDPR_required') && zp_getCookie('policyACK') != getOption('GDPR_cookie')) {
+			if (class_exists('GDPR_required') && getNPGCookie('policyACK') != getOption('GDPR_cookie')) {
 				GDPR_required::page();
 			}
 		}
-		zp_setCookie('policyACK', getOption('GDPR_cookie'));
+		setNPGCookie('policyACK', getOption('GDPR_cookie'));
 
 		//	limit security logging for "visitor"
-		zp_remove_filter('admin_allow_access', 'security_logger::adminGate');
-		zp_remove_filter('authorization_cookie', 'security_logger::adminCookie', 0);
-		zp_remove_filter('admin_managed_albums_access', 'security_logger::adminAlbumGate');
-		zp_remove_filter('save_user_complete', 'security_logger::UserSave');
-		zp_remove_filter('admin_XSRF_access', 'security_logger::admin_XSRF_access');
-		zp_remove_filter('admin_log_actions', 'security_logger::log_action');
-		zp_remove_filter('log_setup', 'security_logger::log_setup');
-		zp_remove_filter('security_misc', 'security_logger::security_misc');
+		npgFilters::remove('admin_allow_access', 'security_logger::adminGate');
+		npgFilters::remove('authorization_cookie', 'security_logger::adminCookie', 0);
+		npgFilters::remove('admin_managed_albums_access', 'security_logger::adminAlbumGate');
+		npgFilters::remove('save_user_complete', 'security_logger::UserSave');
+		npgFilters::remove('admin_XSRF_access', 'security_logger::admin_XSRF_access');
+		npgFilters::remove('admin_log_actions', 'security_logger::log_action');
+		npgFilters::remove('log_setup', 'security_logger::log_setup');
+		npgFilters::remove('security_misc', 'security_logger::security_misc');
 
-		if (isset($zenphoto_tabs['logs']['subtabs'])) {
+		if (isset($_admin_menu['logs']['subtabs'])) {
 			//	hide sensitive logs
-			foreach ($zenphoto_tabs['logs']['subtabs'] as $subtab) {
+			foreach ($_admin_menu['logs']['subtabs'] as $subtab) {
 				$masterlog = $subtab = substr($subtab, strpos($subtab, 'tab=') + 4);
 				$j = strpos($subtab, '-');
 				if ($j !== FALSE) {
@@ -134,48 +134,48 @@ class openAdmin extends _Administrator {
 					case 'security':
 					case 'openAdmin':
 					case 'debug':
-						unset($zenphoto_tabs['logs']['subtabs'][$subtab]);
-						unset($zenphoto_tabs['logs']['alert'][$subtab]);
+						unset($_admin_menu['logs']['subtabs'][$subtab]);
+						unset($_admin_menu['logs']['alert'][$subtab]);
 						break;
 				}
 			}
 		}
 
-		if (empty($zenphoto_tabs['logs']['subtabs'])) {
-			$zenphoto_tabs['logs']['link'] = getAdminLink('admin-tabs/logs.php') . '?page=logs';
-			$zenphoto_tabs['logs']['default'] = NULL;
+		if (empty($_admin_menu['logs']['subtabs'])) {
+			$_admin_menu['logs']['link'] = getAdminLink('admin-tabs/logs.php') . '?page=logs';
+			$_admin_menu['logs']['default'] = NULL;
 		} else {
-			$zenphoto_tabs['logs']['default'] = $default = current(array_keys($zenphoto_tabs['logs']['subtabs']));
-			$zenphoto_tabs['logs']['link'] = $zenphoto_tabs['logs']['subtabs'][$default];
+			$_admin_menu['logs']['default'] = $default = current(array_keys($_admin_menu['logs']['subtabs']));
+			$_admin_menu['logs']['link'] = $_admin_menu['logs']['subtabs'][$default];
 		}
 		//	protect against un-monitored uploading
-		if (isset($zenphoto_tabs['upload'])) {
-			foreach ($zenphoto_tabs['upload']['subtabs'] as $key => $link) {
+		if (isset($_admin_menu['upload'])) {
+			foreach ($_admin_menu['upload']['subtabs'] as $key => $link) {
 				if (strpos($link, '/elFinder/') !== false) {
-					unset($zenphoto_tabs['upload']['subtabs'][$key]);
+					unset($_admin_menu['upload']['subtabs'][$key]);
 					break;
 				}
 			}
-			if (empty($zenphoto_tabs['upload']['subtabs'])) {
-				unset($zenphoto_tabs['upload']);
+			if (empty($_admin_menu['upload']['subtabs'])) {
+				unset($_admin_menu['upload']);
 			} else {
-				$zenphoto_tabs['upload']['default'] = $default = current(array_keys($zenphoto_tabs['upload']['subtabs']));
-				$zenphoto_tabs['upload']['link'] = $zenphoto_tabs['upload']['subtabs'][$default];
+				$_admin_menu['upload']['default'] = $default = current(array_keys($_admin_menu['upload']['subtabs']));
+				$_admin_menu['upload']['link'] = $_admin_menu['upload']['subtabs'][$default];
 			}
 		}
-		if (isset($zenphoto_tabs['development'])) {
+		if (isset($_admin_menu['development'])) {
 			$allowedDebugTabs = array('tokens', 'locale', 'http', 'checkdeprecated', 'rewrite', 'macros', 'filters', 'locale', 'deprecated');
-			foreach ($zenphoto_tabs['development']['subtabs'] as $key => $link) {
+			foreach ($_admin_menu['development']['subtabs'] as $key => $link) {
 				preg_match('~tab=(.*)~', $link, $matches);
 				if (!in_array($matches[1], $allowedDebugTabs)) {
-					unset($zenphoto_tabs['development']['subtabs'][$key]);
+					unset($_admin_menu['development']['subtabs'][$key]);
 				}
 			}
-			if (empty($zenphoto_tabs['development']['subtabs'])) {
-				unset($zenphoto_tabs['development']);
+			if (empty($_admin_menu['development']['subtabs'])) {
+				unset($_admin_menu['development']);
 			} else {
-				$zenphoto_tabs['development']['default'] = $default = current(array_keys($zenphoto_tabs['development']['subtabs']));
-				$zenphoto_tabs['development']['link'] = $zenphoto_tabs['development']['subtabs'][$default];
+				$_admin_menu['development']['default'] = $default = current(array_keys($_admin_menu['development']['subtabs']));
+				$_admin_menu['development']['link'] = $_admin_menu['development']['subtabs'][$default];
 			}
 		}
 		return $allow;
@@ -255,7 +255,7 @@ class openAdmin extends _Administrator {
 	}
 
 	static function Logger($link, $page, $tab, $action) {
-		global $_zp_authority, $_zp_mutex;
+		global $_authority, $_mutex;
 		$ip = sanitize($_SERVER['REMOTE_ADDR']);
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$proxy_list = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
@@ -267,7 +267,7 @@ class openAdmin extends _Administrator {
 
 		$file = SERVERPATH . '/' . DATA_FOLDER . '/openAdmin.log';
 		$max = getOption('security_log_size'); // we are lazy, we will use this
-		$_zp_mutex->lock();
+		$_mutex->lock();
 		if ($max && @filesize($file) > $max) {
 			switchLog('openAdmin');
 		}
@@ -289,7 +289,7 @@ class openAdmin extends _Administrator {
 			fclose($f);
 			clearstatcache();
 		}
-		$_zp_mutex->unlock();
+		$_mutex->unlock();
 	}
 
 }

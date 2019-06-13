@@ -15,7 +15,7 @@
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates the <em>databaseTemplate</em> file.');
 
-zp_register_filter('admin_utilities_buttons', 'database_structure_button');
+npgFilters::register('admin_utilities_buttons', 'database_structure_button');
 
 function database_structure_button($buttons) {
 	$buttons[] = array(

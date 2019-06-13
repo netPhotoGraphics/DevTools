@@ -26,7 +26,7 @@ if (version_compare(PHP_VERSION, '5.5.0', '>=')) {
 
 use Milo\Github;
 
-if (class_exists('Milo\Github\Api') && zpFunctions::hasPrimaryScripts()) {
+if (class_exists('Milo\Github\Api') && npgFunctions::hasPrimaryScripts()) {
 	if (getOption('getDEVUpdates_lastCheck') + 8640 < time()) {
 		setOption('getDEVUpdates_lastCheck', time());
 		try {
@@ -45,12 +45,12 @@ if (class_exists('Milo\Github\Api') && zpFunctions::hasPrimaryScripts()) {
 	}
 	$devVersionURI = getOption('getDEVUpdates_latest');
 	$devVersion = preg_replace('~[^0-9,.]~', '', str_replace('setup-', '', stripSuffix(basename($devVersionURI))));
-	$zenphoto_version = explode('-', ZENPHOTO_VERSION);
-	$zenphoto_version = preg_replace('~[^0-9,.]~', '', array_shift($zenphoto_version));
+	$npg_version = explode('-', NETPHOTOGRAPHICS_VERSION);
+	$npg_version = preg_replace('~[^0-9,.]~', '', array_shift($npg_version));
 
-	zp_register_filter('admin_utilities_buttons', 'devRelease::buttons');
+	npgFilters::register('admin_utilities_buttons', 'devRelease::buttons');
 	if (isset($_GET['update_check'])) {
-		zp_register_filter('admin_note', 'devRelease::notice');
+		npgFilters::register('admin_note', 'devRelease::notice');
 	}
 }
 if (isset($_GET['action'])) {
@@ -104,16 +104,9 @@ if (isset($_GET['action'])) {
 class devRelease {
 
 	static function buttons($buttons) {
-		global $devVersion, $zenphoto_version, $newestVersion;
-		$check = true;
-		foreach ($buttons as $button) {
-			if (isset($button['category']) && $button['category'] == gettext('Updates')) {
-				$check = false;
-				$zenphoto_version = $newestVersion;
-				break;
-			}
-		}
-		if (version_compare($devVersion, $zenphoto_version, '>')) {
+		global $devVersion, $npg_version, $newestVersion;
+
+		if (version_compare($devVersion, $npg_version, '>')) {
 			$buttons[] = array(
 					'XSRFTag' => 'install_update',
 					'category' => gettext('Updates'),
@@ -128,28 +121,27 @@ class devRelease {
 					'rights' => ADMIN_RIGHTS
 			);
 		} else {
-			if ($check) {
-				$buttons[] = array(
-						'XSRFTag' => 'check_update',
-						'category' => gettext('Updates'),
-						'enable' => 1,
-						'button_text' => gettext('Check for updates'),
-						'formname' => 'check_update',
-						'action' => getAdminLink('admin.php') . '?action=check_updates',
-						'icon' => CLOCKWISE_OPEN_CIRCLE_ARROW_GREEN,
-						'alt' => '',
-						'title' => gettext('Check for newer versions of netPhotoGraphics.'),
-						'hidden' => '<input type="hidden" name="action" value="check_updates" />',
-						'rights' => ADMIN_RIGHTS
-				);
-			}
+
+			$buttons[] = array(
+					'XSRFTag' => 'check_update',
+					'category' => gettext('Updates'),
+					'enable' => 1,
+					'button_text' => gettext('Check for updates'),
+					'formname' => 'check_update',
+					'action' => getAdminLink('admin.php') . '?action=check_updates',
+					'icon' => CLOCKWISE_OPEN_CIRCLE_ARROW_GREEN,
+					'alt' => '',
+					'title' => gettext('Check for newer versions of netPhotoGraphics.'),
+					'hidden' => '<input type="hidden" name="action" value="check_updates" />',
+					'rights' => ADMIN_RIGHTS
+			);
 		}
 		return $buttons;
 	}
 
 	static function notice() {
-		global $devVersion, $zenphoto_version;
-		if (isset($newestVersion) || version_compare($devVersion, $zenphoto_version, '>')) {
+		global $devVersion, $npg_version;
+		if (isset($newestVersion) || version_compare($devVersion, $npg_version, '>')) {
 			$msg = gettext('There is an update available.');
 		} else {
 			$msg = gettext('You are running the latest netPhotoGraphics version.');

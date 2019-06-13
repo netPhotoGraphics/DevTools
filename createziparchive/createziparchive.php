@@ -49,16 +49,21 @@ try {
 		case 'DEV':
 		case 'master':
 			$sourcefolder = '/Downloads/netPhotoGraphics' . '-' . VARIENT . '/';
-			break;
+						break;
 		case 'GIT':
 			$sourcefolder = '/github/netPhotoGraphics-DEV/';
 			break;
 	}
 	require_once($sourcefolder . 'zp-core/version.php');
+	if(defined('NETPHOTOGRAPHICS_VERSION')){
+		define('VERSION', NETPHOTOGRAPHICS_VERSION);
+	} else {
+		define('VERSION', ZENPHOTO_VERSION);
+	}		
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
-	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip'))
-		unlink(TARGET . 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip');
+	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip'))
+		unlink(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip');
 
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
@@ -72,7 +77,7 @@ try {
 	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
 	$i = 0;
 	while ($buffer = fgets($fp_cur)) {
-		$buffer = str_replace('_VERSION_', ZENPHOTO_VERSION, $buffer);
+		$buffer = str_replace('_VERSION_', VERSION, $buffer);
 		fwrite($fp_dest, $buffer);
 	}
 	fclose($fp_cur);
@@ -85,13 +90,13 @@ try {
 	unlink($zipfilename);
 
 	$zipfile = new ZipArchive();
-	$zipfile->open(TARGET . 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip', ZipArchive::CREATE);
+	$zipfile->open(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile('readme.txt', 'readme.txt');
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'release notes.htm');
 	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
 
-	echo 'setup-' . VARIENT . '-' . ZENPHOTO_VERSION . '.zip created';
+	echo 'setup-' . VARIENT . '-' . VERSION . '.zip created';
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
 }

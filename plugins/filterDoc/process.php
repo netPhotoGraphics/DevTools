@@ -8,7 +8,7 @@
 require_once(CORE_SERVERPATH . 'setup/setup-functions.php');
 
 function processFilters() {
-	global $_zp_resident_files;
+	global $_resident_files;
 
 	$uses = $filterDescriptions = $classes = $subclasses = array();
 
@@ -47,13 +47,13 @@ function processFilters() {
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentZPFiles($serverpath . '/' . CORE_FOLDER, array_merge($stdExclude, array('functions-filter.php', 'deprecated-functions.php')));
-	getResidentZPFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
+	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge($stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
+	getResidentFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
 
 	$filterlist = array();
 	$registerList = array();
 
-	foreach ($_zp_resident_files as $key => $file) {
+	foreach ($_resident_files as $key => $file) {
 		if (getSuffix($file) == 'php') {
 			$size = filesize($file);
 			$text = file_get_contents($file);
@@ -61,7 +61,7 @@ function processFilters() {
 			$script = str_replace(CORE_FOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			$script = str_replace(CORE_FOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
-			preg_match_all('~(zp_apply_filter|zp_register_filter)\((.*?)\)[^,|\)]~', $text, $matches);
+			preg_match_all('~(npgFilters::apply|npgFilters::register)\((.*?)\)[^,|\)]~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[2] as $which => $paramsstr) {
 					preg_match_all('~([^,]+\(.*\))|([^,]+)~u', $paramsstr, $parameters);
@@ -74,7 +74,7 @@ function processFilters() {
 						$filterlist[$filtername]['filter'] = $filtername;
 					}
 
-					if ($matches[1][$which] == 'zp_apply_filter') {
+					if ($matches[1][$which] == 'npgFilters::apply') {
 						$filterlist[$filtername]['applies'][] = $script;
 						$filterlist[$filtername]['params'] = $parameters;
 					} else {

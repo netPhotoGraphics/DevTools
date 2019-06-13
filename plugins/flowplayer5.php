@@ -8,7 +8,7 @@
  *
  * IMPORTANT NOTE ON OGG AND WEBM COUNTERPART FORMATS:
  *
- * The counterpart formats are not valid formats for Zenphoto itself as that would confuse the management.
+ * The counterpart formats are not valid formats for saveLayoutSelection itself as that would confuse the management.
  * Therefore these formats can be uploaded via ftp only.
  * The files needed to have the same file name (beware the character case!).
  *
@@ -33,7 +33,7 @@ if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
 	$plugin_is_filter = 5 | CLASS_PLUGIN;
 	$plugin_description = gettext("Enable <strong>Flowplayer5</strong> to handle video files.");
 	$plugin_notice = gettext("<strong>IMPORTANT</strong>: Only one multimedia extension plugin can be enabled at the time and the class-video plugin must be enabled, too.") . '<br /><br />' . gettext("Please see <a href='http://flowplayer.org'>flowplayer.org</a> for more info about the player and its license.");
-	$plugin_disable = zpFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'flowplayer5' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('Flowplayer5 not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
+	$plugin_disable = npgFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'flowplayer5' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('Flowplayer5 not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
 }
 
 $option_interface = 'flowplayer5_options';
@@ -42,8 +42,8 @@ Gallery::addImageHandler('flv', 'Video');
 Gallery::addImageHandler('mp4', 'Video');
 Gallery::addImageHandler('m4v', 'Video');
 
-$_zp_multimedia_extension = new Flowplayer5(); // claim to be the flash player.
-zp_register_filter('theme_head', 'flowplayer5::headJS');
+$_multimedia_extension = new Flowplayer5(); // claim to be the flash player.
+npgFilters::register('theme_head', 'flowplayer5::headJS');
 
 class flowplayer5_options {
 
@@ -71,7 +71,7 @@ class flowplayer5_options {
 	static function getSkin() {
 		$skins_dir = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/flowplayer5/skins/';
 		$filestoignore = array('.', '..', '.DS_Store', 'Thumbs.db', '.htaccess', '.svn');
-		$skins = array_diff(scandir($skins_dir), array_merge($filestoignore));
+		$skins = array_diff(safe_glob($skins_dir . '/*.*'), array_merge($filestoignore));
 		$default_skins = self::getSkinCSS($skins, $skins_dir);
 		return $default_skins;
 	}
@@ -135,7 +135,7 @@ class Flowplayer5 {
 		if (is_null($h)) {
 			$h = $this->getHeight();
 		}
-		$moviepath = $movie->getFullImageURL(FULLWEBPATH);
+		$moviepath = $movie->getFullImage(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4v', 'mp4', 'flv'))) {
 			return '<span class="error">' . gettext('This multimedia format is not supported by Flowplayer5') . '</span>';
@@ -217,9 +217,9 @@ class Flowplayer5 {
 	 * @param string $count unique text for when there are multiple player items on a page
 	 */
 	function printPlayerConfig($movie = NULL, $movietitle = NULL) {
-		global $_zp_current_image;
+		global $_current_image;
 		if (empty($movie)) {
-			$movie = $_zp_current_image;
+			$movie = $_current_image;
 		}
 		echo $this->getPlayerConfig($movie, $movietitle);
 	}

@@ -85,11 +85,11 @@ require_once(stripSuffix(__FILE__) . '/file.php');
   if you need to set any filters do this here. Here an example to add a specific javascript file to the theme head.
   yourplugin_javascript is the name of the function to attach to the filter. See the plugin tutorial for details
   on all available filters as some require special setup naturally. */
-zp_register_filter('theme_head', 'demoplugin_javascript');
+npgFilters::register('theme_head', 'demoplugin_javascript');
 /*
  * the following filter calls a function in a file that was included by the above require_once statement
  */
-zp_register_filter('theme_body_open', 'included');
+npgFilters::register('theme_body_open', 'included');
 
 /*
   This is defined on the $option_interface setting above */

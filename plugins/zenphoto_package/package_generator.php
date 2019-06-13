@@ -15,46 +15,46 @@ require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/
 
 $stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data');
 
-$_zp_resident_files[] = THEMEFOLDER;
-foreach ($_zp_gallery->getThemes() as $theme => $data) {
+$_resident_files[] = THEMEFOLDER;
+foreach ($_gallery->getThemes() as $theme => $data) {
 	if (protectedTheme($theme)) {
-		$_zp_resident_files[] = THEMEFOLDER . '/' . $theme;
-		$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
+		$_resident_files[] = THEMEFOLDER . '/' . $theme;
+		$_resident_files = array_merge($_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, $stdExclude));
 	}
 }
 
-$_zp_resident_files[] = USER_PLUGIN_FOLDER;
+$_resident_files[] = USER_PLUGIN_FOLDER;
 $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
 		if (distributedPlugin($plugin)) {
 			if (is_dir($dir = stripSuffix($path))) {
-				$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
-				$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles($dir, $stdExclude));
+				$_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
+				$_resident_files = array_merge($_resident_files, getResidentFiles($dir, $stdExclude));
 			}
-			$_zp_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
+			$_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
 		}
 	}
 }
 
-$_zp_resident_files[] = CORE_FOLDER;
-$_zp_resident_files = array_merge($_zp_resident_files, getResidentFiles(SERVERPATH . '/' . CORE_FOLDER, array_merge($stdExclude, array('setup', 'version.php'))));
+$_resident_files[] = CORE_FOLDER;
+$_resident_files = array_merge($_resident_files, getResidentFiles(SERVERPATH . '/' . CORE_FOLDER, array_merge($stdExclude, array('setup', 'version.php'))));
 
 $_special_files[] = CORE_FOLDER . '/version.php';
 $_special_files[] = CORE_FOLDER . '/setup';
 $_special_files = array_merge($_special_files, getResidentFiles(CORE_SERVERPATH . 'setup', $stdExclude));
 
-$filepath = SERVERPATH . '/' . getOption('package_path') . '/zenphoto.package';
+$filepath = SERVERPATH . '/' . getOption('package_path') . '/netPhotoGraphics.package';
 @chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
-foreach ($_zp_resident_files as $component) {
+foreach ($_resident_files as $component) {
 	fwrite($fp, $component . "\n");
 }
 foreach ($_special_files as $component) {
 	fwrite($fp, $component . ":*\n");
 }
 
-fwrite($fp, count($_zp_resident_files) + count($_special_files));
+fwrite($fp, count($_resident_files) + count($_special_files));
 fclose($fp);
 clearstatcache();
 header('Location: ' . getAdminLink('admin.php') . '?action=external&msg=Package created and stored in the ' . getOption('package_path') . ' folder.');
@@ -66,7 +66,7 @@ exit();
  * @param $folder
  */
 function getResidentFiles($folder, $exclude) {
-	global $_zp_resident_files;
+	global $_resident_files;
 	$dirs = array_diff(scandir($folder), $exclude);
 	$localfiles = array();
 	$localfolders = array();

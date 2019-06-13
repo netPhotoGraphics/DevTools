@@ -22,10 +22,10 @@
 // force UTF-8 Ø
 
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
-$plugin_description = gettext('Generates the <em>zenphoto.package</em> file.');
+$plugin_description = gettext('Generates the <em>netPhotoGraphics.package</em> file.');
 $option_interface = 'package';
 
-zp_register_filter('admin_utilities_buttons', 'package::buttons');
+npgFilters::register('admin_utilities_buttons', 'package::buttons');
 
 class package {
 
@@ -46,7 +46,7 @@ class package {
 				'category' => gettext('Development'),
 				'enable' => true,
 				'button_text' => gettext('extract getAllTranslations'),
-				'formname' => 'zenphoto_translations_button',
+				'formname' => 'translations_button',
 				'action' => FULLWEBPATH . '/plugins/package/getAllTranslations.php',
 				'icon' => ARROW_DOWN_GREEN,
 				'title' => gettext('Extract "allTranslations" strings'),

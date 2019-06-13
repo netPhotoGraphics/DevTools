@@ -44,7 +44,7 @@ function getPHPFiles($folder) {
 }
 
 $scripts = array();
-foreach ($_zp_gallery->getThemes() as $theme => $data) {
+foreach ($_gallery->getThemes() as $theme => $data) {
 	if (protectedTheme($theme)) {
 		$scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme));
 	}
