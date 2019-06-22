@@ -135,7 +135,7 @@ class Flowplayer5 {
 		if (is_null($h)) {
 			$h = $this->getHeight();
 		}
-		$moviepath = $movie->getFullImage(FULLWEBPATH);
+		$moviepath = $movie->getImagePath(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4v', 'mp4', 'flv'))) {
 			return '<span class="error">' . gettext('This multimedia format is not supported by Flowplayer5') . '</span>';

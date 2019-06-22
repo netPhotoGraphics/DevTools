@@ -21,6 +21,7 @@
 !favoritesHandler_action
 !image_filter
 !login_link
+!logout
 !move_object
 !next_object_loop
 !plugin_tabs
@@ -35,7 +36,6 @@
 !theme_file_top
 !theme_headers
 !upload_root_ui
-!logout
 
 #These filters have no description
 *Admin.CMS:=
@@ -52,8 +52,6 @@
 *Theme.Miscellaneous:=
 *Theme.Script:=
 
-Admin>CMS>save_category_data:=
-
 *Admin:=These filters allow for the extension of the administrator interface.
 *Object:=These filters provide modifications to the behavior of object methods.
 *Object.Media:=These filters apply to "media" objects
@@ -68,6 +66,7 @@ Admin>CMS>new_category:=Invoked when a new CMS category is created.
 Admin>CMS>new_page:=Invoked when a new CMS page is created.
 Admin>CMS>processBulkCMSSave:=Allow processing of the "category", "article", and "page" tab bulk action saves.
 Admin>CMS>save_article_data:=Allows a plugin to manage custom data for news articles. This invocation is for when the article is saved.
+Admin>CMS>save_category_data:=Applied just before the CMS Category save() method is called.
 Admin>CMS>save_page_data:=Allows a plugin to manage image data for page. This invocation is for when the page is saved.
 Admin>CMS>update_article:=Invoked when a news article is updated.
 Admin>CMS>update_category:=Invoked when a CMS category is updated.
@@ -128,9 +127,9 @@ Miscellaneous>Miscellaneous>seoFriendly:=Invoked to transform names that might c
 Miscellaneous>Miscellaneous>seoFriendly_js:=Allows a plugin to provide a JavaScript function to names that might contain diacritical marks into text that does not.
 Miscellaneous>Miscellaneous>setupTheme:=Allows a plugin to override the <em>theme</em> that will be used to display WEB pages.
 Miscellaneous>Miscellaneous>site_upgrade_xml:=Allows plugins to add files to those processed by the site_upgrade plugin
+Miscellaneous>Miscellaneous>software_information:=This filter is used to display the installation information HTML comment at the end of each page load
 Miscellaneous>Miscellaneous>texteditor_config:=Provides configuration information to the Text Editor plugin (normally TinyMCE).
 Miscellaneous>Miscellaneous>tinymce_config:=Filter used by plugins to modify tinyMCE configurations.
-Miscellaneous>Miscellaneous>software_information:=This filter is used to display the installation information HTML comment at the end of each page load
 
 Object>Media>album_filter:=Allows plugins to remove some folders from the list of album folders that are discovered.
 Object>Media>album_instantiate:=Invoked when an album is instantiated.
@@ -143,6 +142,7 @@ Object>Media>new_album:=Invoked when a new album is discovered.
 Object>Media>new_image:=Invoked when a new image is discovered.
 Object>Media>standard_image_html:=Allows a plugin to modify the HTML used to reference an image.
 Object>Miscellaneous>favoritesHandler_action:=Called when an object is added or removed from a user's favorites list
+Object>Miscellaneous>isUnprotectedPage:=Allows plugins to declare particular "pages" to be unprotected--that is they are publicly viewable.
 Object>Root_class>check_credentials:=Called when an object is requested to verify that the logged on user is allowed to perform the <em>action</em> on the item.
 Object>Root_class>copy_object:=Invoked when an object's <span class="tt">copy</span> method is called.
 Object>Root_class>move_object:=Invoked when an object's <span class="tt">move</span> method is called.
@@ -208,9 +208,10 @@ User_management>Miscellaneous>federated_login_attempt:=Invoked when a user logs 
 User_management>Miscellaneous>guest_login_attempt:=Invoked when a visitor logs on with a guest password.
 User_management>Miscellaneous>login_link:=Overrides the login link so that an external handler handles the login
 User_management>Miscellaneous>login_redirect_link:=Filters the return link of the login form.
+User_management>Miscellaneous>logout:=Provides a link to an external logout handler
+User_management>Miscellaneous>policy_ack:=Used for logging acknowledgment of the site usage policy.
 User_management>Miscellaneous>register_user_registered:=Invoked when a new user registers.
 User_management>Miscellaneous>register_user_verified:=Invoked when a new user is verified.
 User_management>Miscellaneous>remove_user:=Called in _Administrator remove method to allow plugins to clean up anything associated with the user.
 User_management>Miscellaneous>save_admin_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is saved.
 User_management>Miscellaneous>save_user_complete:=Invoked after the userObj->save() method has been called. Used primarily for logging that a user has been updated.
-User_management>Miscellaneous>logout:=Provides a link to an external logout handler

@@ -13,8 +13,8 @@ function processFilters() {
 	$uses = $filterDescriptions = $classes = $subclasses = array();
 
 
-	$htmlfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list.html';
-	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter descriptions.txt';
+	$htmlfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list.html';
+	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
 		$t = file_get_contents($filterdesc);
 		$t = explode("\n", $t);
@@ -333,7 +333,7 @@ function processFilters() {
 
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
-	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html';
+	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list_index.html';
 	$f = fopen($indexfile, 'w');
 	fwrite($f, "\t<ul>\n");
 	$liopen = $ulopen = false;
@@ -452,13 +452,13 @@ function processFilters() {
 
 //	create the doc file
 $doc = '<div style="float:left;width:70%;">' .
-				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/intro.html') .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/intro.html') .
 				'</div>' .
 				'<div style="float:right;width:30%;">' .
-				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html') .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list_index.html') .
 				'</div>' .
 				'<br clear="all">' .
-				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list.html');
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list.html');
 file_put_contents(SERVERPATH . '/docs/filterDoc.htm', $doc);
 
 function mytrim($str) {

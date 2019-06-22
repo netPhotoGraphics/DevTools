@@ -321,7 +321,7 @@ class mediaelementjs_player {
 		if (is_null($h)) {
 			$height = $this->getHeight();
 		}
-		$moviepath = $movie->getFullImage(FULLWEBPATH);
+		$moviepath = $movie->getImagePath(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4a', 'm4v', 'mp3', 'mp4', 'flv'))) {
 			echo '<p>' . gettext('This multimedia format is not supported by mediaelement.js.') . '</p>';

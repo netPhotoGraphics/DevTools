@@ -10,14 +10,12 @@
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates a Doc file for filters.');
 
-if (file_exists(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/process.php')) {
-	npgFilters::register('admin_utilities_buttons', 'filterDoc_button');
-}
+npgFilters::register('admin_utilities_buttons', 'filterDoc_button');
 
 function filterDoc_button($buttons) {
 	if (isset($_REQUEST['filterDoc'])) {
 		XSRFdefender('filterDoc');
-		include (SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/process.php');
+		include (SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/process.php');
 		processFilters();
 	}
 	$buttons[] = array(
