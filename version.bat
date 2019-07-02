@@ -39,10 +39,10 @@ SET /a build=1000000
 GOTO SETVERSION
 
 :MINOR
-SET /a minor=%minor%+1
 SET /a N=1%minor%-(11%minor%-1%minor%)/10
-SET N=000000%N%
-SET minor=%N:~-2%
+SET /a minor=%N%+1
+SET /a N=1%minor%-(11%minor%-1%minor%)/10
+SET minor=1000000%N%
 SET /a release=1000000
 SET /a build=1000000
 GOTO SETVERSION
