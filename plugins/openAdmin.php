@@ -107,7 +107,7 @@ class openAdmin extends _Administrator {
 		self::setAdmin();
 		if (!isset($_POST['policy_acknowledge']) || $_POST['policy_acknowledge'] == md5(getUserID() . getOption('GDPR_cookie'))) {
 			if (class_exists('GDPR_required') && getNPGCookie('policyACK') != getOption('GDPR_cookie')) {
-				GDPR_required::page();
+				GDPR_required::page(NULL, NULL);
 			}
 		}
 		setNPGCookie('policyACK', getOption('GDPR_cookie'));

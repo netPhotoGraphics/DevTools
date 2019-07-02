@@ -52,6 +52,7 @@ function processFilters() {
 
 	$filterlist = array();
 	$registerList = array();
+	$applyList = array();
 
 	foreach ($_resident_files as $key => $file) {
 		if (getSuffix($file) == 'php') {
@@ -250,6 +251,15 @@ function processFilters() {
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
 
+	//	special class for security logger filters
+	global $_securityLoggerList;
+	foreach ($_securityLoggerList as $filter => $handler) {
+		$parent = $newfilterlist[$filter];
+		$parent['class'] = 'Admin';
+		$parent['subclass'] = 'Security';
+		$newfilterlist[] = $parent;
+	}
+
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
 
 	$f = fopen($htmlfile, 'w');
@@ -279,12 +289,12 @@ function processFilters() {
 				}
 				$subclass = $filter['subclass'];
 				if (array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
-					$subclasshead = '<p>' . $filterDescriptions['*' . $class . '.' . $subclass]['desc'] . '</p>';
+					$subclasshead = '<p class="subclass">' . $filterDescriptions['*' . $class . '.' . $subclass]['desc'] . '</p>';
 				} else {
 					$subclasshead = '';
 				}
 				if (isset($filterCategories[$class]['count']) && $filterCategories[$class]['count'] > 1) { //	Class doc is adequate.
-					fwrite($f, "\t\t\t" . '<h6 class="filter"><span id="' . $class . '_' . $subclass . '"></span>' . $subclass . "</h6>\n");
+					fwrite($f, "\t\t\t" . '<h6 class="filter subclass"><span id="' . $class . '_' . $subclass . '"></span>' . $subclass . "</h6>\n");
 					fwrite($f, "\t\t\t" . '<!-- subclasshead ' . $class . '.' . $subclass . ' -->' . $subclasshead . "<!--e-->\n");
 				}
 				fwrite($f, "\t\t\t" . '<ul class="filterdetail">' . "\n");
@@ -320,17 +330,18 @@ function processFilters() {
 			}
 			fwrite($f, "\t\t\t\t\t" . "</ul><!-- calls -->\n");
 			if ($limit > 0) {
-				fwrite($f, "\t\t\t\t\t" . '<br />');
+				fwrite($f, "\t\t\t\t\t" . "<br />\n");
 			}
 
-			fwrite($f, "\t\t\t\t" . '</li><!-- filterdetail -->' . "\n");
+			fwrite($f, "\t\t\t\t" . "</li><!-- filterdetail -->\n");
 		}
 	}
 
-	fwrite($f, "\t\t\t" . '</ul><!-- filterdetail -->' . "\n");
+	fwrite($f, "\t\t\t</ul><!-- filterdetail -->\n");
 	fwrite($f, "<!-- End filter descriptions -->\n");
 	fclose($f);
 
+	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
 	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list_index.html';
@@ -366,6 +377,7 @@ function processFilters() {
 			}
 		}
 	}
+
 	if ($ulopen) {
 		fwrite($f, "\t\t</ul>\n");
 	}
@@ -451,12 +463,12 @@ function processFilters() {
 }
 
 //	create the doc file
-$doc = '<div style="float:left;width:70%;">' .
+$doc = '<div style="float:left;width:70%;">' . "\n" .
 				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/intro.html') .
-				'</div>' .
-				'<div style="float:right;width:30%;">' .
+				"</div>\n" .
+				'<div style="float:right;width:30%;">' . "\n" .
 				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list_index.html') .
-				'</div>' .
+				"</div>\n" .
 				'<br clear="all">' .
 				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list.html');
 file_put_contents(SERVERPATH . '/docs/filterDoc.htm', $doc);
