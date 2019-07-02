@@ -28,7 +28,7 @@ $MCEspecial['style_formats'] = "[
 					{title: 'table_of_content_list', inline: 'span', classes: 'table_of_content_list'}
 				]
 			}
-		];
+		]";
 $MCEplugins = "advlist autolink lists link image charmap anchor " .
 				"searchreplace visualchars visualblocks code fullscreen " .
 				"insertdatetime media table paste directionality ";

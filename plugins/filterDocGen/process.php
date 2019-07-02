@@ -5,16 +5,16 @@
  *
  * @package plugins/filterDoc
  */
-require_once(SERVERPATH . '/' . ZENFOLDER . '/setup/setup-functions.php');
+require_once(CORE_SERVERPATH . 'setup/setup-functions.php');
 
 function processFilters() {
-	global $_zp_resident_files;
+	global $_resident_files;
 
 	$uses = $filterDescriptions = $classes = $subclasses = array();
 
 
-	$htmlfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list.html';
-	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter descriptions.txt';
+	$htmlfile = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list.html';
+	$filterdesc = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
 		$t = file_get_contents($filterdesc);
 		$t = explode("\n", $t);
@@ -47,21 +47,22 @@ function processFilters() {
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentZPFiles($serverpath . '/' . ZENFOLDER, array_merge($stdExclude, array('functions-filter.php', 'deprecated-functions.php')));
-	getResidentZPFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
+	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge($stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
+	getResidentFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
 
 	$filterlist = array();
 	$registerList = array();
+	$applyList = array();
 
-	foreach ($_zp_resident_files as $key => $file) {
+	foreach ($_resident_files as $key => $file) {
 		if (getSuffix($file) == 'php') {
 			$size = filesize($file);
 			$text = file_get_contents($file);
 			$script = str_replace($serverpath . '/', '', $file);
-			$script = str_replace(ZENFOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
-			$script = str_replace(ZENFOLDER . '/', '<!--sort first-->/', $script);
+			$script = str_replace(CORE_FOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
+			$script = str_replace(CORE_FOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
-			preg_match_all('~(zp_apply_filter|zp_register_filter)\((.*?)\)[^,|\)]~', $text, $matches);
+			preg_match_all('~(npgFilters::apply|npgFilters::register)\((.*?)\)[^,|\)]~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[2] as $which => $paramsstr) {
 					preg_match_all('~([^,]+\(.*\))|([^,]+)~u', $paramsstr, $parameters);
@@ -74,7 +75,7 @@ function processFilters() {
 						$filterlist[$filtername]['filter'] = $filtername;
 					}
 
-					if ($matches[1][$which] == 'zp_apply_filter') {
+					if ($matches[1][$which] == 'npgFilters::apply') {
 						$filterlist[$filtername]['applies'][] = $script;
 						$filterlist[$filtername]['params'] = $parameters;
 					} else {
@@ -250,6 +251,15 @@ function processFilters() {
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
 
+	//	special class for security logger filters
+	global $_securityLoggerList;
+	foreach ($_securityLoggerList as $filter => $handler) {
+		$parent = $newfilterlist[$filter];
+		$parent['class'] = 'Admin';
+		$parent['subclass'] = 'Security';
+		$newfilterlist[] = $parent;
+	}
+
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
 
 	$f = fopen($htmlfile, 'w');
@@ -279,12 +289,12 @@ function processFilters() {
 				}
 				$subclass = $filter['subclass'];
 				if (array_key_exists('*' . $class . '.' . $subclass, $filterDescriptions)) {
-					$subclasshead = '<p>' . $filterDescriptions['*' . $class . '.' . $subclass]['desc'] . '</p>';
+					$subclasshead = '<p class="subclass">' . $filterDescriptions['*' . $class . '.' . $subclass]['desc'] . '</p>';
 				} else {
 					$subclasshead = '';
 				}
 				if (isset($filterCategories[$class]['count']) && $filterCategories[$class]['count'] > 1) { //	Class doc is adequate.
-					fwrite($f, "\t\t\t" . '<h6 class="filter"><span id="' . $class . '_' . $subclass . '"></span>' . $subclass . "</h6>\n");
+					fwrite($f, "\t\t\t" . '<h6 class="filter subclass"><span id="' . $class . '_' . $subclass . '"></span>' . $subclass . "</h6>\n");
 					fwrite($f, "\t\t\t" . '<!-- subclasshead ' . $class . '.' . $subclass . ' -->' . $subclasshead . "<!--e-->\n");
 				}
 				fwrite($f, "\t\t\t" . '<ul class="filterdetail">' . "\n");
@@ -320,20 +330,21 @@ function processFilters() {
 			}
 			fwrite($f, "\t\t\t\t\t" . "</ul><!-- calls -->\n");
 			if ($limit > 0) {
-				fwrite($f, "\t\t\t\t\t" . '<br />');
+				fwrite($f, "\t\t\t\t\t" . "<br />\n");
 			}
 
-			fwrite($f, "\t\t\t\t" . '</li><!-- filterdetail -->' . "\n");
+			fwrite($f, "\t\t\t\t" . "</li><!-- filterdetail -->\n");
 		}
 	}
 
-	fwrite($f, "\t\t\t" . '</ul><!-- filterdetail -->' . "\n");
+	fwrite($f, "\t\t\t</ul><!-- filterdetail -->\n");
 	fwrite($f, "<!-- End filter descriptions -->\n");
 	fclose($f);
 
+	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
-	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html';
+	$indexfile = $serverpath . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list_index.html';
 	$f = fopen($indexfile, 'w');
 	fwrite($f, "\t<ul>\n");
 	$liopen = $ulopen = false;
@@ -366,6 +377,7 @@ function processFilters() {
 			}
 		}
 	}
+
 	if ($ulopen) {
 		fwrite($f, "\t\t</ul>\n");
 	}
@@ -451,14 +463,14 @@ function processFilters() {
 }
 
 //	create the doc file
-$doc = '<div style="float:left;width:70%;">' .
-				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/intro.html') .
-				'</div>' .
-				'<div style="float:right;width:30%;">' .
-				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list_index.html') .
-				'</div>' .
+$doc = '<div style="float:left;width:70%;">' . "\n" .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/intro.html') .
+				"</div>\n" .
+				'<div style="float:right;width:30%;">' . "\n" .
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list_index.html') .
+				"</div>\n" .
 				'<br clear="all">' .
-				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/filter list.html');
+				file_get_contents(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/filter list.html');
 file_put_contents(SERVERPATH . '/docs/filterDoc.htm', $doc);
 
 function mytrim($str) {

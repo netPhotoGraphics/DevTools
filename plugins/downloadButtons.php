@@ -8,16 +8,16 @@
  * @pluginCategory netPhotoGraphics
  */
 
-require_once( SERVERPATH . '/' . ZENFOLDER . '/' . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
+require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php');
 
 use Milo\Github;
 
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Provides a button to download the latest version of the software.");
 
-zp_register_filter('content_macro', 'downloadButtons::macro');
+npgFilters::register('content_macro', 'downloadButtons::macro');
 
-//zp_register_filter('admin_utilities_buttons', 'downloadButtons::button');
+//npgFilters::register('admin_utilities_buttons', 'downloadButtons::button');
 
 class downloadButtons {
 

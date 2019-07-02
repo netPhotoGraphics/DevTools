@@ -84,7 +84,7 @@ foreach ($tables as $table) {
 	}
 }
 
-$template = unserialize(file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate'));
+$template = unserialize(file_get_contents(CORE_SERVERPATH . 'databaseTemplate'));
 $dropped = $renamed = array();
 
 foreach ($template as $table => $row) {
@@ -114,13 +114,13 @@ foreach ($template as $table => $row) {
 	}
 }
 
-file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/databaseTemplate', serialize($database));
+file_put_contents(CORE_SERVERPATH . 'databaseTemplate', serialize($database));
 
 $more = '';
 if (!empty($renamed)) {
-	$setupdb = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/setup/database.php');
+	$setupdb = file_get_contents(CORE_SERVERPATH . 'setup/database.php');
 	$setupdb = str_replace("\$renames = array(\n", "\$renames = array(\n\t\t" . implode("\n\t\t", $renamed) . "\n", $setupdb);
-	file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/setup/database.php', $setupdb);
+	file_put_contents(CORE_SERVERPATH . 'setup/database.php', $setupdb);
 	$more = '&more=database_template';
 	array_unshift($renamed, gettext('Possible field name changes detected.'));
 	array_unshift($renamed, '');
@@ -130,6 +130,6 @@ if (!empty($dropped)) {
 	array_unshift($dropped, '');
 }
 $_SESSION['database_template'] = array_merge($renamed, $dropped);
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=' . gettext("Database template created") . $more);
+header('Location: ' . getAdminLink('admin.php') . '?action=external&msg=' . gettext("Database template created") . $more);
 exit();
 ?>

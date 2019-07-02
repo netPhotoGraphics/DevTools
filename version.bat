@@ -3,8 +3,8 @@ REM this script will update the "build" number of the ZenPhoto20 version and com
 REM copyright by Stephen Billard, all rights reserved.
 
 SET SOURCE=zp-core\version.php
-FOR /F "delims=" %%a in ('FINDSTR "ZENPHOTO_VERSION" %SOURCE%') DO SET REL=%%a
-SET REL=%REL:~28,-3%
+FOR /F "delims=" %%a in ('FINDSTR "NETPHOTOGRAPHICS_VERSION" %SOURCE%') DO SET REL=%%a
+SET REL=%REL:~36,-3%
 
 FOR /F "tokens=1,2,3,4,5 delims=.'-" %%a in ("%REL%-") DO (
 	SET major=%%a
@@ -75,6 +75,7 @@ FOR /F "tokens=1,2 delims=.'_" %%a in ("%devbuild%") DO (
 )
 if [%devversion%]==[] set devversion=%base%
 :DEVBUILD
+
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
 SET /a devversion=%N%+1
 SET /a N=1%devversion%-(11%devversion%-1%devversion%)/10
@@ -86,13 +87,13 @@ SET /a N=1%build%-(11%build%-1%build%)/10
 SET /a build=%N%+1
 SET /a N=1%build%-(11%build%-1%build%)/10
 SET build=1000000%N%
-SET doc=%major%.%minor:~0,2%.%release:~0,2%.%build:~0,2%
+SET doc=%major%.%minor%.%release%.%build:~-2%
 
 :TAG
 
 >%SOURCE%	echo ^<?php
 >>%SOURCE%	echo // This file contains version info only and is automatically updated. DO NOT EDIT.
->>%SOURCE%	echo define('ZENPHOTO_VERSION', '%new%');
+>>%SOURCE%	echo define('NETPHOTOGRAPHICS_VERSION', '%new%');
 >>%SOURCE%	echo ?^>
 
 :DOCUPDATE
@@ -108,6 +109,8 @@ set dest="docs\release notes.htm"
     echo(!line!
     endlocal
 ))>%dest%
+
+IF NOT [%beta%]==[] GOTO COMMIT
 
 rem update the user guide
 D:\github\DevTools\officetopdf.exe "D:\github\DevTools\user guide.docx" "docs/user guide.pdf"

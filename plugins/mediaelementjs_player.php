@@ -26,7 +26,7 @@
  * Example: yourvideo.mp4 with yourvideo_subtitles.srt and yourvideo_chapters.srt
  *
  * CONTENT MACRO:<br>
- * Mediaelementjs attaches to the content_macro MEDIAPLAYER you can use within normal text of Zenpage pages or articles for example.
+ * Mediaelementjs attaches to the content_macro MEDIAPLAYER you can use within normal text of pages or articles for example.
  *
  * Usage:
  * [MEDIAPLAYER <albumname> <imagefilename> <number> <width> <height>]
@@ -38,9 +38,9 @@
  *
  * Playlist (beta):
  * Basic playlist support (adapted from Andrew Berezovsky – https://github.com/duozersk/mep-feature-playlist):
- * Enable the option to load the playlist script support. Then call on your theme's album.php the method $_zp_multimedia_extension->playlistPlayer();
- * echo $_zp_multimedia_extension->playlistPlayer('video','',''); //video playlist using all available .mp4, .m4v, .flv files only
- * echo $_zp_multimedia_extension->playlistPlayer('audio','',''); //audio playlist using all available .mp3, .m4a files only
+ * Enable the option to load the playlist script support. Then call on your theme's album.php the method $_multimedia_extension->playlistPlayer();
+ * echo $_multimedia_extension->playlistPlayer('video','',''); //video playlist using all available .mp4, .m4v, .flv files only
+ * echo $_multimedia_extension->playlistPlayer('audio','',''); //audio playlist using all available .mp3, .m4a files only
  * Additionally you can set a specific albumname on the 2nd parameter to call a playlist outside of album.php
  *
  * Notes: Mixed audio and video playlists are not possible. Counterpart formats are also not supported. Also the next playlist item does not automatically play.
@@ -52,11 +52,11 @@
  * @pluginCategory media
  * @package plugins/mediaelementjs_player
  */
+$plugin_is_filter = 5 | CLASS_PLUGIN;
 if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
-	$plugin_is_filter = 5 | CLASS_PLUGIN;
 	$plugin_description = gettext("Enable <strong>mediaelement.js</strong> to handle multimedia files.");
 	$plugin_notice = gettext("<strong>IMPORTANT</strong>: Only one multimedia player plugin can be enabled at the time and the class-video plugin must be enabled, too.") . '<br /><br />' . gettext("Please see <a href='http://http://mediaelementjs.com'>mediaelementjs.com</a> for more info about the player and its license.");
-	$plugin_disable = zpFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'mediaelementjs_player' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('mediaelementjs_player not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
+	$plugin_disable = npgFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'mediaelementjs_player' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('mediaelementjs_player not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
 }
 
 $plugin_version = '1.1.1';
@@ -68,11 +68,11 @@ Gallery::addImageHandler('mp4', 'Video');
 Gallery::addImageHandler('m4v', 'Video');
 Gallery::addImageHandler('m4a', 'Video');
 
-$_zp_multimedia_extension = new mediaelementjs_player(); // claim to be the flash player.
-zp_register_filter('content_macro', 'mediaelementjs_player::macro');
-zp_register_filter('theme_body_close', 'mediaelementjs_player::js');
+$_multimedia_extension = new mediaelementjs_player(); // claim to be the flash player.
+npgFilters::register('content_macro', 'mediaelementjs_player::macro');
+npgFilters::register('theme_body_close', 'mediaelementjs_player::js');
 if (getOption('mediaelementjs_playlist')) {
-	zp_register_filter('theme_body_close', 'mediaelementjs_player::playlist_js');
+	npgFilters::register('theme_body_close', 'mediaelementjs_player::playlist_js');
 }
 
 class mediaelementjs_options {
@@ -253,7 +253,7 @@ class mediaelementjs_player {
 		  if(file_exists($skin)) {
 		  $skin = replaceScriptPath(Sskin,FULLWEBPATH); //replace SERVERPATH as that does not work as a CSS link
 		  } else {
-		  $skin = FULLWEBPATH.'/'.ZENFOLDER.'/'.PLUGIN_FOLDER.'/mediaelementjs_player/mediaelementplayer.css';
+		  $skin = FULLWEBPATH.'/'.CORE_FOLDER.'/'.PLUGIN_FOLDER.'/mediaelementjs_player/mediaelementplayer.css';
 		  }
 		 */
 		$features = mediaelementjs_player::getFeatureOptions();
@@ -321,7 +321,7 @@ class mediaelementjs_player {
 		if (is_null($h)) {
 			$height = $this->getHeight();
 		}
-		$moviepath = $movie->getFullImageURL(FULLWEBPATH);
+		$moviepath = $movie->getImagePath(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4a', 'm4v', 'mp3', 'mp4', 'flv'))) {
 			echo '<p>' . gettext('This multimedia format is not supported by mediaelement.js.') . '</p>';
@@ -425,9 +425,9 @@ class mediaelementjs_player {
 	 * @param string $movietitle the title of the movie. if empty the Image Title is used
 	 */
 	function printPlayerConfig($movie = NULL, $movietitle = NULL) {
-		global $_zp_current_image;
+		global $_current_image;
 		if (empty($movie)) {
-			$movie = $_zp_current_image;
+			$movie = $_current_image;
 		}
 		echo $this->getPlayerConfig($movie, $movietitle);
 	}
@@ -529,10 +529,10 @@ class mediaelementjs_player {
 	}
 
 	static function getMacroPlayer($albumname, $imagename, $width = NULL, $height = NULL) {
-		global $_zp_multimedia_extension;
+		global $_multimedia_extension;
 		$movie = newImage(NULL, array('folder' => $albumname, 'filename' => $imagename), true);
 		if ($movie->exists) {
-			return $_zp_multimedia_extension->getPlayerConfig($movie, NULL, $width, $height);
+			return $_multimedia_extension->getPlayerConfig($movie, NULL, $width, $height);
 		} else {
 			return '<span class = "error">' . sprintf(gettext('%1$s::%2$s not found.'), $albumname, $imagename) . '</span>';
 		}
@@ -557,10 +557,10 @@ class mediaelementjs_player {
 	 */
 
 	function playlistPlayer($mode, $albumfolder = '', $count = '') {
-		global $_zp_current_album;
+		global $_current_album;
 
 		if (empty($albumfolder)) {
-			$albumobj = $_zp_current_album;
+			$albumobj = $_current_album;
 		} else {
 			$albumobj = newAlbum($albumfolder);
 		}
@@ -599,7 +599,7 @@ class mediaelementjs_player {
 						if ($counter < 10)
 							$counteradd = '0';
 						$obj = newImage($albumobj, $file);
-						$playerconfig .= '<source type="audio/mpeg" src="' . pathurlencode($obj->getFullImageURL()) . '" title="' . $counteradd . $counter . '. ' . html_encode($obj->getTitle()) . '" />';
+						$playerconfig .= '<source type="audio/mpeg" src="' . $obj->getFullImageURL() . '" title="' . $counteradd . $counter . '. ' . html_encode($obj->getTitle()) . '" />';
 						/* Does not work with this playlist script
 						  $counterparts = $this->getCounterpartFiles($moviepath,$ext);
 						  if(count($counterparts) != 0) {
@@ -634,7 +634,7 @@ class mediaelementjs_player {
 						if ($counter < 10)
 							$counteradd = '0';
 						$obj = newImage($albumobj, $file);
-						$playerconfig .= '<source type="video/mp4" src="' . pathurlencode($obj->getFullImageURL()) . '" title="' . $counteradd . $counter . '. ' . html_encode($obj->getTitle()) . ')" />';
+						$playerconfig .= '<source type="video/mp4" src="' . $obj->getFullImageURL() . '" title="' . $counteradd . $counter . '. ' . html_encode($obj->getTitle()) . ')" />';
 						/* Does not work with this playlist script
 						  $counterparts = $this->getCounterpartFiles($moviepath,$ext);
 						  if(count($counterparts) != 0) {

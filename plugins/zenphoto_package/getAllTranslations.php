@@ -5,10 +5,10 @@
  *
  * It will insert the text into gettext() calls and include within this source code.
  *
- * @Copyright 2017 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics and derivatives}
+ * @Copyright 2017 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  *
  * @author Stephen Billard (sbillard)
- * @package plugins/zenphoto_package
+ * @package plugins/package
  * @pluginCategory tools
  */
 
@@ -44,7 +44,7 @@ function getPHPFiles($folder) {
 }
 
 $scripts = array();
-foreach ($_zp_gallery->getThemes() as $theme => $data) {
+foreach ($_gallery->getThemes() as $theme => $data) {
 	if (protectedTheme($theme)) {
 		$scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme));
 	}
@@ -69,9 +69,9 @@ foreach ($paths as $plugin => $path) {
 }
 $categoryNames = array_unique($categoryNames);
 
-$scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . ZENFOLDER));
+$scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . CORE_FOLDER));
 
-$f = fopen(SERVERPATH . '/' . ZENFOLDER . '/allTranslations.php', 'w');
+$f = fopen(CORE_SERVERPATH . 'allTranslations.php', 'w');
 fwrite($f, "<?php\n/* This file contains language strings extracted from getAllTranslations() function calls.\n * it is used by Poedit to capture the strings for translation.\n */\n");
 
 $seen = array();
@@ -110,9 +110,9 @@ foreach ($categoryNames as $name => $text) {
 }
 $update .= "\n\t);";
 
-$functs = file_get_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php');
+$functs = file_get_contents(CORE_SERVERPATH . 'admin-functions.php');
 $functs = preg_replace('~\$pluginCategoryNames\s*=\s*array\s*\((.*)\);~isU', $update, $functs);
-file_put_contents(SERVERPATH . '/' . ZENFOLDER . '/admin-functions.php', $functs);
+file_put_contents(CORE_SERVERPATH . 'admin-functions.php', $functs);
 
-header('Location: ' . FULLWEBPATH . '/' . ZENFOLDER . '/admin.php?action=external&msg=allTranslations.php updated.');
+header('Location: ' . getAdminLink('admin.php') . '?action=external&msg=allTranslations.php updated.');
 exit();

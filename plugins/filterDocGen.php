@@ -8,16 +8,14 @@
  * @pluginCategory development
  */
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
-$plugin_description = gettext('Generates and displays a Doc file for filters.');
+$plugin_description = gettext('Generates a Doc file for filters.');
 
-if (file_exists(SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/process.php')) {
-	zp_register_filter('admin_utilities_buttons', 'filterDoc_button');
-}
+npgFilters::register('admin_utilities_buttons', 'filterDoc_button');
 
 function filterDoc_button($buttons) {
 	if (isset($_REQUEST['filterDoc'])) {
 		XSRFdefender('filterDoc');
-		include (SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDoc/process.php');
+		include (SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/filterDocGen/process.php');
 		processFilters();
 	}
 	$buttons[] = array(
