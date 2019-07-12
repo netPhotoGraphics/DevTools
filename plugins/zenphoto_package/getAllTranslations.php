@@ -15,7 +15,7 @@
 // force UTF-8 Ø
 
 define('OFFSET_PATH', 3);
-require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-functions.php");
+require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
 
 /**
  *
@@ -81,6 +81,7 @@ foreach ($scripts as $filename) {
 	$content = file_get_contents(SERVERPATH . '/' . internalToFilesystem($filename));
 	preg_match_all('~getAllTranslations\s*\(\s*([\'"])(.+?)\1\s*\)~is', $content, $matches);
 	if (isset($matches[2]) && !empty($matches[2])) {
+		$filename = strtr($filename, array(CORE_FOLDER . '/' . PLUGIN_FOLDER => 'extensions', CORE_FOLDER => 'core'));
 		fwrite($f, "\n/* $filename */\n");
 		foreach ($matches[2] as $key => $text) {
 			$text = "gettext(" . $matches[1][$key] . $text . $matches[1][$key] . ");\n";
