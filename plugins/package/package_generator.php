@@ -11,7 +11,7 @@
 // force UTF-8 Ø
 
 define('OFFSET_PATH', 3);
-require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-functions.php");
+require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
 
 $stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data');
 
@@ -48,10 +48,10 @@ $filepath = SERVERPATH . '/' . getOption('package_path') . '/netPhotoGraphics.pa
 @chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
 foreach ($_resident_files as $component) {
-	fwrite($fp, $component . "\n");
+	writeComponent($fp, $component, '');
 }
 foreach ($_special_files as $component) {
-	fwrite($fp, $component . ":*\n");
+	writeComponent($fp, $component, ':*');
 }
 
 fwrite($fp, count($_resident_files) + count($_special_files));
@@ -83,6 +83,11 @@ function getResidentFiles($folder, $exclude) {
 		}
 	}
 	return array_merge($localfiles, $localfolders);
+}
+
+function writeComponent($file, $component, $flag) {
+	$component = strtr($component, array(CORE_FOLDER . '/' . PLUGIN_FOLDER => '%extensions%', CORE_FOLDER => '%core%'));
+	fwrite($file, $component . $flag . "\n");
 }
 
 ?>

@@ -44,22 +44,33 @@ if (!isset($_GET['process'])) {
 	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process&source=' . VARIENT . '" />';
 	exit();
 }
+
 try {
 	switch (VARIENT) {
 		case 'DEV':
+			$sourcefolder = '/test_sites/dev/';
+			break;
 		case 'master':
 			$sourcefolder = '/Downloads/netPhotoGraphics' . '-' . VARIENT . '/';
-						break;
+			break;
 		case 'GIT':
 			$sourcefolder = '/github/netPhotoGraphics-DEV/';
 			break;
 	}
-	require_once($sourcefolder . 'zp-core/version.php');
-	if(defined('NETPHOTOGRAPHICS_VERSION')){
-		define('VERSION', NETPHOTOGRAPHICS_VERSION);
+
+	if (file_exists($sourcefolder . 'zp-core/version.php')) {
+		$core = 'zp-core';
 	} else {
-		define('VERSION', ZENPHOTO_VERSION);
-	}		
+		$core = 'npgCore';
+	}
+	require_once($sourcefolder . $core . '/version.php');
+	if (defined('NETPHOTOGRAPHICS_VERSION')) {
+		$version = NETPHOTOGRAPHICS_VERSION;
+	} else {
+		$version = ZENPHOTO_VERSION;
+	}
+	$version = explode('-', $version);
+	define('VERSION', $version[0]);
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
 	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip'))
@@ -68,7 +79,15 @@ try {
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
-	addFiles2Zip($zipfile, $sourcefolder, $sourcefolder);
+	addFiles2Zip($zipfile, $sourcefolder . $core . '/', $sourcefolder);
+	addFiles2Zip($zipfile, $sourcefolder . 'themes/', $sourcefolder);
+	addFiles2Zip($zipfile, $sourcefolder . 'plugins/', $sourcefolder);
+	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/release notes.htm');
+	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/filterDoc.htm');
+	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/user guide.pdf');
+	$zipfile->addEmptyDir('albums');
+	$zipfile->addEmptyDir('uploaded');
+
 	$zipfile->close();
 
 	// compile the selfextracting php-archive
@@ -78,9 +97,11 @@ try {
 	$i = 0;
 	while ($buffer = fgets($fp_cur)) {
 		$buffer = str_replace('_VERSION_', VERSION, $buffer);
+		$buffer = str_replace('_CORE_', $core, $buffer);
 		fwrite($fp_dest, $buffer);
 	}
 	fclose($fp_cur);
+
 	$fp_zip = fopen($zipfilename, 'r');
 	while ($buffer = fread($fp_zip, 10240)) {
 		fwrite($fp_dest, $buffer);
@@ -124,7 +145,7 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 
 __HALT_COMPILER();<?php
 /*
-* 	This script is a derivitive work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
+* 	This script is a derivitive of work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
 *
 * 	The derivitive work is copyright (c) 2014 by Stephen Billard, all rights reserved
 * 	This copyright notice must be included in all copies of this script.
@@ -197,12 +218,12 @@ unlink(__FILE__);
 ?>
 done...
 <br />
-<a href="<?php echo $const_webpath . '/zp-core/setup/index.php?autorun=admin'; ?>">run setup</a>
+<a href="<?php echo $const_webpath . '/_CORE_/setup/index.php?autorun=admin'; ?>">run setup</a>
 
 <script>
 	// <!-- <![CDATA[
 	window.onload = function () {
-		window.location = '<?php echo $const_webpath; ?>/zp-core/setup/index.php?autorun=admin';
+		window.location = '<?php echo $const_webpath; ?>/_CORE_/setup/index.php?autorun=admin';
 	}
 	// ]]> -->
 </script>

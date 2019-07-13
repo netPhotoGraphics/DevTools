@@ -13,10 +13,11 @@
 // force UTF-8 Ø
 
 define('OFFSET_PATH', 3);
-require_once(dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) . "/zp-core/admin-globals.php");
+require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-globals.php");
 
 
 $database_name = db_name();
+define('FIELD_COMMENT', 'npg');
 $prefix = trim(prefix(), '`');
 $resource = db_show('tables');
 if ($resource) {
@@ -44,7 +45,7 @@ foreach ($tables as $table) {
 		if (strpos($datum['Comment'], 'optional_') === false) { // leave these for setup time decisions
 			// add comment for our fields so we can recognize them later
 			if (!$datum['Comment']) {
-				$datum['Comment'] = 'zp20';
+				$datum['Comment'] = FIELD_COMMENT;
 			}
 			// remove don't care fields
 			unset($datum['Key']);
@@ -59,7 +60,7 @@ foreach ($tables as $table) {
 	$result = query_full_array($sql);
 	foreach ($result as $index) {
 		if ($index['Key_name'] !== 'PRIMARY') {
-			$index['Index_comment'] = 'zp20'; //flag as one of ours
+			$index['Index_comment'] = FIELD_COMMENT; //flag as one of ours
 			$indices[$index['Key_name']][] = $index;
 		}
 	}
