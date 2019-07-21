@@ -47,13 +47,22 @@ class downloadButtons {
 		echo $f;
 	}
 
+	static function repositoryLink($text, $sublink = '') {
+		echo printNPGgitHubLink($sublink, $text);
+	}
+
 	static function macro($macros) {
 		$my_macros = array(
 				'RELEASENOTES' => array('class' => 'procedure',
 						'params' => array(),
 						'value' => 'downloadButtons::releaseNotes',
 						'owner' => 'downloadButtons',
-						'desc' => gettext('Places release notes on a page.'))
+						'desc' => gettext('Places release notes on a page.')),
+				'REPOSITORY' => array('class' => 'procedure',
+						'params' => array('string', 'string*'),
+						'value' => 'downloadButtons::repositoryLink',
+						'owner' => 'downloadButtons',
+						'desc' => gettext('Yields a link to the netPhotoGraphics gitHub repository (to the sub-folder %2 if present) with the  %1 as the link text.'))
 		);
 		return array_merge($macros, $my_macros);
 	}
