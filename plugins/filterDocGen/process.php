@@ -121,7 +121,7 @@ function processFilters() {
 							$subclass = 'Miscellaneous';
 						} else if (strpos($basename, 'class') !== false) {
 							$class = 'Object';
-							if (strpos($basename, 'zenpage') !== false) {
+							if (strpos($basename, 'npgCMS') !== false) {
 								$class = 'Object';
 								$subclass = 'CMS';
 							} else {
@@ -157,7 +157,7 @@ function processFilters() {
 							}
 						} else if (strpos($script, 'admin') !== false) {
 							$class = 'Admin';
-							if (strpos($script, 'zenpage') !== false) {
+							if (strpos($script, 'npgCMS') !== false) {
 								$subclass = 'CMS';
 							} else if (strpos($basename, 'comment') !== false || strpos($key, 'comment')) {
 								$subclass = 'Comment';
@@ -166,7 +166,7 @@ function processFilters() {
 							}
 						} else if (strpos($script, 'template') !== false) {
 							$class = 'Template';
-						} else if (strpos($basename, 'zenpage') !== false || strpos($key, 'category') !== false || strpos($key, 'article') !== false || strpos($key, 'page') !== false) {
+						} else if (strpos($basename, 'npgCMS') !== false || strpos($key, 'category') !== false || strpos($key, 'article') !== false || strpos($key, 'page') !== false) {
 							$class = 'CMS';
 						} else if (strpos($basename, 'comment') !== false || strpos($key, 'comment') !== false) {
 							$class = 'Comment';

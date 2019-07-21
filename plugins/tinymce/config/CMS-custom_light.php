@@ -3,7 +3,7 @@
 /**
  * The configuration parameters for TinyMCE 4.x.
  *
- * Zenpage custom light configuration
+ * npgCMS custom light configuration
  */
 $MCEcss = 'custom-light.css';
 $MCEselector = "textarea.content,textarea.desc,textarea.extracontent";
