@@ -103,7 +103,6 @@ class mediaelementjs_options {
 	}
 
 	function getOptionsSupported() {
-		//$skins = self::getSkin();
 		return array(
 				gettext('Control bar') => array(
 						'key' => 'mediaelementjs_controlbar',
@@ -169,42 +168,6 @@ class mediaelementjs_options {
 						'order' => 12,
 						'desc' => gettext('If the files should be preloaded (Note if this works is browser dependent and might not work in all!).'))
 		);
-	}
-
-	/** NOT USED YET
-	 * Gets the skin names and css files
-	 *
-	 */
-	static function getSkin() {
-		$all_skins = array();
-		$default_skins_dir = FULLWEBPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/';
-		$user_skins_dir = FULLWEBPATH . '/' . USER_PLUGIN_FOLDER . '/mediaelementjs_player/';
-		$filestoignore = array('.', '..', '.DS_Store', 'Thumbs.db', '.htaccess', '.svn');
-		$skins = array_diff(scandir($default_skins_dir), array_merge($filestoignore));
-		$default_skins = self::getSkinCSS($skins, $default_skins_dir);
-		//echo "<pre>";print_r($default_skins);echo "</pre>";
-		$skins2 = @array_diff(scandir($user_skins_dir), array_merge($filestoignore));
-		if (is_array($skins2)) {
-			$user_skins = self::getSkinCSS($skins2, $user_skins_dir);
-			//echo "<pre>";print_r($user_skins);echo "</pre>";
-			$default_skins = array_merge($default_skins, $user_skins);
-		}
-		return $default_skins;
-	}
-
-	/** NOT USED YET
-	 * Gets the css files for a skin. Helper function for getSkin().
-	 *
-	 */
-	static function getSkinCSS($skins, $dir) {
-		$skin_css = array();
-		foreach ($skins as $skin) {
-			$css = safe_glob($dir . '/' . $skin . '/*.css');
-			if ($css) {
-				$skin_css = array_merge($skin_css, array($skin => $css[0])); // a skin should only have one css file so we just use the first found
-			}
-		}
-		return $skin_css;
 	}
 
 }

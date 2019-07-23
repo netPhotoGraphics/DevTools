@@ -56,39 +56,19 @@ class flowplayer5_options {
 	}
 
 	function getOptionsSupported() {
-		$skins = self::getSkin();
-
-		return array(gettext('Player skin') => array('key' => 'flowplayer5_skin', 'type' => OPTION_TYPE_SELECTOR, 'selections' => $skins, 'desc' => gettext("Select the skin (theme) to use. <br />NOTE: Since the skin is pure HTML/CSS only there may be display issues with certain themes that require manual adjustments. Place custom skin within the root plugins folder. See plugin documentation for more info.")),
-				gettext('Poster (Videothumb)') => array('key' => 'flowplayer5_poster', 'type' => OPTION_TYPE_CHECKBOX, 'desc' => gettext("If the videothumb should be shown (Flowplayer calls it poster).")),
-				gettext('Autoplay') => array('key' => 'flowplayer5_autoplay', 'type' => OPTION_TYPE_CHECKBOX, 'desc' => gettext("Disabled automatically if several players on one page"))
-		);
-	}
-
-	/**
-	 * Gets the skin names and css files
-	 *
-	 */
-	static function getSkin() {
-		$skins_dir = SERVERPATH . '/' . USER_PLUGIN_FOLDER . '/flowplayer5/skins/';
-		$filestoignore = array('.', '..', '.DS_Store', 'Thumbs.db', '.htaccess', '.svn');
-		$skins = array_diff(safe_glob($skins_dir . '/*.*'), array_merge($filestoignore));
-		$default_skins = self::getSkinCSS($skins, $skins_dir);
-		return $default_skins;
-	}
-
-	/**
-	 * Gets the css files for a skin. Helper function for getSkin().
-	 *
-	 */
-	static function getSkinCSS($skins, $dir) {
-		$skin_css = array();
-		foreach ($skins as $skin) {
-			$css = safe_glob($dir . $skin . '/*.css');
-			if ($css) {
-				$skin_css = array_merge($skin_css, array($skin => $skin)); // a skin should only have one css file so we just use the first found
-			}
+		$skins = getPluginFiles('*', 'jPlayer/skin/', FALSE, GLOB_ONLYDIR);
+		foreach ($skins as $skin => $path) {
+			$skins[$skin] = $skin;
 		}
-		return $skin_css;
+
+		return array(gettext('Player skin') => array('key' => 'flowplayer5_skin', 'type' => OPTION_TYPE_SELECTOR,
+						'selections' => $skins,
+						'desc' => gettext("Select the skin (theme) to use. <br />NOTE: Since the skin is pure HTML/CSS only there may be display issues with certain themes that require manual adjustments. Place custom skin within the root plugins folder. See plugin documentation for more info.")),
+				gettext('Poster (Videothumb)') => array('key' => 'flowplayer5_poster', 'type' => OPTION_TYPE_CHECKBOX,
+						'desc' => gettext("If the videothumb should be shown (Flowplayer calls it poster).")),
+				gettext('Autoplay') => array('key' => 'flowplayer5_autoplay', 'type' => OPTION_TYPE_CHECKBOX,
+						'desc' => gettext("Disabled automatically if several players on one page"))
+		);
 	}
 
 }
@@ -109,7 +89,7 @@ class Flowplayer5 {
 	}
 
 	static function headJS() {
-		$skin = @array_shift(getPluginFiles('*.css', '/flowplayer5/skins/' . getOption('flowplayer_skin')));
+		$skin = array_shift(getPluginFiles('*.css', '/flowplayer5/skins/' . getOption('flowplayer5_skin')));
 		if (file_exists($skin)) {
 			$skin = replaceScriptPath($skin, FULLWEBPATH); //replace SERVERPATH as that does not work as a CSS link
 		} else {
