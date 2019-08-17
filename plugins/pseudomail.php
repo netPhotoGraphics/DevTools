@@ -39,7 +39,7 @@ function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $fro
 	$filelist = safe_glob($path . '*' . $suffix);
 	$mod = count($filelist);
 	if ($mod) {
-		$mod = '_' . $mod;
+		$mod = '[' . $mod . ']';
 	} else {
 		$mod = '';
 	}
