@@ -26,17 +26,10 @@ if ($plugin_disable) {
 	npgFilters::register('sendmail', 'pseudo_sendmail');
 }
 
-function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $bcc_addresses, $replyTo, $html = false) {
+function pseudo_sendmail($result, $email_list, $subject, $message, $from_mail, $from_name, $cc_addresses, $bcc_addresses, $replyTo) {
 	$filename = str_replace(array('<', '>', ':', '"' . '/' . '\\', '|', '?', '*'), '_', $subject);
 	$path = SERVERPATH . '/' . DATA_FOLDER . '/' . $filename;
-	if ($html) {
-		$suffix = '.htm';
-		$newln = '<br />';
-	} else {
-		$suffix = '.txt';
-		$newln = "\n";
-	}
-	$filelist = safe_glob($path . '*' . $suffix);
+	$filelist = safe_glob($path . '*.htm');
 	$mod = count($filelist);
 	if ($mod) {
 		$mod = '[' . $mod . ']';
@@ -44,38 +37,50 @@ function pseudo_sendmail($msg, $email_list, $subject, $message, $from_mail, $fro
 		$mod = '';
 	}
 
-	$f = fopen($path . $mod . $suffix, 'w');
-	fwrite($f, str_pad('*', 49, '-') . $newln);
+	$f = fopen($path . $mod . '.htm', 'w');
+	fwrite($f, '<div style="width: 800px;">');
+	fwrite($f, '<fieldset><legend>' . gettext('Mail header') . "</legend><br  />\n");
 	$tolist = '';
-	foreach ($email_list as $to) {
-		$tolist .= ',' . $to;
+	foreach ($email_list as $name => $email) {
+		if ($name) {
+			$email = '"' . $name . '" &lt;' . $email . '&gt;';
+		}
+		$tolist .= ',' . $email;
 	}
-	fwrite($f, sprintf(gettext('To: %s'), substr($tolist, 1)) . $newln);
-	fwrite($f, sprintf('From: %1$s <%2$s>', $from_name, $from_mail) . $newln);
+	fwrite($f, sprintf(gettext('To: %s'), substr($tolist, 1)) . "<br  />\n");
+	fwrite($f, sprintf('From: %1$s &lt;%2$s&gt;', $from_name, $from_mail) . "<br  />\n");
 	if ($replyTo) {
 		$names = array_keys($replyTo);
-		fwrite($f, sprintf('Reply-To: %1$s <%2$s>', array_shift($names), array_shift($replyTo)) . $newln);
+		fwrite($f, sprintf('Reply-To: %1$s <%2$s>', array_shift($names), array_shift($replyTo)) . "<br  />\n");
 	}
 	if (count($cc_addresses) > 0) {
 		$cclist = '';
-		foreach ($cc_addresses as $cc_name => $cc_mail) {
-			$cclist .= ',' . $cc_mail;
+		foreach ($cc_addresses as $name => $email) {
+			if ($name) {
+				$email = '"' . $name . '" &lt;' . $email . '&gt;';
+			}
+			$cclist .= ',' . $email;
 		}
-		fwrite($f, sprintf(gettext('Cc: %s'), substr($cclist, 1)) . $newln);
+		fwrite($f, sprintf(gettext('Cc: %s'), substr($cclist, 1)) . "<br  />\n");
 	}
 	if (count($bcc_addresses) > 0) {
 		$bcclist = '';
-		foreach ($bcc_addresses as $bcc_name => $bcc_mail) {
-			$bcclist .= ',' . $bcc_mail;
+		foreach ($bcc_addresses as $name => $email) {
+			if ($name) {
+				$email = '"' . $name . '" &lt;' . $email . '&gt;';
+			}
+			$bcclist .= ',' . $email;
 		}
-		fwrite($f, sprintf(gettext('Cc: %s'), substr($bcclist, 1)) . $newln);
+		fwrite($f, sprintf(gettext('Bcc: %s'), substr($bcclist, 1)) . "<br  />\n");
 	}
-	fwrite($f, sprintf(gettext('Subject: %s'), $subject) . $newln);
-	fwrite($f, str_pad('*', 49, '-') . $newln);
-	fwrite($f, $message . $newln);
+	fwrite($f, sprintf(gettext('Subject: %s'), $subject) . "<br  />\n");
+	fwrite($f, '</fieldset>' . "<br  />\n");
+
+	fwrite($f, $message . "\n");
+	fwrite($f, '</div>');
 	fclose($f);
 	clearstatcache();
-	return $msg;
+	return $result;
 }
 
 ?>

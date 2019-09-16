@@ -45,7 +45,7 @@ class package {
 		$buttons[] = array(
 				'category' => gettext('Development'),
 				'enable' => true,
-				'button_text' => gettext('extract getAllTranslations'),
+				'button_text' => gettext('Extract getAllTranslations'),
 				'formname' => 'translations_button',
 				'action' => FULLWEBPATH . '/plugins/package/getAllTranslations.php',
 				'icon' => ARROW_DOWN_GREEN,
