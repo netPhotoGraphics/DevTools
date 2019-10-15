@@ -30,9 +30,7 @@ class downloadButtons {
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
 		<span class="buttons">
-			<a href="<?php echo $newestVersionURI; ?>" style="text-decoration: none;" title="download the release">
-				<?php echo ARROW_DOWN_GREEN . ' netPhotoGraphics ' . str_replace('master-', '', $currentVersion); ?>
-			</a>
+			<?php npgButton('button', ARROW_DOWN_GREEN . ' netPhotoGraphics ' . str_replace('master-', '', $currentVersion), array('buttonLink' => $newestVersionURI, 'buttonTitle' => gettext('download the release'))); ?>
 		</span>
 		<br />
 		<br />

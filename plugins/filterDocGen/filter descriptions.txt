@@ -22,6 +22,7 @@
 !database_query
 !edit_category_custom
 !favoritesHandler_action
+!general_utilities
 !image_filter
 !log_setup
 !login_link
@@ -38,8 +39,7 @@
 !search_criteria
 !search_instantiate
 !security_misc
-!theme_file_end
-!theme_file_top
+!standard_image_html
 !theme_headers
 !upload_root_ui
 
@@ -101,6 +101,7 @@ Admin>Media>save_album_data:=Allows a plugin to process saves of items in the al
 Admin>Media>save_image_data:=Allows a plugin to place items in the <em>utilities</em> area for images. This invocation is for when the image is saved.
 Admin>Miscellaneous>admin_XSRF_access:=Invoked when an attempt at Cross Site Reference Forgery is detected.
 Admin>Miscellaneous>admin_allow_access:=Allows mitigation of the normal back-end security checks.
+Admin>Miscellaneous>admin_close:=Allows plugins to place html in the footer area of admin pages
 Admin>Miscellaneous>admin_general_data:=Allows plugins to insert items onto the &lt;general%gt; tab.
 Admin>Miscellaneous>admin_head:=Allows plugins to place HTML into the &lt;head&gt; region of admin pages.
 Admin>Miscellaneous>admin_headers:=Allows plugins to place HTML into the header region of admin pages.
@@ -195,8 +196,6 @@ Theme>Script>themeSwitcher_Controllink:=Invoked by themeSwitcher's theme_body_op
 Theme>Script>themeSwitcher_head:=Invoded by themeSwitcher's theme_head filter. Allows themes to add to the HTML placed in the theme head when themeSwitcher is active. The parameter passed is a array of theme=>enabled values. If enabled is false the theme will not be included in the selector. Filters can change this value to control if specific themes may be chosen.
 Theme>Script>theme_body_close:=Invoked by all themes just before the &lt;/body&gt; HTML tag.
 Theme>Script>theme_body_open:=Invoked by all themes just after the &lt;body&gt; HTML tag.
-Theme>Script>theme_file_end:=Invoked at the very end of standard theme page scripts.
-Theme>Script>theme_file_top:=Invoked at the very beginning of standard theme page scripts.
 Theme>Script>theme_head:=Invoked by all themes just after the &lt;head&gt; HTML tag.
 Theme>Script>theme_headers:=Allows adding headers to the theme output. Called after the standard headers are sent.
 
