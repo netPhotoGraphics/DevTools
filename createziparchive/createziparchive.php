@@ -83,8 +83,8 @@ try {
 	addFiles2Zip($zipfile, $sourcefolder . 'themes/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'plugins/', $sourcefolder);
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/release notes.htm');
-	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/filterDoc.htm');
-	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/user guide.pdf');
+	$zipfile->addFile($sourcefolder . '/docs/filterDoc.htm', 'docs/filterDoc.htm');
+	$zipfile->addFile($sourcefolder . '/docs/user guide.pdf', 'docs/user guide.pdf');
 	$zipfile->addEmptyDir('albums');
 	$zipfile->addEmptyDir('uploaded');
 
