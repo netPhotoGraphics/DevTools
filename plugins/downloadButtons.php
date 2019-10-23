@@ -29,9 +29,9 @@ class downloadButtons {
 		$newestVersionURI = getOption('getUpdates_latest');
 		$currentVersion = str_replace('setup-', '', stripSuffix(basename($newestVersionURI)));
 		?>
-		<span class="buttons">
-			<?php npgButton('button', ARROW_DOWN_GREEN . ' netPhotoGraphics ' . str_replace('master-', '', $currentVersion), array('buttonLink' => $newestVersionURI, 'buttonTitle' => gettext('download the release'))); ?>
-		</span>
+
+		<?php npgButton('button', ARROW_DOWN_GREEN . ' netPhotoGraphics ' . str_replace('master-', '', $currentVersion), array('buttonLink' => $newestVersionURI, 'buttonTitle' => gettext('download the release'))); ?>
+
 		<br />
 		<br />
 		<?php
