@@ -23,7 +23,6 @@
 
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates the <em>netPhotoGraphics.package</em> file.');
-$option_interface = 'package';
 
 npgFilters::register('admin_utilities_buttons', 'package::buttons');
 
@@ -33,12 +32,6 @@ class package {
 		if (OFFSET_PATH == 2) {
 			setOptionDefault('package_path', CORE_FOLDER);
 		}
-	}
-
-	function getOptionsSupported() {
-		return array(gettext('Folder') => array('key' => 'package_path', 'type' => OPTION_TYPE_SELECTOR,
-						'selections' => array(DATA_FOLDER => DATA_FOLDER, CORE_FOLDER => CORE_FOLDER, UPLOAD_FOLDER => UPLOAD_FOLDER),
-						'desc' => gettext('Place the package file in this folder.')));
 	}
 
 	static function buttons($buttons) {
