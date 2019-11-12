@@ -44,7 +44,7 @@ $_special_files[] = CORE_FOLDER . '/version.php';
 $_special_files[] = CORE_FOLDER . '/setup';
 $_special_files = array_merge($_special_files, getResidentFiles(CORE_SERVERPATH . 'setup', $stdExclude));
 
-$filepath = SERVERPATH . '/' . getOption('package_path') . '/netPhotoGraphics.package';
+$filepath = CORE_SERVERPATH . 'netPhotoGraphics.package';
 @chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
 foreach ($_resident_files as $component) {

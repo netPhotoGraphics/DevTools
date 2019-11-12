@@ -2,7 +2,7 @@
 REM this script will update the "build" number of the ZenPhoto20 version and commit it
 REM copyright by Stephen Billard, all rights reserved.
 
-SET SOURCE=zp-core\version.php
+SET SOURCE=npgCore\version.php
 FOR /F "delims=" %%a in ('FINDSTR "NETPHOTOGRAPHICS_VERSION" %SOURCE%') DO SET REL=%%a
 SET REL=%REL:~36,-3%
 
