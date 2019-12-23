@@ -39,7 +39,7 @@ function releaseNotesExecute($object) {
 	if (isset($_POST['publishNotes'])) {
 		$f = fopen(SERVERPATH . '/docs/release_notes.htm', 'w');
 		$h = '<!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" lang="en">
 	<title>netPhotoGraphics release notes</title>

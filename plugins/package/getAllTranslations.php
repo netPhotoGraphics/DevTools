@@ -28,7 +28,7 @@ function getPHPFiles($folder) {
 	$localfiles = array();
 	$localfolders = array();
 	foreach ($dirs as $file) {
-		if ($file{0} != '.') {
+		if ($file[0] != '.') {
 			$file = str_replace('\\', '/', $file);
 			$key = str_replace(SERVERPATH . '/', '', filesystemToInternal($folder . '/' . $file));
 			if (is_dir($folder . '/' . $file)) {
