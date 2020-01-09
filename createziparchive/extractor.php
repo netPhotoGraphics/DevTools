@@ -22,9 +22,15 @@ $const_webpath = "http://" . $_SERVER['HTTP_HOST'] . rtrim(dirname($me), '/\\');
 
 try {
 	$zipfilename = md5(time()) . '.extract.zip'; //remove with tempname()
-	$fp_tmp = fopen($zipfilename, 'w');
-	$fp_cur = fopen(__FILE__, 'r');
-	fseek($fp_cur, __COMPILER_HALT_OFFSET__);
+	if (!$fp_tmp = fopen($zipfilename, 'w')) {
+		die('Unable to open ' . $zipfilename . ' for writing. Check your file permissions.');
+	}
+	if (!$fp_cur = fopen(__FILE__, 'r')) {
+		die('Unable to open ' . __FILE__ . '. Check your file permissions.');
+	}
+	if (fseek($fp_cur, __COMPILER_HALT_OFFSET__) < 0) {
+		die('Something went wrong, could not seek to "__HALT_COMPILER()" statement.');
+	}
 	$i = 0;
 	while ($buffer = fread($fp_cur, 10240)) {
 		fwrite($fp_tmp, $buffer);
