@@ -567,7 +567,7 @@ if (extensionEnabled('slideshow2') && !OFFSET_PATH) {
 			$pagenr = sanitize_numeric($_GET['page']);
 		}
 		$slideshowhidden = '';
-		$slideshowlink = rewrite_path(_PAGE_ . '/slideshow', "index.php?p=slideshow");
+		$slideshowlink = rewrite_path(_PAGE_ . '/slideshow/', "index.php?p=slideshow");
 
 		$numberofimages = 0;
 		if (in_context(NPG_SEARCH)) {
