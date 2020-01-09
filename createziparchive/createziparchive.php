@@ -92,9 +92,6 @@ try {
 
 	// compile the selfextracting php-archive
 	$fp_dest = fopen($targetname, 'w');
-	//$fp_cur = fopen(__FILE__, 'r');
-	//fseek($fp_cur, __COMPILER_HALT_OFFSET__);
-
 	$fp_cur = fopen(dirname(__FILE__) . '/extractor.php', 'r');
 
 	$i = 0;
