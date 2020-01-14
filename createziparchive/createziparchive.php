@@ -27,7 +27,7 @@
 
 /*
  * 	Adapted for netPhotoGraphics by Stephen Billard
- * 	Copyright 2014 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/netPhotoGraphics ZenPhoto20}
+ * 	Copyright 2020 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/netPhotoGraphics ZenPhoto20}
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
 @ini_set('memory_limit', '-1');
@@ -58,12 +58,7 @@ try {
 			break;
 	}
 
-	if (file_exists($sourcefolder . 'zp-core/version.php')) {
-		$core = 'zp-core';
-	} else {
-		$core = 'npgCore';
-	}
-	require_once($sourcefolder . $core . '/version.php');
+	require_once($sourcefolder . 'npgCore/version.php');
 	if (defined('NETPHOTOGRAPHICS_VERSION')) {
 		$version = NETPHOTOGRAPHICS_VERSION;
 	} else {
@@ -71,6 +66,10 @@ try {
 	}
 	$version = explode('-', $version);
 	define('VERSION', $version[0]);
+	$setup_index = file_get_contents($sourcefolder . 'npgCore/setup/index.php');
+	preg_match('~define\([\"\']PHP_MIN_VERSION[\"\']\,\s*[\"\'](.*)[\"\']\);~i', $setup_index, $matches);
+	$php_min_version = $matches[0];
+
 	$targetname = TARGET . 'extract.php.bin';
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
 	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip'))
@@ -79,7 +78,7 @@ try {
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
-	addFiles2Zip($zipfile, $sourcefolder . $core . '/', $sourcefolder);
+	addFiles2Zip($zipfile, $sourcefolder . 'npgCore/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'themes/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'plugins/', $sourcefolder);
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/release notes.htm');
@@ -96,8 +95,8 @@ try {
 
 	$i = 0;
 	while ($buffer = fgets($fp_cur)) {
+		$buffer = str_replace("Define('PHP_MIN_VERSION', 'd.d');", $php_min_version, $buffer);
 		$buffer = str_replace('_VERSION_', VERSION, $buffer);
-		$buffer = str_replace('_CORE_', $core, $buffer);
 		fwrite($fp_dest, $buffer);
 	}
 	fclose($fp_cur);

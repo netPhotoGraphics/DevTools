@@ -2,10 +2,10 @@
 /*
  * 	This script is a derivitive of work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
  *
- * 	The derivitive work is copyright (c) 2014 by Stephen Billard, all rights reserved
+ * 	The derivitive work is copyright (c) 2020 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
-Define('PHP_MIN_VERSION', '5.2');
+Define('PHP_MIN_VERSION', 'd.d');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
@@ -79,12 +79,12 @@ try {
 	?>
 	done...
 	<br />
-	<a href="<?php echo $const_webpath . '/_CORE_/setup/index.php?autorun=admin'; ?>">run setup</a>
+	<a href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 
 	<script>
 		// <!-- <![CDATA[
 		window.onload = function () {
-			window.location = '<?php echo $const_webpath; ?>/_CORE_/setup/index.php?autorun=admin';
+			window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
 		}
 		// ]]> -->
 	</script>
