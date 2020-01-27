@@ -72,7 +72,7 @@ class openAdmin extends _Administrator {
 	function setPolicyACK($v) {
 		parent::setPolicyACK($v);
 		if ($v) {
-			setNPGCookie('policyACK', getOption('GDPR_cookie')); //	since the object is not persistent
+			setNPGCookie('policyACK', getOption('GDPR_cookie'), FALSE); //	since the object is not persistent
 		}
 	}
 
@@ -110,7 +110,7 @@ class openAdmin extends _Administrator {
 				GDPR_required::page(NULL, NULL);
 			}
 		}
-		setNPGCookie('policyACK', getOption('GDPR_cookie'));
+		setNPGCookie('policyACK', getOption('GDPR_cookie'), FALSE);
 
 		//	limit security logging for "visitor"
 		npgFilters::remove('admin_allow_access', 'security_logger::adminGate');
