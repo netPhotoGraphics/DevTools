@@ -24,10 +24,14 @@ $_gallery->setTitle($_gallery->getTitle('all'));
 $_gallery->setDesc($_gallery->getDesc('all'));
 $_gallery->setLogonWelcome($_gallery->getLogonWelcome('all'));
 $_gallery->setCodeblock($_gallery->getCodeblock('all'));
-$_gallery->save();
+$updated = $_gallery->save();
+if ($updated && $updated != 2) {
+	$found = 1;
+} else {
+	$found = 0;
+}
 
 $tables = array('albums', 'images', 'news', 'pages', 'news_categories');
-$found = 0;
 foreach ($tables as $table) {
 	$ids = query_full_array('SELECT `id` FROM ' . prefix($table));
 	foreach ($ids as $id) {
