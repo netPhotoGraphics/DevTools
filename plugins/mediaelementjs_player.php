@@ -278,10 +278,10 @@ class mediaelementjs_player {
 	 *
 	 */
 	function getPlayerConfig($movie, $movietitle = '', $width = NULL, $height = NULL) {
-		if (is_null($w)) {
+		if (is_null($width)) {
 			$width = $this->getWidth();
 		}
-		if (is_null($h)) {
+		if (is_null($height)) {
 			$height = $this->getHeight();
 		}
 		$moviepath = $movie->getImagePath(FULLWEBPATH);
