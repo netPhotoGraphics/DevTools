@@ -41,8 +41,8 @@ class downloadButtons {
 		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
 		$i = strpos($f, '<body>');
 		$j = strpos($f, '</body>');
-		$f = substr($f, $i + 6, $j - $i - 6);
-		echo $f;
+		$c = substr($f, $i + 6, $j - $i - 6);
+		echo $c;
 	}
 
 	static function repositoryLink($text, $sublink = '') {
