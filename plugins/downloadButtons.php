@@ -12,10 +12,11 @@ require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/common/gitHubAPI/github-api.php
 
 use Milo\Github;
 
-$plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
+$plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext("Provides a button to download the latest version of the software.");
 
 npgFilters::register('content_macro', 'downloadButtons::macro');
+npgFilters::register('theme_head', 'downloadButtons::head');
 
 //npgFilters::register('admin_utilities_buttons', 'downloadButtons::button');
 
@@ -41,8 +42,19 @@ class downloadButtons {
 		$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
 		$i = strpos($f, '<body>');
 		$j = strpos($f, '</body>');
-		$f = substr($f, $i + 6, $j - $i - 6);
-		echo $f;
+		$c = substr($f, $i + 6, $j - $i - 6);
+		echo $c;
+	}
+
+	static function head() {
+		global $_CMS_current_page;
+		if (isset($_CMS_current_page) && $_CMS_current_page->getTitleLink() == 'release-notes' . RW_SUFFIX) {
+			$f = file_get_contents(SERVERPATH . '/docs/release notes.htm');
+			$i = strpos($f, '<style');
+			$j = strpos($f, '</style>');
+			$s = substr($f, $i, $j - $i + 8) . "\n";
+			echo $s;
+		}
 	}
 
 	static function repositoryLink($text, $sublink = '') {

@@ -102,6 +102,17 @@ class openAdmin extends _Administrator {
 		unset($MCEspecial['file_picker_callback']);
 	}
 
+	private static function setDefaultLink($tab) {
+		global $_admin_menu;
+		$_admin_menu[$tab]['default'] = $default = current(array_keys($_admin_menu[$tab]['subtabs']));
+		$parts = explode('?', $_admin_menu[$tab]['subtabs'][$default]);
+		$link = getAdminLink($parts[0]);
+		if (isset($parts[1])) {
+			$link .= '?' . $parts[1];
+		}
+		$_admin_menu[$tab]['link'] = $link;
+	}
+
 	static function access($allow, $url) {
 		global $_admin_menu, $_current_admin_obj;
 		self::setAdmin();
@@ -145,8 +156,7 @@ class openAdmin extends _Administrator {
 			$_admin_menu['logs']['link'] = getAdminLink('admin-tabs/logs.php') . '?page=logs';
 			$_admin_menu['logs']['default'] = NULL;
 		} else {
-			$_admin_menu['logs']['default'] = $default = current(array_keys($_admin_menu['logs']['subtabs']));
-			$_admin_menu['logs']['link'] = $_admin_menu['logs']['subtabs'][$default];
+			self::setDefaultLink('logs');
 		}
 		//	protect against un-monitored uploading
 		if (isset($_admin_menu['upload'])) {
@@ -159,8 +169,7 @@ class openAdmin extends _Administrator {
 			if (empty($_admin_menu['upload']['subtabs'])) {
 				unset($_admin_menu['upload']);
 			} else {
-				$_admin_menu['upload']['default'] = $default = current(array_keys($_admin_menu['upload']['subtabs']));
-				$_admin_menu['upload']['link'] = $_admin_menu['upload']['subtabs'][$default];
+				self::setDefaultLink('upload');
 			}
 		}
 		if (isset($_admin_menu['development'])) {
@@ -174,8 +183,7 @@ class openAdmin extends _Administrator {
 			if (empty($_admin_menu['development']['subtabs'])) {
 				unset($_admin_menu['development']);
 			} else {
-				$_admin_menu['development']['default'] = $default = current(array_keys($_admin_menu['development']['subtabs']));
-				$_admin_menu['development']['link'] = $_admin_menu['development']['subtabs'][$default];
+				self::setDefaultLink('development');
 			}
 		}
 		return $allow;

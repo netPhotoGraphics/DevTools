@@ -54,37 +54,43 @@ function releaseNotesExecute($object) {
 		}
 		body {
 			text-align:left !important;
-			background:#FFF;
+			background:#FFF !important;;
 		}
 		h1 {
-		text-align: center !important;
-		font-size: 2em;
+			display: block !important;
+			text-align: center !important;
+			font-size: 2em;
 		}
 		h2 {
-		font-size: 1.5em;
+			display: block !important;;
+			font-size: 1.5em !important;;
 		}
 		h3 {
-		font-size: 1.17em;
+			display: block !important;
+			font-size: 1.17em !important;;
 		}
 		h4 {
-			 font-family: Arial, Helvetica, Sans-Serif;
-			 font-size: 15px;
-			 color: #396;
-			 margin-top: 20px;
-			 font-weight: normal;
-			 margin-bottom: 2px;
+			display: block !important;
+			font-family: Arial, Helvetica, Sans-Serif !important;
+			font-size: 15px !important;
+			color: #396 !important;
+			margin-top: 20px !important;
+			font-weight: normal !important;
+			margin-bottom: 2px !important;
 		}
 		h5,
 		h6 {
-			font-family: Arial, Helvetica, Sans-Serif;
-			 font-size: 13px;
-			 font-weight: bold;
-			 color: black;
-			 margin-top: 20px;
-			 margin-bottom: 0 !important;
+			display: block !important;;
+			font-family: Arial, Helvetica, Sans-Serif !important;
+			font-size: 13px !important;
+			font-weight: bold !important;
+			color: black !important;
+			margin-top: 20px !important;
+			margin-bottom: 0 !important;
 		}
 		h6 {
-			font-style: italic;
+			display: block !important;
+			font-style: italic !important;
 		}
 		code {
 			color: #00008B;
