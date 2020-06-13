@@ -344,7 +344,7 @@ function processFilters() {
 	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
-	$indexfile = $USER_PLUGIN_SERVERPATH . '/filterDocGen/filter list_index.html';
+	$indexfile = USER_PLUGIN_SERVERPATH . '/filterDocGen/filter list_index.html';
 	$f = fopen($indexfile, 'w');
 	fwrite($f, "\t<ul>\n");
 	$liopen = $ulopen = false;

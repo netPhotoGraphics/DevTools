@@ -1,3 +1,6 @@
+#These filters appear not to be applied.
+!register_user_form
+
 #These filters appear not to be registered.
 !admin_XSRF_access
 !admin_general_data
@@ -60,6 +63,8 @@
 *Template.Miscellaneous:=
 *Theme.Miscellaneous:=
 *Theme.Script:=
+
+Object>Miscellaneous>isPublicCategory:=
 
 *Admin:=These filters allow for the extension of the administrator interface.
 *Object:=These filters provide modifications to the behavior of object methods.
@@ -194,7 +199,7 @@ Theme>Script>setupTheme:=Allows a plugin to override the <em>theme</em> that wil
 Theme>Script>software_information:=This filter is used to display the installation information HTML comment at the end of each page load.
 Theme>Script>themeSwitcher_Controllink:=Invoked by themeSwitcher's theme_body_open filter. Allows themes to add to the selectors for theme related choices such as personality or color scheme.
 Theme>Script>themeSwitcher_head:=Invoded by themeSwitcher's theme_head filter. Allows themes to add to the HTML placed in the theme head when themeSwitcher is active. The parameter passed is a array of theme=>enabled values. If enabled is false the theme will not be included in the selector. Filters can change this value to control if specific themes may be chosen.
-Theme>Script>theme_body_close:=Invoked by all themes just before the &lt;/body&gt; HTML tag.
+Theme>Script>theme_body_close:=Invoked by all themes just after the &lt;/body&gt; HTML tag.
 Theme>Script>theme_body_open:=Invoked by all themes just after the &lt;body&gt; HTML tag.
 Theme>Script>theme_head:=Invoked by all themes just after the &lt;head&gt; HTML tag.
 Theme>Script>theme_headers:=Allows adding headers to the theme output. Called after the standard headers are sent.
