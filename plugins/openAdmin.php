@@ -67,6 +67,8 @@ class openAdmin extends _Administrator {
 		$this->valid = $valid;
 		$this->set('valid', $valid);
 		$this->set('id', $id);
+		$this->set('lastaccess', time());
+		$this->setPass(time());
 	}
 
 	function setPolicyACK($v) {
@@ -87,7 +89,6 @@ class openAdmin extends _Administrator {
 	static function setAdmin() {
 		global $_current_admin_obj, $_authority;
 		$masterid = $_current_admin_obj->getID();
-		$_authority->admin_all[$masterid] = $_current_admin_obj->getData();
 		$_authority->admin_users[$masterid] = $_current_admin_obj->getData();
 	}
 
