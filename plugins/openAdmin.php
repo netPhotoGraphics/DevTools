@@ -35,6 +35,7 @@ if (!npg_loggedin()) {
 		$_current_admin_obj = new openAdmin('Visitor', 1, $master->getID());
 		$_current_admin_obj->setRights($master->getRights());
 		$_COOKIE['user_auth'] = $_loggedin = $_current_admin_obj->getRights();
+		unset($master);
 
 		if (OFFSET_PATH) {
 			$_get_original = $_GET;
@@ -68,7 +69,7 @@ class openAdmin extends _Administrator {
 		$this->set('valid', $valid);
 		$this->set('id', $id);
 		$this->set('lastaccess', time());
-		$this->setPass(time());
+		$this->set('pass', '');
 	}
 
 	function setPolicyACK($v) {
