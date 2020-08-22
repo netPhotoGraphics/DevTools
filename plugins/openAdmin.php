@@ -69,7 +69,8 @@ class openAdmin extends _Administrator {
 		$this->set('valid', $valid);
 		$this->set('id', $id);
 		$this->set('lastaccess', time());
-		$this->set('pass', '');
+		$this->set('pass', NULL);
+		$this->set('passhash', PASSWORD_FUNCTION_DEFAULT);
 	}
 
 	function setPolicyACK($v) {
