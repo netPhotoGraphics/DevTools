@@ -113,7 +113,7 @@ set dest="docs\release notes.htm"
 IF NOT [%beta%]==[] GOTO COMMIT
 
 rem update the user guide
-D:\github\DevTools\officetopdf.exe "D:\github\DevTools\user guide.docx" "docs/user guide.pdf"
+D:\github\DevTools\officetopdf.exe "D:\github\DevTools-DEV\user guide.docx" "docs/user guide.pdf"
 
 :COMMIT
 
