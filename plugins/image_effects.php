@@ -330,7 +330,7 @@ class image_effects {
 		return $html;
 	}
 
-	static function custom_images($html, $thumbstandin) {
+	static function custom_images($html, $thumbstandin = FALSE) { //
 		if ($thumbstandin) {
 			if ($effect = getOption('image_custom_image_thumbs')) {
 				$html = image_effects::insertClass($html, $effect);
