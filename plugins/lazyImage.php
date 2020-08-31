@@ -62,9 +62,9 @@ class lazyImage {
 	static function head() {
 
 		if (class_exists('Video')) {
-			scriptLoader(USER_PLUGIN_SERVERPATH . '/lazyImage/jquery.lazyloadxt.extra.min.js');
+			scriptLoader(USER_PLUGIN_SERVERPATH . 'lazyImage/jquery.lazyloadxt.extra.min.js');
 		} else {
-			scriptLoader(USER_PLUGIN_SERVERPATH . '/lazyImage/jquery.lazyloadxt.min.js');
+			scriptLoader(USER_PLUGIN_SERVERPATH . 'lazyImage/jquery.lazyloadxt.min.js');
 		}
 		?>
 		<style>
@@ -75,10 +75,10 @@ class lazyImage {
 		<?php
 
 		if (getOption('lazyImage_jqBootstrap')) {
-			scriptLoader(USER_PLUGIN_SERVERPATH . '/lazyImage/jquery.lazyloadxt.jquerymobile.min.js');
+			scriptLoader(USER_PLUGIN_SERVERPATH . 'lazyImage/jquery.lazyloadxt.jquerymobile.min.js');
 		}
 		if (getOption('lazyImage_jqMobile')) {
-			scriptLoader(USER_PLUGIN_SERVERPATH . '/lazyImage/jquery.lazyloadxt.bootstrap.min.js');
+			scriptLoader(USER_PLUGIN_SERVERPATH . 'lazyImage/jquery.lazyloadxt.bootstrap.min.js');
 		}
 	}
 
