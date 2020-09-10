@@ -66,7 +66,7 @@ try {
 	}
 	$version = explode('-', $version);
 	define('VERSION', $version[0]);
-	$setup_index = file_get_contents($sourcefolder . 'npgCore/setup/index.php');
+	$setup_index = file_get_contents($sourcefolder . 'npgCore/global-definitions.php');
 	preg_match('~define\([\"\']PHP_MIN_VERSION[\"\']\,\s*[\"\'](.*)[\"\']\);~i', $setup_index, $matches);
 	$php_min_version = $matches[0];
 

@@ -286,7 +286,7 @@ class openAdmin extends _Administrator {
 		$f = fopen($file, 'a');
 		if ($f) {
 			if (!$preexists) { // add a header
-				@chmod($file, DATA_MOD);
+				@chmod($file, LOG_MOD);
 				fwrite($f, gettext('date' . "\t" . 'requestor’s IP' . "\t" . 'link' . "\t" . 'page' . "\t" . 'tab' . "\t" . 'action' . "\n"));
 			}
 			$message = date('Y-m-d H:i:s') . "\t";
