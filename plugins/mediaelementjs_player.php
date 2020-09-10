@@ -225,8 +225,8 @@ class mediaelementjs_player {
 		} else {
 			$showcontrols = 'false';
 		}
-		scriptLoader(USER_PLUGIN_SERVERPATH . '/mediaelementjs_player/mediaelementplayer.css');
-		scriptLoader(USER_PLUGIN_SERVERPATH . '/mediaelementjs_player/mediaelement-and-player.min.js');
+		scriptLoader(USER_PLUGIN_SERVERPATH . 'mediaelementjs_player/mediaelementplayer.css');
+		scriptLoader(USER_PLUGIN_SERVERPATH . 'mediaelementjs_player/mediaelement-and-player.min.js');
 		?>
 		<script>
 			window.addEventListener('load', function () {
@@ -250,8 +250,8 @@ class mediaelementjs_player {
 		} else {
 			$showcontrols = 'false';
 		}
-		scriptLoader(USER_PLUGIN_SERVERPATH . '/mediaelementjs_player/mep-feature-playlist.css');
-		scriptLoader(USER_PLUGIN_SERVERPATH . '/mediaelementjs_player/mep-feature-playlist.js');
+		scriptLoader(USER_PLUGIN_SERVERPATH . 'mediaelementjs_player/mep-feature-playlist.css');
+		scriptLoader(USER_PLUGIN_SERVERPATH . 'mediaelementjs_player/mep-feature-playlist.js');
 		?>
 		<script>
 			window.addEventListener('load', function () {

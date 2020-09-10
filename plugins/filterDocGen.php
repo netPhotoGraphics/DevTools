@@ -15,7 +15,7 @@ npgFilters::register('admin_utilities_buttons', 'filterDoc_button');
 function filterDoc_button($buttons) {
 	if (isset($_REQUEST['filterDoc'])) {
 		XSRFdefender('filterDoc');
-		include (USER_PLUGIN_SERVERPATH . '/filterDocGen/process.php');
+		include (USER_PLUGIN_SERVERPATH . 'filterDocGen/process.php');
 		processFilters();
 	}
 	$buttons[] = array(

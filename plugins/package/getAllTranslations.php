@@ -69,7 +69,7 @@ foreach ($paths as $plugin => $path) {
 }
 $categoryNames = array_unique($categoryNames);
 
-$scripts = array_merge($scripts, getPHPFiles(SERVERPATH . '/' . CORE_FOLDER));
+$scripts = array_merge($scripts, getPHPFiles(CORE_SERVERPATH));
 
 $f = fopen(CORE_SERVERPATH . 'allTranslations.php', 'w');
 fwrite($f, "<?php\n/* This file contains language strings extracted from getAllTranslations() function calls.\n * it is used by Poedit to capture the strings for translation.\n */\n");
