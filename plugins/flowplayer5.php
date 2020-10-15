@@ -33,10 +33,12 @@ $plugin_is_filter = 5 | CLASS_PLUGIN;
 if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
 	$plugin_description = gettext("Enable <strong>Flowplayer5</strong> to handle video files.");
 	$plugin_notice = gettext("<strong>IMPORTANT</strong>: Only one multimedia extension plugin can be enabled at the time and the class-video plugin must be enabled, too.") . '<br /><br />' . gettext("Please see <a href='http://flowplayer.org'>flowplayer.org</a> for more info about the player and its license.");
-	$plugin_disable = npgFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'flowplayer5' && Video::multimediaExtension() != 'pseudoPlayer', sprintf(gettext('Flowplayer5 not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
+	$plugin_disable = npgFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'flowplayer5' && Video::multimediaExtension() != 'html5Player', sprintf(gettext('Flowplayer5 not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
 }
 
 $option_interface = 'flowplayer5_options';
+
+require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/class-video.php');
 
 Gallery::addImageHandler('flv', 'Video');
 Gallery::addImageHandler('mp4', 'Video');
@@ -73,7 +75,7 @@ class flowplayer5_options {
 
 }
 
-class Flowplayer5 {
+class Flowplayer5 extends html5Player {
 
 	public $width = '';
 	public $height = '';
@@ -118,7 +120,7 @@ class Flowplayer5 {
 		$moviepath = $movie->getImagePath(FULLWEBPATH);
 		$ext = getSuffix($moviepath);
 		if (!in_array($ext, array('m4v', 'mp4', 'flv'))) {
-			return '<span class="error">' . gettext('This multimedia format is not supported by Flowplayer5') . '</span>';
+			return parent::getPlayerConfig($movie, $movietitle, $count, $w, $h);
 		}
 		$autoplay = '';
 		if (getOption('flowplayer5_autoplay')) {
@@ -206,21 +208,19 @@ class Flowplayer5 {
 
 	/**
 	 * Returns the width of the player
-	 * @param object $image the image for which the width is requested
 	 *
 	 * @return int
 	 */
-	function getWidth($image = NULL) {
+	function getWidth() {
 		return $this->width;
 	}
 
 	/**
 	 * Returns the height of the player
-	 * @param object $image the image for which the height is requested
 	 *
 	 * @return int
 	 */
-	function getHeight($image = NULL) {
+	function getHeight() {
 		return $this->height;
 	}
 
