@@ -137,7 +137,12 @@ function releaseNotesExecute($object) {
 		fwrite($f, $object->getContent());
 		fwrite($f, $e);
 		fclose($f);
+
+		npgFilters::register('edit_error', 'releaseNotesPublished');
 	}
 }
 
+function releaseNotesPublished() {
+	return "<p class='messagebox fade-message'>" . gettext('release_notes.htm has been updated') . '</p>';
+}
 ?>

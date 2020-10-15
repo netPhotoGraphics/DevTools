@@ -44,7 +44,7 @@ $plugin_is_filter = 5 | THEME_PLUGIN;
 /*
   Should be set to the text you wish displayed on the admin plugins tab description of the plugin
  */
-$plugin_description = gettext('This is a raw functional example of a basic theme plugin', 'demoplugin');
+$plugin_description = gettext('This is a raw functional example of a basic theme plugin');
 
 
 /*
@@ -289,56 +289,56 @@ class demoplugin_options {
 						} else {
 							text_save = text_save + c;
 						}
-						text_show = text_show + '*';
+						text_s			how = text_show + '*';
 					}
-					$('#emoplugin_mask_input').html(text_save);
-					$('#emoplugin_mask_save').val(text_save);
-					$('#emoplugin_mask_input_show').val(text_show);
+					$('#em		oplugin		_mask_input').html(text_save);
+					$('#emoplugin_ma		sk_save').val(text_save);
+					$('#emoplugin_mask_		input_show').val(text_show);
 				}
 
-				// monitor the input field for changes
-				$('#emoplugin_mask_input_show').on('input', function () {
+				// monitor the inpu	t field	for changes
+				$('#emoplugin_mask_input_show	').on('input', function () {
 					emoplugin_mask_input();
 				});
 
 				//-->
-			</script>
-			<?php
+						</script>
+				<?php
+			}
 		}
-	}
 
-	/**
-	 * handleOptionSave() will be called if it has been defined. Its job is to process the
-	 * posting of cusotm options.
-	 * @param string $themename
-	 * @param string $themealbum
-	 */
-	function handleOptionSave($themename, $themealbum) {
-		if (isset($_POST['demoplugin_customoption'])) {
-			setOption('demoplugin_customoption', sanitize($_POST['demoplugin_customoption']));
+		/**
+		 * handleOptionSave() will be called if it has been defined. Its job is to process the
+		 * posting of cusotm options.
+		 * @param string $themename
+		 * @param string $themealbum
+		 */
+		function handleOptionSave($themename, $themealbum) {
+			if (isset($_POST['demoplugin_customoption'])) {
+				setOption('demoplugin_customoption', sanitize($_POST['demoplugin_customoption']));
+			}
+			return false;
 		}
-		return false;
-	}
 
-	/*
-	  You can put your extra methods here as part of this class or use separate ones below. */
-}
+		/*
+		  You can put your extra methods here as part of this class or use separate ones below. */
+	}
 
 // End of the option interface class of your plugin
 
-/* Here your plugin functions or extra classes can go. If your plugin is more complex a class or the incorporation into the above one can be good practice */
+	/* Here your plugin functions or extra classes can go. If your plugin is more complex a class or the incorporation into the above one can be good practice */
 
-/* We use a function here as an example for loading javascript on the theme using a filter (see above) */
+	/* We use a function here as an example for loading javascript on the theme using a filter (see above) */
 
-function demoplugin_javascript() {
+	function demoplugin_javascript() {
+		?>
+		<script type="text/javascript" src="<?php echo WEBPATH . '/' . USER_PLUGIN_FOLDER . '/' . stripSuffix(basename(__FILE__)); ?>/javascript.js"></script>
+		<?php
+	}
+
+	/* It is also good pratice to prefix or suffix function names according to the plugin so you easily spot them if used on a theme */
+
+	function demoplugin_printHelloworld() {
+		echo gettext('Hello World!');
+	}
 	?>
-	<script type="text/javascript" src="<?php echo WEBPATH . '/' . USER_PLUGIN_FOLDER . '/' . stripSuffix(basename(__FILE__)); ?>/javascript.js"></script>
-	<?php
-}
-
-/* It is also good pratice to prefix or suffix function names according to the plugin so you easily spot them if used on a theme */
-
-function demoplugin_printHelloworld() {
-	echo gettext('Hello World!');
-}
-?>
