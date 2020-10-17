@@ -36,7 +36,7 @@ if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
 	$plugin_disable = npgFunctions::pluginDisable(array(array(!extensionEnabled('class-video'), gettext('This plugin requires the <em>class-video</em> plugin')), array(class_exists('Video') && Video::multimediaExtension() != 'flowplayer5' && Video::multimediaExtension() != 'html5Player', sprintf(gettext('Flowplayer5 not enabled, <a href="#%1$s"><code>%1$s</code></a> is already instantiated.'), class_exists('Video') ? Video::multimediaExtension() : false)), array(getOption('album_folder_class') === 'external', gettext('This player does not support <em>External Albums</em>.'))));
 }
 
-$option_interface = 'flowplayer5_options';
+$option_interface = 'flowplayer5';
 
 require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/class-video.php');
 
@@ -44,10 +44,15 @@ Gallery::addImageHandler('flv', 'Video');
 Gallery::addImageHandler('mp4', 'Video');
 Gallery::addImageHandler('m4v', 'Video');
 
-$_multimedia_extension = new Flowplayer5(); // claim to be the flash player.
-npgFilters::register('theme_head', 'flowplayer5::headJS');
+class Flowplayer5 extends html5Player {
 
-class flowplayer5_options {
+	public $width = '';
+	public $height = '';
+	public $playersize = '';
+	public $mode = '';
+	public $supplied = '';
+	public $supplied_counterparts = '';
+	public $name = 'flowplayer5';
 
 	function __construct() {
 		if (OFFSET_PATH == 2) {
@@ -55,6 +60,8 @@ class flowplayer5_options {
 			setOptionDefault('flowplayer5_poster', 1);
 			setOptionDefault('flowplayer5_skin', 'minimalist');
 		}
+		$this->width = 1280;
+		$this->height = 720;
 	}
 
 	function getOptionsSupported() {
@@ -71,23 +78,6 @@ class flowplayer5_options {
 				gettext('Autoplay') => array('key' => 'flowplayer5_autoplay', 'type' => OPTION_TYPE_CHECKBOX,
 						'desc' => gettext("Disabled automatically if several players on one page"))
 		);
-	}
-
-}
-
-class Flowplayer5 extends html5Player {
-
-	public $width = '';
-	public $height = '';
-	public $playersize = '';
-	public $mode = '';
-	public $supplied = '';
-	public $supplied_counterparts = '';
-	public $name = 'flowplayer5';
-
-	function __construct() {
-		$this->width = 1280;
-		$this->height = 720;
 	}
 
 	static function headJS() {
@@ -110,7 +100,7 @@ class Flowplayer5 extends html5Player {
 	 * @param string $movietitle the title of the movie
 	 *
 	 */
-	function getPlayerConfig($movie, $movietitle = NULL) {
+	function getPlayerConfig($movie, $movietitle = NULL, $count = NULL, $w = NULL, $h = NULL) {
 		if (is_null($w)) {
 			$w = $this->getWidth();
 		}
@@ -235,4 +225,6 @@ class Flowplayer5 extends html5Player {
 	}
 
 }
-?>
+
+$_multimedia_extension = new Flowplayer5(); // claim to be the flash player.
+npgFilters::register('theme_head', 'flowplayer5::headJS');
