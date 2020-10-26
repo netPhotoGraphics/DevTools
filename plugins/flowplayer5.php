@@ -118,7 +118,7 @@ class Flowplayer5 extends html5Player {
 		}
 		$videoThumb = '';
 		if (getOption('flowplayer5_poster')) {
-			$videoThumb = '$(".fp-engine").attr("poster","' . $movie->getCustomImage(null, $w, $h, $w, $h, null, null, true) . '");';
+			$videoThumb = '$(".fp-engine").attr("poster","' . $movie->getCustomImage(array('sitdh' => $w, 'height' => $h, 'cw' => $w, 'ch' => $h, 'thumb' => TRUE)) . '");';
 		}
 		$metadata = getImageMetaData(NULL, false);
 		$vidWidth = $metadata['VideoResolution_x'];
