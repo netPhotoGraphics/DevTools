@@ -330,7 +330,7 @@ class mediaelementjs_player {
 					if (empty($posterheight)) {
 						$posterheight = 360;
 					}
-					$playerconfig .= '<img class="mediaelementjs_audioposter" src="' . $movie->getCustomImage(NULL, $posterwidth, $posterheight, $posterwidth, $posterheight, NULL, NULL, true, NULL) . '" alt=""' . $style . '>' . "\n";
+					$playerconfig .= '<img class="mediaelementjs_audioposter" src="' . $movie->getCustomImage(array('width' => $posterwidth, 'height' => $posterheight, 'cw' => $posterwidth, 'ch' => $posterheight, 'thumb' => TRUE)) . '" alt=""' . $style . '>' . "\n";
 				}
 				$playerconfig .= '
 					<audio id="mediaelementjsplayer' . $count . '" class="mep_player" width="' . $width . '" height="' . $height . '" controls="controls"' . $preload . $style . '>
@@ -358,7 +358,7 @@ class mediaelementjs_player {
 					if (empty($posterheight)) {
 						$posterheight = 360;
 					}
-					$poster = ' poster="' . $movie->getCustomImage(null, $posterwidth, $posterheight, $posterwidth, $posterheight, null, null, true) . '"';
+					$poster = ' poster="' . $movie->getCustomImage(array('width' => $posterwidth, 'height' => $posterheight, 'cw' => $posterwidth, 'ch' => $posterheight, 'thumb' => TRUE)) . '"';
 				}
 				$playerconfig .= '
 					<video id="mediaelementjsplayer' . $count . '" class="mep_player" width="' . $width . '" height="' . $height . '" controls="controls"' . $preload . $poster . $style . '>

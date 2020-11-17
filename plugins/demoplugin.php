@@ -123,120 +123,120 @@ class demoplugin_options {
 		 */
 		$options = array(
 				/* Radio buttons */
-				gettext('Radio buttons option', 'demoplugin') => array(// The Title of your option that can be translated
+				gettext('Radio buttons option') => array(// The Title of your option that can be translated
 						'key' => 'demoplugin_radiobuttons', // the real name of the option that is stored in the database.
 						// Good practice is to name these like yourdemoplugin_optionname
 						'type' => OPTION_TYPE_RADIO, // this is generates an option interface for radio buttons
 						'order' => 7, // the order position the option should have on the plugin option
 						'buttons' => array(// The definition of the radio buttons to choose from and their values.
 								//You can of course have more than three.
-								gettext('Suboption 1-a', 'demoplugin') => 'suboption1-a',
-								gettext('Suboption 1-b', 'demoplugin') => 'suboption1-b',
-								gettext('Suboption 1-c', 'demoplugin') => 'suboption1-c'
+								gettext('Suboption 1-a') => 'suboption1-a',
+								gettext('Suboption 1-b') => 'suboption1-b',
+								gettext('Suboption 1-c') => 'suboption1-c'
 						),
-						'desc' => gettext('Description', 'demoplugin')
+						'desc' => gettext('Description')
 				), // The description of the option
 
 				/* Checkbox list as an array */
-				gettext('Checkbox array list option', 'emoplugin') => array(
+				gettext('Checkbox array list option') => array(
 						'key' => 'demoplugin_checkbox_array',
 						'type' => OPTION_TYPE_CHECKBOX_ARRAY,
 						'order' => 0,
 						'checkboxes' => array(// The definition of the checkboxes
-								gettext('Suboption 2-a', 'emoplugin') => 'suboption2-a',
-								gettext('Suboption 2-b', 'emoplugin') => 'suboption2-b',
-								gettext('Suboption 2-c', 'emoplugin') => 'suboption2-c'
+								gettext('Suboption 2-a') => 'suboption2-a',
+								gettext('Suboption 2-b') => 'suboption2-b',
+								gettext('Suboption 2-c') => 'suboption2-c'
 						),
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Checkbox list as an unordered html list */
-				gettext('Checkbox list', 'emoplugin') => array(
+				gettext('Checkbox list') => array(
 						'key' => 'demoplugin_checkbox_list',
 						'type' => OPTION_TYPE_CHECKBOX_UL,
 						'order' => 0,
 						'checkboxes' => array(// The definition of the checkboxes
-								gettext('Suboption 3-a', 'emoplugin') => 'suboption3-a',
-								gettext('Suboption 3-b', 'emoplugin') => 'suboption3-b',
-								gettext('Suboption 3-c', 'emoplugin') => 'suboption3-c'
+								gettext('Suboption 3-a') => 'suboption3-a',
+								gettext('Suboption 3-b') => 'suboption3-b',
+								gettext('Suboption 3-c') => 'suboption3-c'
 						),
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* One checkbox only option */
-				gettext('One Checkbox option only', 'emoplugin') => array(
+				gettext('One Checkbox option only') => array(
 						'key' => 'demoplugin_checkbox',
 						'type' => OPTION_TYPE_CHECKBOX,
 						'order' => 2,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Input numeric field option */
-				gettext('Input numeric field option', 'emoplugin') => array(
+				gettext('Input numeric field option') => array(
 						'key' => 'demoplugin_number',
 						'type' => OPTION_TYPE_NUMBER,
 						'limits' => array('min' => -2, 'max' => 20, 'step' => 2),
 						//Then there will be one input field per enabled language.
 						'order' => 2.5,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Input text field option */
-				gettext('Input text field option', 'emoplugin') => array(
+				gettext('Input text field option') => array(
 						'key' => 'demoplugin_textbox',
 						'type' => OPTION_TYPE_TEXTBOX,
 						'multilingual' => 1, // optional if the field should be multilingual if the site is run in that mode.
 						//Then there will be one input field per enabled language.
 						'order' => 9,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Password input field option */
-				gettext('Password input field option', 'emoplugin') => array(
+				gettext('Password input field option') => array(
 						'key' => 'demoplugin_input_password',
 						'type' => OPTION_TYPE_PASSWORD,
 						'order' => 9,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Cleartext option */
-				gettext('Cleartext input field option', 'emoplugin') => array(
+				gettext('Cleartext input field option') => array(
 						'key' => 'demoplugin_input_cleartext',
 						'type' => OPTION_TYPE_CLEARTEXT,
 						'order' => 9,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Textareafield option */
-				gettext('Textarea field option', 'emoplugin') => array(
+				gettext('Textarea field option') => array(
 						'key' => 'demoplugin_textarea',
 						'type' => OPTION_TYPE_TEXTAREA,
 						'multilingual' => 1, // optional if the field should be multilingual if the site is run
 						//in that mode. Then there will be one textarea per enabled language.
 						'order' => 9,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Richtext option */
-				gettext('Richtext field option', 'emoplugin') => array(
+				gettext('Richtext field option') => array(
 						'key' => 'demoplugin_richtext',
 						'type' => OPTION_TYPE_RICHTEXT,
 						'multilingual' => 1, // optional if the field should be multilingual if the site is run
 						//in that mode. Then there will be one textarea per enabled language.
 						'order' => 9,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* Dropdown selector option */
-				gettext('Dropdown selector option', 'emoplugin') => array(
+				gettext('Dropdown selector option') => array(
 						'key' => 'demoplugin_selector',
 						'type' => OPTION_TYPE_SELECTOR,
 						'order' => 1,
 						'selections' => array(// The definition of the selector values. You can of course have more than three.
-								gettext('Suboption1', 'emoplugin') => 'suboption1',
-								gettext('Suboption2', 'emoplugin') => 'suboption2',
-								gettext('Suboption3', 'emoplugin') => 'suboption3'
+								gettext('Suboption1') => 'suboption1',
+								gettext('Suboption2') => 'suboption2',
+								gettext('Suboption3') => 'suboption3'
 						),
-						'null_selection' => gettext('Disabled', 'emoplugin'), // Provides a NULL value to select to the above selections
-						'desc' => gettext('Description.', 'emoplugin')),
+						'null_selection' => gettext('Disabled'), // Provides a NULL value to select to the above selections
+						'desc' => gettext('Description.')),
 				/* jQuery color picker option */
-				gettext('jQuery color picker option', 'emoplugin') => array(
+				gettext('jQuery color picker option') => array(
 						'key' => 'demoplugin_colorpicker',
 						'type' => OPTION_TYPE_COLOR_PICKER,
-						'desc' => gettext('Description', 'emoplugin')),
+						'desc' => gettext('Description')),
 				/* slider option */
-				gettext('Slider option', 'emoplugin') => array('key' => 'emoplugin_slider', 'type' => OPTION_TYPE_SLIDER,
+				gettext('Slider option') => array('key' => 'emoplugin_slider', 'type' => OPTION_TYPE_SLIDER,
 						'min' => 0,
 						'max' => 4,
 						'order' => 0,
-						'desc' => gettext('Provides a slider for selecting a number within a range.', 'emoplugin')),
+						'desc' => gettext('Provides a slider for selecting a number within a range.')),
 				/* Custom option if none of the above standard ones fit your purpose. You define what to do and show within the method handleOption() below */
-				gettext('Custom option', 'emoplugin') => array(
+				gettext('Custom option') => array(
 						'key' => 'demoplugin_customoption', // note that this name is referenced in handleOption() below!
 						'type' => OPTION_TYPE_CUSTOM,
-						'desc' => gettext('Custom option if none of the above standard ones fit your purpose. You define what to do and show within the method handleOption(). In this case we mask the input which in actuality is shown in the field below.', 'emoplugin'), getOption('demoplugin_customoption'))
+						'desc' => gettext('Custom option if none of the above standard ones fit your purpose. You define what to do and show within the method handleOption(). In this case we mask the input which in actuality is shown in the field below.'), getOption('demoplugin_customoption'))
 		);
 
 		/*
@@ -247,7 +247,7 @@ class demoplugin_options {
 					'key' => 'demoplugin_note',
 					'type' => OPTION_TYPE_NOTE,
 					'order' => 25,
-					'desc' => gettext('<span class="notebox">Sometimes you might want to put out notes for example if someone tries to run the plugin but its server lacks support.Then there is an option type for notes only</span>', 'emoplugin') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
+					'desc' => gettext('<span class="notebox">Sometimes you might want to put out notes for example if someone tries to run the plugin but its server lacks support.Then there is an option type for notes only</span>') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
 			);
 		}
 
@@ -291,18 +291,18 @@ class demoplugin_options {
 						}
 						text_s			how = text_show + '*';
 					}
-					$('#em		oplugin		_mask_input').html(text_save);
+					$('#em		oplug		in		_mask_input').html(text_save);
 					$('#emoplugin_ma		sk_save').val(text_save);
 					$('#emoplugin_mask_		input_show').val(text_show);
 				}
 
-				// monitor the inpu	t field	for changes
+				// monitor the inpu	t fiel	d	for changes
 				$('#emoplugin_mask_input_show	').on('input', function () {
 					emoplugin_mask_input();
 				});
 
 				//-->
-						</script>
+									</script>
 				<?php
 			}
 		}

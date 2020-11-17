@@ -395,12 +395,12 @@ class cycle {
 	static function getSlide($albumobj, $imgobj, $width, $height, $cropw, $croph, $linkslides, $crop = false, $carousel = false) {
 		global $_current_image;
 		if ($crop) {
-			$imageurl = $imgobj->getCustomImage(NULL, $width, $height, $cropw, $croph, NULL, NULL, true, NULL);
+			$imageurl = $imgobj->getCustomImage(array('width' => $width, 'height' => $height, 'cw' => $cropw, 'ch' => $croph, 'thumb' => TRUE));
 		} else {
 			$maxwidth = $width;
 			$maxheight = $height;
 			getMaxSpaceContainer($maxwidth, $maxheight, $imgobj);
-			$imageurl = $imgobj->getCustomImage(NULL, $maxwidth, $maxheight, NULL, NULL, NULL, NULL, NULL, NULL);
+			$imageurl = $imgobj->getCustomImage(array('width' => $maxwidth, 'height' => $maxheight));
 		}
 		$slidecontent = '<div class="slide">' . "\n";
 // no space in carousels for titles!
@@ -677,7 +677,7 @@ if (extensionEnabled('slideshow2') && !OFFSET_PATH) {
 									$imagelink = getFullImageURL($imgobj);
 									break;
 								case 'sizedimage':
-									$imagelink = $imgobj->getCustomImage(getOption("cycle-slideshow_width"), NULL, NULL, NULL, NULL, NULL, NULL, false, NULL);
+									$imagelink = $imgobj->getCustomImage(array('size' => getOption("cycle-slideshow_width")));
 									break;
 							}
 							$imagetitle = '';
