@@ -237,6 +237,11 @@ class openAdmin extends _Administrator {
 	static function query($result, $sql) {
 		$action = substr($sql, 0, strpos($sql, ' '));
 		switch (strtolower($action)) {
+			case 'create':
+				if (strpos($sql, 'CREATE TEMPORARY TABLE') === 0) {
+					return $result; //	getAllTagsUnique needs the temp table
+				}
+				break;
 			case 'select':
 			case 'show':
 			case 'use':
@@ -244,7 +249,6 @@ class openAdmin extends _Administrator {
 			case 'set':
 				//	"read" type commands let it pass
 				return $result;
-				break;
 		}
 		return true; //	pretend the query was successsful
 	}
