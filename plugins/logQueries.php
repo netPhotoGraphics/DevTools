@@ -48,7 +48,7 @@ class logQueries {
 		if (!empty($line)) {
 			$output .= 'from ' . $line;
 		}
-		debugLog($output, false, 'debug');
+		debugLog($output, false, 'query');
 		return NULL;
 	}
 
