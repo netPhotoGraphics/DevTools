@@ -34,7 +34,8 @@ if (!npg_loggedin()) {
 		$master = $_authority->getMasterUser();
 		$_current_admin_obj = new openAdmin('Visitor', 1, $master->getID());
 		$_current_admin_obj->setRights($master->getRights());
-		$_COOKIE['user_auth'] = $_loggedin = $_current_admin_obj->getRights();
+		$_loggedin = $_current_admin_obj->getRights();
+		setNPGCookie('user_auth', $_loggedin);
 		unset($master);
 
 		if (OFFSET_PATH) {
