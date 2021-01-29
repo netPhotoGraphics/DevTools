@@ -15,11 +15,6 @@ use Milo\Github;
 $plugin_is_filter = 5 | CLASS_PLUGIN;
 $plugin_description = gettext("Provides a button to download the latest version of the software.");
 
-npgFilters::register('content_macro', 'downloadButtons::macro');
-npgFilters::register('theme_head', 'downloadButtons::head');
-
-//npgFilters::register('admin_utilities_buttons', 'downloadButtons::button');
-
 class downloadButtons {
 
 	function __construct() {
@@ -72,7 +67,12 @@ class downloadButtons {
 						'params' => array('string', 'string*'),
 						'value' => 'downloadButtons::repositoryLink',
 						'owner' => 'downloadButtons',
-						'desc' => gettext('Yields a link to the netPhotoGraphics gitHub repository (to the sub-folder %2 if present) with the  %1 as the link text.'))
+						'desc' => gettext('Yields a link to the netPhotoGraphics gitHub repository (to the sub-folder %2 if present) with the  %1 as the link text.')),
+				'DOWNLOADBUTTON' => array('class' => 'procedure',
+						'params' => array(),
+						'value' => 'downloadButtons::printGitHubButtons',
+						'owner' => 'downloadButtons',
+						'desc' => gettext('Emits the NPG software download button.'))
 		);
 		return array_merge($macros, $my_macros);
 	}
@@ -155,6 +155,9 @@ class downloadButtons {
 	}
 
 }
+
+npgFilters::register('content_macro', 'downloadButtons::macro');
+npgFilters::register('theme_head', 'downloadButtons::head');
 
 if (isset($_REQUEST['publish_release'])) {
 	XSRFdefender('downloadButtons');

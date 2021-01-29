@@ -63,7 +63,9 @@ class filter404 {
 		list($album, $image, $galleryPage, $theme, $page) = $data;
 		$list = getSerializedArray(getOption('filter_404_logging_exceptions'));
 		foreach ($list as $regex) {
-			$log = $log && !preg_match($regex, $album);
+			if (preg_match($regex, $album . '/' . $image)) {
+				$log = FALSE;
+			}
 		}
 		return $log;
 	}
