@@ -22,11 +22,15 @@
 !comment_disapprove
 !comment_form_data
 !comment_post
+!cookieconsent_consentscripts
+!cookieconsent_externalconsentscripts
+!custom_image_thumb_html
 !database_query
 !edit_category_custom
 !favoritesHandler_action
 !general_utilities
 !image_filter
+!log_404
 !log_setup
 !login_link
 !logout
@@ -42,6 +46,7 @@
 !search_criteria
 !search_instantiate
 !security_misc
+!standard_album_image_html
 !standard_image_html
 !theme_headers
 !upload_root_ui
@@ -64,7 +69,16 @@
 *Theme.Miscellaneous:=
 *Theme.Script:=
 
+Admin>Media>mass_edit_selector:=
+
+Miscellaneous>Miscellaneous>cookieconsent_consentscripts:=
+Miscellaneous>Miscellaneous>cookieconsent_externalconsentscripts:=
+Miscellaneous>Miscellaneous>mail_form:=
+
 Object>Miscellaneous>isPublicCategory:=
+
+Theme>Script>custom_image_thumb_html:=
+Theme>Script>standard_album_image_html:=
 
 *Admin:=These filters allow for the extension of the administrator interface.
 *Object:=These filters provide modifications to the behavior of object methods.
@@ -188,6 +202,7 @@ Template>Miscellaneous>checkPageValidity:=Called to process the "default" case i
 Template>Miscellaneous>codeblock:=Allow plugins to create codeblock content on-the-fly.
 Template>Miscellaneous>getLink:=Called each time a URL is generated.
 Template>Miscellaneous>isMyItemToView:=Invoked when checking if an object may be viewed by a user.
+Template>Miscellaneous>log_404:=A filter that allows inhibiting of 404 error logging via regular expressions
 Template>Miscellaneous>next_object_loop:=Called from the bottom of functions like next_album passing the resultant object.
 
 Theme>Miscellaneous>content_macro:=Allows plugins and themes to provide macros for data substitutions.
