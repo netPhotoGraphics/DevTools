@@ -30,6 +30,7 @@ if (!npg_loggedin()) {
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
 	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
 		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
+		npgFilters::register('save_admin_data', 'openAdmin::checkUser', 9999);
 		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
 		$master = $_authority->getMasterUser();
 		$_current_admin_obj = new openAdmin('Visitor', 1, $master->getID());
@@ -37,7 +38,6 @@ if (!npg_loggedin()) {
 		$_loggedin = $_current_admin_obj->getRights();
 		setNPGCookie('user_auth', $_loggedin);
 		unset($master);
-
 		if (OFFSET_PATH) {
 			$_get_original = $_GET;
 			npgFilters::register('database_query', 'openAdmin::query', 9999);
@@ -61,9 +61,9 @@ class openAdmin extends _Administrator {
 		}
 
 		parent::__construct('', NULL, false);
+
 		$this->setUser($user);
 		$this->setName('Site ' . $user);
-		$this->setEmail($user . '@netPhotoGraphics.com');
 		$this->exists = true;
 		$this->transient = true;
 		$this->valid = $valid;
@@ -93,6 +93,21 @@ class openAdmin extends _Administrator {
 		global $_current_admin_obj, $_authority;
 		$masterid = $_current_admin_obj->getID();
 		$_authority->admin_users[$masterid] = $_current_admin_obj->getData();
+	}
+
+	static function checkUser($userobj, $i, $alter) {
+		global $_current_admin_obj;
+		if (!$userobj->loaded) {
+
+//			var_dump($_current_admin_obj);
+
+			$data = $_current_admin_obj->getData();
+			foreach ($data as $what => $value) {
+				$userobj->set($what, $value);
+			}
+			$userobj->getData(); //	force updates->data
+//			var_dump($userobj);
+		}
 	}
 
 	/**
