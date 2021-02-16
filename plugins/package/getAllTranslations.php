@@ -77,7 +77,7 @@ fwrite($f, "<?php\n/* This file contains language strings extracted from getAllT
 $seen = array();
 
 foreach ($scripts as $filename) {
-	@set_time_limit(200);
+	set_time_limit(200);
 	$content = file_get_contents(SERVERPATH . '/' . internalToFilesystem($filename));
 	preg_match_all('~getAllTranslations\s*\(\s*([\'"])(.+?)\1\s*\)~is', $content, $matches);
 	if (isset($matches[2]) && !empty($matches[2])) {

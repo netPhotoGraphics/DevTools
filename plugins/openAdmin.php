@@ -284,14 +284,14 @@ class openAdmin extends _Administrator {
 		$file = SERVERPATH . '/' . DATA_FOLDER . '/openAdmin.log';
 		$max = getOption('security_log_size'); // we are lazy, we will use this
 		$_mutex->lock();
-		if ($max && @filesize($file) > $max) {
+		if (file_exists($file) && $max && filesize($file) > $max) {
 			switchLog('openAdmin');
 		}
 		$preexists = file_exists($file) && filesize($file) > 0;
 		$f = fopen($file, 'a');
 		if ($f) {
 			if (!$preexists) { // add a header
-				@chmod($file, LOG_MOD);
+				chmod($file, LOG_MOD);
 				fwrite($f, gettext('date' . "\t" . 'requestor’s IP' . "\t" . 'link' . "\t" . 'page' . "\t" . 'tab' . "\t" . 'action' . "\n"));
 			}
 			$message = date('Y-m-d H:i:s') . "\t";
