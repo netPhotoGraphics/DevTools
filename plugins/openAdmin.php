@@ -35,18 +35,13 @@ class openAdmin extends _Administrator {
 			setOptionDefault('openAdmin_logging', 0);
 		}
 
-		parent::__construct('', NULL, false);
+		parent::__construct('', 1, false);
 
 		$master = $_authority->getMasterUser();
-		$data = $master->getData();
-		foreach ($data as $key => $v) {
-			$this->set($key, NULL);
-		}
 		$this->setUser($user);
 		$this->setName('Site ' . $user);
 		$this->exists = true;
 		$this->transient = true;
-		$this->set('valid', $this->valid = 1);
 		$this->set('id', $this->id = $master->getID());
 		$this->set('lastaccess', time());
 		$this->set('pass', NULL);
