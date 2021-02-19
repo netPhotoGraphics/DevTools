@@ -76,21 +76,6 @@ class openAdmin extends _Administrator {
 		$_authority->admin_users[$masterid] = $_current_admin_obj->getData();
 	}
 
-	static function checkUser($userobj, $i, $alter) {
-		global $_current_admin_obj;
-		if (!$userobj->loaded) {
-
-//			var_dump($_current_admin_obj);
-
-			$data = $_current_admin_obj->getData();
-			foreach ($data as $what => $value) {
-				$userobj->set($what, $value);
-			}
-			$userobj->getData(); //	force updates->data
-//			var_dump($userobj);
-		}
-	}
-
 	/**
 	 * removes upload capability from tinyMCE
 	 *
@@ -313,7 +298,6 @@ if (!npg_loggedin()) {
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
 	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
 		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
-		npgFilters::register('save_admin_data', 'openAdmin::checkUser', 9999);
 		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
 		$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
 		$_loggedin = $_current_admin_obj->getRights();
