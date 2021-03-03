@@ -11,7 +11,7 @@
 $plugin_is_filter = 5 | FEATURE_PLUGIN;
 $plugin_description = gettext('Allows using netPhotoGraphics editing to create release notes.');
 
-npgFilters::register('general_utilities', 'releaseNotesPublish');
+npgFilters::register('edit_cms_utilities', 'releaseNotesPublish');
 npgFilters::register('save_article_data', 'releaseNotesExecute');
 
 if (OFFSET_PATH == 2) {
@@ -145,4 +145,5 @@ function releaseNotesExecute($object) {
 function releaseNotesPublished() {
 	return "<p class='messagebox fade-message'>" . gettext('release_notes.htm has been updated') . '</p>';
 }
+
 ?>
