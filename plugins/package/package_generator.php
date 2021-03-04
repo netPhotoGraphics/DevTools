@@ -45,7 +45,7 @@ $_special_files[] = CORE_FOLDER . '/setup';
 $_special_files = array_merge($_special_files, getResidentFiles(CORE_SERVERPATH . 'setup', $stdExclude));
 
 $filepath = CORE_SERVERPATH . 'netPhotoGraphics.package';
-@chmod($filepath, 0666);
+chmod($filepath, 0666);
 $fp = fopen($filepath, 'w');
 foreach ($_resident_files as $component) {
 	writeComponent($fp, $component, '');

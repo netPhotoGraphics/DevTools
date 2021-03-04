@@ -24,54 +24,30 @@ $plugin_description = gettext("Allow visitors to view the Administrative pages."
 
 $option_interface = 'openAdmin';
 
-if (!npg_loggedin()) {
-
-	npgFilters::register('admin_head', 'openAdmin::head', 9999);
-	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
-	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
-		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
-		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
-		$master = $_authority->getMasterUser();
-		$_current_admin_obj = new openAdmin('Visitor', 1, $master->getID());
-		$_current_admin_obj->setRights($master->getRights());
-		$_loggedin = $_current_admin_obj->getRights();
-		setNPGCookie('user_auth', $_loggedin);
-		unset($master);
-
-		if (OFFSET_PATH) {
-			$_get_original = $_GET;
-			npgFilters::register('database_query', 'openAdmin::query', 9999);
-			npgFilters::register('admin_note', 'openAdmin::notice', 9999);
-			if (isset($_GET['action'])) {
-				$allowedActions = array('save', 'sorttags', 'sortorder', 'saveoptions', 'external');
-				if (!in_array($_GET['action'], $allowedActions)) {
-					$_GET['action'] = 'NULL'; // block the action
-				}
-			}
-		}
-	}
-}
+define('OPENADMIN_USER', 'Visitor');
 
 class openAdmin extends _Administrator {
 
 	function __construct($user = NULL, $valid = NULL, $id = NULL) {
+		global $_authority;
 
 		if (OFFSET_PATH == 2) {
 			setOptionDefault('openAdmin_logging', 0);
 		}
 
-		parent::__construct('', NULL, false);
+		parent::__construct('', 1, false);
+
+		$master = $_authority->getMasterUser();
 		$this->setUser($user);
 		$this->setName('Site ' . $user);
-		$this->setEmail($user . '@netPhotoGraphics.com');
 		$this->exists = true;
 		$this->transient = true;
-		$this->valid = $valid;
-		$this->set('valid', $valid);
-		$this->set('id', $id);
+		$this->set('id', $this->id = $master->getID());
 		$this->set('lastaccess', time());
 		$this->set('pass', NULL);
 		$this->set('passhash', PASSWORD_FUNCTION_DEFAULT);
+		$this->setRights($master->getRights());
+		$this->setEmail('visitor@netphotographics.org');
 	}
 
 	function setPolicyACK($v) {
@@ -214,6 +190,7 @@ class openAdmin extends _Administrator {
 				$("#admin_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 				$('#login').before('<p class="notebox"><?php echo gettext('Login with valid user credentials to bypass the <em>openAdmin</em> plugin.'); ?></p>');
 				$('#auth').remove();	//	disable any auth passing, currently only for uploader stuff
+				$('.reconfigbox').remove();	//	remove any reconfigure messages as we don't want the visitor running setup
 			}, false);
 			// ]]> -->
 		</script>
@@ -284,14 +261,14 @@ class openAdmin extends _Administrator {
 		$file = SERVERPATH . '/' . DATA_FOLDER . '/openAdmin.log';
 		$max = getOption('security_log_size'); // we are lazy, we will use this
 		$_mutex->lock();
-		if ($max && @filesize($file) > $max) {
+		if (file_exists($file) && $max && filesize($file) > $max) {
 			switchLog('openAdmin');
 		}
 		$preexists = file_exists($file) && filesize($file) > 0;
 		$f = fopen($file, 'a');
 		if ($f) {
 			if (!$preexists) { // add a header
-				@chmod($file, LOG_MOD);
+				chmod($file, LOG_MOD);
 				fwrite($f, gettext('date' . "\t" . 'requestor’s IP' . "\t" . 'link' . "\t" . 'page' . "\t" . 'tab' . "\t" . 'action' . "\n"));
 			}
 			$message = date('Y-m-d H:i:s') . "\t";
@@ -308,4 +285,29 @@ class openAdmin extends _Administrator {
 		$_mutex->unlock();
 	}
 
+}
+
+if (!npg_loggedin()) {
+
+	npgFilters::register('admin_head', 'openAdmin::head', 9999);
+	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
+	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
+		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
+		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
+		$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
+		$_loggedin = $_current_admin_obj->getRights();
+		setNPGCookie('user_auth', $_loggedin);
+		unset($master);
+		if (OFFSET_PATH) {
+			$_get_original = $_GET;
+			npgFilters::register('database_query', 'openAdmin::query', 9999);
+			npgFilters::register('admin_note', 'openAdmin::notice', 9999);
+			if (isset($_GET['action'])) {
+				$allowedActions = array('save', 'sorttags', 'sortorder', 'saveoptions', 'external');
+				if (!in_array($_GET['action'], $allowedActions)) {
+					$_GET['action'] = 'NULL'; // block the action
+				}
+			}
+		}
+	}
 }
