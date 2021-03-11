@@ -17,10 +17,13 @@ if (!isset($_GET['theme'])) {
 	exitZP();
 }
 
-$ok_extensions = array('css', 'php', 'js', 'txt', 'inc');
-
 function isTextFile($file) {
-	global $ok_extensions;
+	$ok_extensions = array('css', 'txt');
+	if (npg_loggedin(ADMIN_RIGHTS)) {
+		$ok_extensions = array_merge($ok_extensions, array('php', 'js', 'inc'));
+	}
+
+
 	$ext = strtolower(getSuffix($file));
 	return (in_array($ext, $ok_extensions) );
 }
@@ -48,13 +51,13 @@ if (themeIsEditable($theme)) {
 		}
 		$file_to_edit = str_replace('\\', '/', SERVERPATH . '/themes/' . internalToFilesystem($theme) . '/' . sanitize($_GET['file']));
 	}
-	// Handle POST that updates a file
+// Handle POST that updates a file
 	if (isset($_POST['action']) && $_POST['action'] == 'edit_file' && $file_to_edit && !isset($messages['errorbox'])) {
 		XSRFdefender('edit_theme');
 		$file_content = sanitize($_POST['newcontent'], 0);
 		$theme = urlencode($theme);
 		if (is_writeable($file_to_edit)) {
-			//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
+//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
 			$f = @fopen($file_to_edit, 'w+');
 			if ($f !== FALSE) {
 				@fwrite($f, $file_content);
@@ -70,7 +73,7 @@ if (themeIsEditable($theme)) {
 		}
 	}
 
-	// Get file contents
+// Get file contents
 	if ($file_to_edit && !isset($messages['errorbox'])) {
 		$file_content = @file_get_contents($file_to_edit);
 		$file_content = html_encode($file_content);
