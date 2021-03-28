@@ -63,7 +63,7 @@ foreach ($paths as $plugin => $path) {
 		$p = file_get_contents($path);
 
 		if (preg_match('~@pluginCategory\s(.*)\n~i', $p, $matches)) {
-			$categoryNames[$name = trim($matches[1])] = $name;
+			$categoryNames[strtolower($name = trim($matches[1]))] = $name;
 		}
 	}
 }

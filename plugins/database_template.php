@@ -27,7 +27,6 @@ function database_structure_button($buttons) {
 			'icon' => ARROW_DOWN_GREEN,
 			'title' => gettext('Creates the database structure template.'),
 			'alt' => '',
-			'hidden' => '',
 			'rights' => ADMIN_RIGHTS
 	);
 	return $buttons;

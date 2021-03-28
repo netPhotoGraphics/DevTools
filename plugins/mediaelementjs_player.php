@@ -497,7 +497,7 @@ class mediaelementjs_player {
 		if ($movie->exists) {
 			return $_multimedia_extension->getPlayerConfig($movie, NULL, $width, $height);
 		} else {
-			return '<span class = "error">' . sprintf(gettext('%1$s::%2$s not found.'), $albumname, $imagename) . '</span>';
+			return '<span class="error">' . sprintf(gettext('%1$s::%2$s not found.'), $albumname, $imagename) . '</span>';
 		}
 	}
 

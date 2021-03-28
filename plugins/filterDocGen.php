@@ -27,7 +27,6 @@ function filterDoc_button($buttons) {
 			'icon' => PLUS_ICON,
 			'title' => gettext('Generate filter document'),
 			'alt' => '',
-			'hidden' => '<input type="hidden" name="filterDoc" value="gen" />',
 			'rights' => ADMIN_RIGHTS,
 			'XSRFTag' => 'filterDoc'
 	);
