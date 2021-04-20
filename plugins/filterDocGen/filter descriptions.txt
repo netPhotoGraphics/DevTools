@@ -1,4 +1,5 @@
 #These filters appear not to be applied.
+!general_utilities
 !register_user_form
 
 #These filters appear not to be registered.
@@ -33,6 +34,7 @@
 !log_404
 !log_setup
 !login_link
+!login_redirect_link
 !logout
 !move_object
 !next_object_loop

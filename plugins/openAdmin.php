@@ -186,6 +186,7 @@ class openAdmin extends _Administrator {
 			// <!-- <![CDATA[
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
+				$(".overview_utility_buttons .XSRFToken").remove();
 				$("#admin_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?userlog=0");
 				$("#admin_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 				$('#login').before('<p class="notebox"><?php echo gettext('Login with valid user credentials to bypass the <em>openAdmin</em> plugin.'); ?></p>');

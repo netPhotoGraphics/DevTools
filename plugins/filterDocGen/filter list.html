@@ -68,15 +68,6 @@
 					<br />
 				</li><!-- filterdetail -->
 				<li class="filterdetail">
-					<p class="filterdef"><span class="inlinecode"><strong>general_utilities</strong></span>(<em>string, var</em>)</p>
-					<!-- description(Admin.CMS)-general_utilities --><p>Allows plugins to add items to the <em>General</em> area of the CMS edit pages.</p><!--e-->
-					<p class="calls">Invoked from:</p>
-					<ul><!-- calls -->
-						<li class="call_list">npgcore/extensions/zenpage/edit.php</li>
-					</ul><!-- calls -->
-					<br />
-				</li><!-- filterdetail -->
-				<li class="filterdetail">
 					<p class="filterdef"><span class="inlinecode"><strong>processBulkCMSSave</strong></span>(<em>string, var, var</em>)</p>
 					<!-- description(Admin.CMS)-processBulkCMSSave --><p>Allow processing of the "category", "article", and "page" tab bulk action saves.</p><!--e-->
 					<p class="calls">Invoked from:</p>
@@ -898,10 +889,10 @@
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
 						<li class="call_list"><em>theme</em>/mobile/image.php</li>
-						<li class="call_list"><em>theme</em>/npgmobile/image.php</li>
 						<li class="call_list">npgcore/class-image.php</li>
-						<li>...</li>
+						<li class="call_list">npgcore/extensions/tinymce/pasteobj/pasteobj.php</li>
 					</ul><!-- calls -->
+					<br />
 				</li><!-- filterdetail -->
 				<li class="filterdetail">
 					<p class="filterdef"><span class="inlinecode"><strong>standard_image_thumb_html</strong></span>(<em>var</em>)</p>
@@ -933,7 +924,7 @@
 					<!-- description(Object.Miscellaneous)-favoritesHandler_action --><p>Called when an object is added or removed from a user's favorites list.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
-						<li class="call_list">npgcore/extensions/favoriteshandler/favoritesclass.php (4)</li>
+						<li class="call_list">npgcore/extensions/favoriteshandler/class-favorites.php (4)</li>
 					</ul><!-- calls -->
 					<br />
 				</li><!-- filterdetail -->
@@ -1182,7 +1173,7 @@
 					<br />
 				</li><!-- filterdetail -->
 				<li class="filterdetail">
-					<p class="filterdef"><span class="inlinecode"><strong>codeblock</strong></span>(<em>string, var, var</em>)</p>
+					<p class="filterdef"><span class="inlinecode"><strong>codeblock</strong></span>(<em>var, var, var</em>)</p>
 					<!-- description(Template.Miscellaneous)-codeblock --><p>Allow plugins to create codeblock content on-the-fly.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
@@ -1196,8 +1187,8 @@
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
 						<li class="call_list"><em>theme</em>/mobile/functions.php</li>
-						<li class="call_list"><em>theme</em>/npgmobile/functions.php</li>
 						<li class="call_list">npgcore/class-album.php</li>
+						<li class="call_list">npgcore/class-gallery.php</li>
 						<li>...</li>
 					</ul><!-- calls -->
 				</li><!-- filterdetail -->

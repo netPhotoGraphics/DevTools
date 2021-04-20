@@ -44,7 +44,6 @@ class package {
 				'icon' => ARROW_DOWN_GREEN,
 				'title' => gettext('Extract "allTranslations" strings'),
 				'alt' => '',
-				'hidden' => '',
 				'rights' => ADMIN_RIGHTS
 		);
 		$buttons[] = array(
@@ -56,7 +55,6 @@ class package {
 				'icon' => ARROW_DOWN_GREEN,
 				'title' => gettext('Download new package file'),
 				'alt' => '',
-				'hidden' => '',
 				'rights' => ADMIN_RIGHTS
 		);
 		return $buttons;

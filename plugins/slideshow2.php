@@ -33,10 +33,13 @@
  *
  * @package plugins/slideshow2
  * @pluginCategory media
+ *
+ * @deprecated since 2.00.08
  */
 $plugin_is_filter = defaultExtension(9 | THEME_PLUGIN | ADMIN_PLUGIN);
 $plugin_description = gettext("Slideshow plugin based on the Cycle2 jQuery plugin.");
 $plugin_disable = (extensionEnabled('slideshow')) ? sprintf(gettext('Only one slideshow plugin may be enabled. <a href="#%1$s"><code>%1$s</code></a> is already enabled.'), 'slideshow') : '';
+$plugin_notice = gettext('The jquery.cycle2 scripts used by this plugin are not compatible with jQuery version 3.');
 
 $option_interface = 'cycle';
 
