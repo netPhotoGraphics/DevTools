@@ -91,6 +91,12 @@ npgFilters::register('theme_head', 'demoplugin_javascript');
  */
 npgFilters::register('theme_body_open', 'included');
 
+/**
+ *
+ */
+npgFilters::register('content_macro', 'demoplugin_options::macro');
+
+
 /*
   This is defined on the $option_interface setting above */
 
@@ -302,7 +308,7 @@ class demoplugin_options {
 				});
 
 				//-->
-									</script>
+																																	</script>
 				<?php
 			}
 		}
@@ -318,6 +324,22 @@ class demoplugin_options {
 				setOption('demoplugin_customoption', sanitize($_POST['demoplugin_customoption']));
 			}
 			return false;
+		}
+
+		/**
+		 * declares a macro
+		 *
+		 * @param array $macros
+		 */
+		static function macro($macros) {
+			$my_macros = array(
+					'DEMO_MACRO' => array('class' => 'constant',
+							'params' => array(),
+							'value' => gettext('See the exampleMacros plugin for more examples of Macros.'),
+							'owner' => 'demoPlugin',
+							'desc' => gettext('Prints a referal to the exampleMacro plugin.'))
+			);
+			return array_merge($macros, $my_macros);
 		}
 
 		/*

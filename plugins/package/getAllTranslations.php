@@ -101,9 +101,9 @@ $categoryNames['misc'] = 'misc';
 $categoryNames['theme'] = 'theme support';
 $categoryNames['admin'] = 'admin support';
 
-$update = "\$pluginCategoryNames = array (";
+$update = "\$pluginCategoryNames = array(";
 $categoryNames = array_unique($categoryNames);
-natcasesort($categoryNames);
+localeSort($categoryNames);
 $sep = "\n\t\t\t";
 foreach ($categoryNames as $name => $text) {
 	$update .= $sep . "'$name'\t=>\tgettext('$text')";
