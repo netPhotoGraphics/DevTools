@@ -41,7 +41,7 @@ class openAdmin extends _Administrator {
 		$this->setUser($user);
 		$this->setName('Site ' . $user);
 		$this->exists = true;
-		$this->transient = true;
+		$this->transient = 3; //	in case some one needs to know
 		$this->set('id', $this->id = $master->getID());
 		$this->set('lastaccess', time());
 		$this->set('pass', NULL);
