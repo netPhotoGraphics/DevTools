@@ -46,7 +46,6 @@ $plugin_is_filter = 5 | THEME_PLUGIN;
  */
 $plugin_description = gettext('This is a raw functional example of a basic theme plugin');
 
-
 /*
   Version of the plugin. Official plugins always have the version of the release automatically
  */
@@ -95,7 +94,6 @@ npgFilters::register('theme_body_open', 'included');
  *
  */
 npgFilters::register('content_macro', 'demoplugin_options::macro');
-
 
 /*
   This is defined on the $option_interface setting above */
@@ -253,7 +251,7 @@ class demoplugin_options {
 					'key' => 'demoplugin_note',
 					'type' => OPTION_TYPE_NOTE,
 					'order' => 25,
-					'desc' => gettext('<span class="notebox">Sometimes you might want to put out notes for example if someone tries to run the plugin but its server lacks support.Then there is an option type for notes only</span>') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
+					'desc' => gettext('<div class="notebox">Sometimes you might want to put out notes for example if someone tries to run the plugin but its server lacks support.Then there is an option type for notes only</div>') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
 			);
 		}
 
@@ -272,43 +270,43 @@ class demoplugin_options {
 			<p>This is a custom option printing a custom "protected" input field. Custom option can be used if none of the above standard ones fit your purpose. The actual value of the text is
 				<strong>
 					<span id="emoplugin_mask_input">
-						<?php echo $currentValue; ?>
+			<?php echo $currentValue; ?>
 					</span>
 				</strong>
 			</p>
 			<input type="textbox" id="emoplugin_mask_input_show" size="40"  style="width: 338px" value="<?php echo str_pad('', strlen($currentValue), '*'); ?>" />
 			<input type="hidden" id="emoplugin_mask_save" size="40" name="demoplugin_customoption" value="<?php echo html_encode($currentValue); ?>" />
 			<script type="text/javascript">
-				<!--
-				function emoplugin_mask_input() {
-					var text_input = $('#emoplugin_mask_input_show').val();
-					var text_actual = $('#emoplugin_mask_save').val();
-					var text_save = '';
-					var text_show = '';
-					var l_actual = text_actual.length;
-					var l_input = text_input.length;
-					var c;
-					for (i = 0; i < l_input; i++) {
-						c = text_input.substr(i, 1);
-						if (c == '*') {
-							text_save = text_save + text_actual.substr(i, 1);
-						} else {
-							text_save = text_save + c;
-						}
-						text_s			how = text_show + '*';
-					}
-					$('#em		oplug		in		_mask_input').html(text_save);
-					$('#emoplugin_ma		sk_save').val(text_save);
-					$('#emoplugin_mask_		input_show').val(text_show);
-				}
+							<!--
+							function emoplugin_mask_input() {
+								var text_input = $('#emoplugin_mask_input_show').val();
+								var text_actual = $('#emoplugin_mask_save').val();
+								var text_save = '';
+								var text_show = '';
+								var l_actual = text_actual.length;
+								var l_input = text_input.length;
+								var c;
+								for (i = 0; i < l_input; i++) {
+									c = text_input.substr(i, 1);
+									if (c == '*') {
+										text_save = text_save + text_actual.substr(i, 1);
+									} else {
+										text_save = text_save + c;
+									}
+									text_s			how = text_show + '*';
+								}
+								$('#em		oplug		in		_mask_input').html(text_save);
+								$('#emoplugin_ma		sk_save').val(text_save);
+								$('#emoplugin_mask_		input_show').val(text_show);
+							}
 
-				// monitor the inpu	t fiel	d	for changes
-				$('#emoplugin_mask_input_show	').on('input', function () {
-					emoplugin_mask_input();
-				});
+							// monitor the inpu	t fiel	d	for changes
+							$('#emoplugin_mask_input_show	').on('input', function () {
+								emoplugin_mask_input();
+							});
 
-				//-->
-																																	</script>
+							//-->
+																																				</script>
 				<?php
 			}
 		}

@@ -38,7 +38,7 @@ if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
 
 $option_interface = 'flowplayer5';
 
-require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/class-video.php');
+require_once(PLUGIN_SERVERPATH . 'class-video.php');
 
 Gallery::addImageHandler('flv', 'Video');
 Gallery::addImageHandler('mp4', 'Video');
