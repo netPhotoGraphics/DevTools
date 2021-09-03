@@ -9,7 +9,9 @@ Define('PHP_MIN_VERSION', 'd.d');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
-
+if(!class_exists('ZipArchive')){
+	die('The extraction process requires the PHP ZipArchive class.');
+}
 @ini_set('memory_limit', '-1');
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 echo "<h1>Extracting netPhotoGraphics _VERSION_ files</h1>";
