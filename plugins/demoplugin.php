@@ -52,11 +52,6 @@ $plugin_description = gettext('This is a raw functional example of a basic theme
 $plugin_version = '1.0';
 
 /*
-  URL to the usage documentation for the plugin.
- */
-$plugin_url = '';
-
-/*
   controls setting the checkbox to enable the plugin. If the plugin cannot run, set this to the "reason"
   and admin will display the "reason" and will not enable the plugin. The variable should not be present
   or be set to empty the plugin may be enabled.
@@ -270,7 +265,7 @@ class demoplugin_options {
 			<p>This is a custom option printing a custom "protected" input field. Custom option can be used if none of the above standard ones fit your purpose. The actual value of the text is
 				<strong>
 					<span id="emoplugin_mask_input">
-			<?php echo $currentValue; ?>
+						<?php echo $currentValue; ?>
 					</span>
 				</strong>
 			</p>
@@ -278,7 +273,7 @@ class demoplugin_options {
 			<input type="hidden" id="emoplugin_mask_save" size="40" name="demoplugin_customoption" value="<?php echo html_encode($currentValue); ?>" />
 			<script type="text/javascript">
 							<!--
-							function emoplugin_mask_input() {
+										function emoplugin_mask_input() {
 								var text_input = $('#emoplugin_mask_input_show').val();
 								var text_actual = $('#emoplugin_mask_save').val();
 								var text_save = '';
@@ -306,7 +301,7 @@ class demoplugin_options {
 							});
 
 							//-->
-																																				</script>
+																																							</script>
 				<?php
 			}
 		}
