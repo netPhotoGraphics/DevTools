@@ -22,7 +22,6 @@ if ($_cacheHeader_side == 'admin' || $_cacheHeader_side == 'all')
 	npgFilters::register('admin_headers', 'cacheHeader');
 if ($_cacheHeader_side == 'gallery' || $_cacheHeader_side == 'all')
 	npgFilters::register('theme_headers', 'cacheHeader');
-npgFilters::register('plugin_tabs', 'cacheHeader_options::tab');
 unset($_cacheHeader_side);
 
 class cacheHeader_options {
@@ -66,11 +65,6 @@ class cacheHeader_options {
 		}
 		$head .= ' must-revalidate, max-age=' . getOption('cacheHeader_max-age');
 		echo 'header("' . $head . '");';
-	}
-
-	static function tab($xlate) {
-		$xlate['demo'] = gettext('demo');
-		return $xlate;
 	}
 
 }
