@@ -22,9 +22,9 @@ class logQueries {
 
 	static function query($result, $sql) {
 		$bt = debug_backtrace();
-		array_shift($bt); //	This function
-		array_shift($bt); //	The filter processing
-		array_shift($bt); //	functions-vasic:query()
+		unset($bt[0]); //	This function
+		unset($bt[1]); //	The filter processing
+		unset($bt[2]); //	functions-basic:query()
 
 		$output = trim($sql) . NEWLINE;
 		$prefix = '  ';
