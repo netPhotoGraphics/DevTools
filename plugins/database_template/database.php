@@ -15,7 +15,6 @@
 define('OFFSET_PATH', 3);
 require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-globals.php");
 
-
 $database_name = db_name();
 define('FIELD_COMMENT', 'npg');
 $prefix = trim(prefix(), '`');
@@ -32,7 +31,7 @@ if ($resource) {
 $tables = array();
 if (is_array($result)) {
 	foreach ($result as $row) {
-		$tables[] = array_shift($row);
+		$tables[] = reset($row);
 	}
 }
 $database = array();
@@ -70,10 +69,10 @@ foreach ($tables as $table) {
 			foreach ($index as $element) {
 				$column[] = "`" . $element['Column_name'] . "`";
 			}
-			$index = array_shift($index);
+			$index = reset($index);
 			$index['Column_name'] = implode(',', $column);
 		} else {
-			$index = array_shift($index);
+			$index = reset($index);
 			$index['Column_name'] = "`" . $index['Column_name'] . "`";
 		}
 		unset($index['Table']);

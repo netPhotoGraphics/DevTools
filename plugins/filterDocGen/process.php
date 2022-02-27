@@ -12,7 +12,6 @@ function processFilters() {
 
 	$uses = $filterDescriptions = $classes = $subclasses = array();
 
-
 	$htmlfile = USER_PLUGIN_SERVERPATH . 'filterDocGen/filter list.html';
 	$filterdesc = USER_PLUGIN_SERVERPATH . 'filterDocGen/filter descriptions.txt';
 	if (file_exists($filterdesc)) {
@@ -36,7 +35,7 @@ function processFilters() {
 						$classes = array('class' => NULL, 'subclass' => NULL);
 					}
 				}
-				$filterDescriptions[$filter] = array('class' => array_shift($classes), 'subclass' => array_shift($classes), 'desc' => trim($f[1]));
+				$filterDescriptions[$filter] = array('class' => next($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
 			}
 		}
 	}
@@ -189,7 +188,7 @@ function processFilters() {
 						$filterCategories[$class] = array('class' => $class, 'subclass' => '', 'count' => 0);
 					}
 					if (!array_key_exists($class . '_' . $subclass, $filterCategories)) {
-						$filterCategories[$class . '_' . $subclass] = array('class' => $class, 'subclass' => $subclass, 'count' => $filterCategories[$class]['count'] ++);
+						$filterCategories[$class . '_' . $subclass] = array('class' => $class, 'subclass' => $subclass, 'count' => $filterCategories[$class]['count']++);
 					}
 					if ($class && !array_key_exists('*' . $class, $filterDescriptions)) {
 						$filterDescriptions['*' . $class] = array('class' => NULL, 'subclass' => NULL, 'desc' => '');
@@ -200,7 +199,7 @@ function processFilters() {
 				}
 
 				if ($script == $lastscript) {
-					$count ++;
+					$count++;
 				} else {
 					if ($count > 1) {
 						$count = " ($count)";
@@ -306,7 +305,7 @@ function processFilters() {
 			}
 			fwrite($f, "\t\t\t\t\t" . '<!-- description(' . $class . '.' . $subclass . ')-' . $filter['filter'] . ' -->' . $filter['desc'] . "<!--e-->\n");
 
-			$user = array_shift($filter['users']);
+			$user = reset($filter['users']);
 			if ($user) {
 				fwrite($f, "\t\t\t\t\t" . '<p class="handlers">For example see ' . mytrim($user) . '</p>' . "\n");
 			}
@@ -320,7 +319,7 @@ function processFilters() {
 			}
 			$limit = 4;
 			foreach ($calls as $call) {
-				$limit --;
+				$limit--;
 				if ($limit > 0) {
 					fwrite($f, "\t\t\t\t\t\t" . '<li class="call_list">' . mytrim($call) . "</li>\n");
 				} else {

@@ -23,7 +23,6 @@ $plugin_disable = npgFunctions::pluginDisable(array(
 						array(npgFilters::has_filter('sendmail') && !extensionEnabled('pseudomail'), sprintf(gettext('Only one Email handler plugin may be enabled. <a href="#%1$s"><code>%1$s</code></a> is already enabled.'), stripSuffix(npgFilters::script('sendmail'))))
 				));
 
-
 if ($plugin_disable) {
 	enableExtension('pseudomail', 0);
 } else {
@@ -55,7 +54,7 @@ function pseudo_sendmail($result, $email_list, $subject, $message, $from_mail, $
 	fwrite($f, sprintf('From: %1$s &lt;%2$s&gt;', $from_name, $from_mail) . "<br  />\n");
 	if ($replyTo) {
 		$names = array_keys($replyTo);
-		fwrite($f, sprintf('Reply-To: %1$s <%2$s>', array_shift($names), array_shift($replyTo)) . "<br  />\n");
+		fwrite($f, sprintf('Reply-To: %1$s <%2$s>', reset($names), next($replyTo)) . "<br  />\n");
 	}
 	if (count($cc_addresses) > 0) {
 		$cclist = '';

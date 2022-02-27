@@ -26,6 +26,16 @@ $option_interface = 'openAdmin';
 
 define('OPENADMIN_USER', 'Visitor');
 
+class openAdminAuthority extends _Authority {
+
+	static function setAdmin() {
+		global $_current_admin_obj, $_authority;
+		$masterid = $_current_admin_obj->getID();
+		$_authority->admin_users[$masterid] = $_current_admin_obj->getData();
+	}
+
+}
+
 class openAdmin extends _Administrator {
 
 	function __construct($user = NULL, $valid = NULL, $id = NULL) {
@@ -65,12 +75,6 @@ class openAdmin extends _Administrator {
 		return $options;
 	}
 
-	static function setAdmin() {
-		global $_current_admin_obj, $_authority;
-		$masterid = $_current_admin_obj->getID();
-		$_authority->admin_users[$masterid] = $_current_admin_obj->getData();
-	}
-
 	/**
 	 * removes upload capability from tinyMCE
 	 *
@@ -95,7 +99,7 @@ class openAdmin extends _Administrator {
 
 	static function access($allow, $url) {
 		global $_admin_menu, $_current_admin_obj;
-		self::setAdmin();
+		openAdminAuthority::setAdmin();
 		if (!(isset($_POST['policy_acknowledge']) && $_POST['policy_acknowledge'] == md5(getUserID() . getOption('GDPR_cookie')))) {
 			if (class_exists('GDPR_required') && !policyACKCheck() < getOption('GDPR_cookie')) {
 				GDPR_required::page(NULL, NULL);
@@ -199,8 +203,7 @@ class openAdmin extends _Administrator {
 	}
 
 	static function close() {
-
-		self::setAdmin();
+		openAdminAuthority::setAdmin();
 		?>
 		<script type="text/javascript">
 			// <!-- <![CDATA[
