@@ -6,6 +6,8 @@ Visit your admin/overview page. There will be a button to install the upgrade in
 
 If the update fails for any reason follow the instructions below for a new installation.
 
+Note: Your site will be automatically closed while the files are being extracted. The site will remain closed so long as there is an extract.php file in the root folder. You may need to remove that file to open the site if it is somehow left in the folder.
+
 New installations of netPhotoGraphics:
 
 Unzip this archive.
