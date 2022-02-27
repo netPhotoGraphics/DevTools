@@ -1,4 +1,4 @@
-@echo off
+@ECHO OFF
 REM this script will update the "build" number of the ZenPhoto20 version and commit it
 REM copyright by Stephen Billard, all rights reserved.
 
@@ -42,7 +42,7 @@ GOTO SETVERSION
 SET /a N=1%minor%-(11%minor%-1%minor%)/10
 SET /a minor=%N%+1
 SET /a N=1%minor%-(11%minor%-1%minor%)/10
-SET minor=1000000%N%version 
+SET minor=1000000%N%
 SET /a release=1000000
 SET /a build=1000000
 GOTO SETVERSION
