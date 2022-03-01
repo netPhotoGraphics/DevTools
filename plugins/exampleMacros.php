@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Declares example macros
  *
  * @author Stephen Billard (sbillard)

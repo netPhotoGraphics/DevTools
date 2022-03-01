@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Use this plugin to log database queries. It is intended for performance analysis.
  *
  * @author Stephen Billard (sbillard)
@@ -10,7 +10,6 @@
  *
  * @Copyright 2019 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
-
 // force UTF-8 Ø
 
 $plugin_is_filter = 1000 | FEATURE_PLUGIN;

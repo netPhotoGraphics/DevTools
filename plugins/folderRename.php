@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  *
  * This plugin enables sites prepare for the renaming of the zp-core and zp-extension
  * folders which will occur in a future release.

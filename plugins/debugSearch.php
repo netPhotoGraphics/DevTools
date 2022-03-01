@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * debug tool for Ewound Horman
  *
  *
@@ -8,6 +8,7 @@
  *
  * @Copyright 2014-2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  *
+ * @package plugins/debugSearch
  * @pluginCategory development
  */
 $plugin_is_filter = 1 | CLASS_PLUGIN;

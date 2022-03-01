@@ -1,6 +1,6 @@
 <?php
 
-/* Creates the database template file
+/** Creates the database template file
  *
  * @author Stephen Billard (sbillard)
  *

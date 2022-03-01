@@ -1,6 +1,7 @@
 <?php
 
-/* Generates doc file for filters
+/**
+ Generates doc file for filters
  *
  * @author Stephen Billard (sbillard)
  *
