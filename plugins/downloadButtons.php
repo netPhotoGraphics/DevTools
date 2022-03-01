@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Provides support for the netPhotoGraphics website
  *
  * @author Stephen Billard (sbillard)
@@ -7,7 +7,6 @@
  * @package plugins/downloadButtons
  * @pluginCategory netPhotoGraphics
  */
-
 require_once(PLUGIN_SERVERPATH . 'common/gitHubAPI/github-api.php');
 
 use Milo\Github;
