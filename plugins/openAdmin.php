@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Use this plugin to allow anonymous visitors to "experience" the administrative
  * pages of a netPhotoGraphics installation.
  *
@@ -16,7 +16,6 @@
  *
  * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
-
 // force UTF-8 Ø
 
 $plugin_is_filter = 1000 | FEATURE_PLUGIN;

@@ -1,6 +1,6 @@
 <?php
 
-/* A tool to produce the package file--a list of all the files in
+/** A tool to produce the package file--a list of all the files in
  * the distribution.
  *
  * To add new user plugins or themes to the distribution package edit the package

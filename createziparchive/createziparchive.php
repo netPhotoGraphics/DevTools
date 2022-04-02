@@ -51,7 +51,16 @@ try {
 			$sourcefolder = '/test_sites/dev/';
 			break;
 		case 'master':
-			$sourcefolder = '/Downloads/netPhotoGraphics' . '-' . VARIENT . '/';
+			$source = '/Downloads/netPhotoGraphics-' . VARIENT;
+			$zip = new ZipArchive;
+			if ($zip->open($source . '.zip') === TRUE) {
+				$zip->extractTo('/Downloads/');
+				$zip->close();
+			} else {
+				echo 'extract failed';
+				exit();
+			}
+			$sourcefolder = $source . '/';
 			break;
 		case 'GIT':
 			$sourcefolder = '/github/netPhotoGraphics-DEV/';
@@ -117,8 +126,28 @@ try {
 	$zipfile->close();
 
 	echo 'setup-' . VARIENT . '-' . VERSION . '.zip created';
+	if (VARIENT == 'master') {
+		unlink($source . '.zip');
+		rrmdir($sourcefolder);
+	}
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
+}
+
+function rrmdir($src) {
+	$dir = opendir($src);
+	while (false !== ( $file = readdir($dir))) {
+		if (( $file != '.' ) && ( $file != '..' )) {
+			$full = $src . '/' . $file;
+			if (is_dir($full)) {
+				rrmdir($full);
+			} else {
+				unlink($full);
+			}
+		}
+	}
+	closedir($dir);
+	rmdir($src);
 }
 
 function getSuffix($filename) {

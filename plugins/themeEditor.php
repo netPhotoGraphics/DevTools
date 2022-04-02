@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * PHP theme editor
  *
  * <b>Note:</b> This editor is lowest priority, so will only be active if no

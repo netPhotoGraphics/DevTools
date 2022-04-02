@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * Applies lazy loading to image content.
  * Uses {@link https://github.com/ressio/lazy-load-xt#usage Lazy load XT}
  *
