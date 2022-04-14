@@ -10,7 +10,6 @@
 $plugin_is_filter = 1001 | FEATURE_PLUGIN;
 $plugin_description = sprintf(gettext("Treats users as not logged in for gallery pages."), DATA_FOLDER);
 
-
 if (OFFSET_PATH) {
 	npgFilters::register('admin_note', 'show_not_loggedin::note');
 } else {
@@ -26,10 +25,10 @@ class show_not_loggedin {
 		if (!OFFSET_PATH && is_object($_current_admin_obj)) {
 			$_showNotLoggedin_real_auth = $_current_admin_obj;
 			if (isset($_SESSION)) {
-				unset($_SESSION['user_auth']);
+				unset($_SESSION[AUTHCOOKIE]);
 			}
 			if (isset($_COOKIE)) {
-				unset($_COOKIE['user_auth']);
+				unset($_COOKIE[AUTHCOOKIE]);
 			}
 			$_current_admin_obj = $_loggedin = NULL;
 		}
