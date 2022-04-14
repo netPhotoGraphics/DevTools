@@ -6,6 +6,8 @@
  *
  * @package plugins/downloadButtons
  * @pluginCategory netPhotoGraphics
+ * 
+ * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
 require_once(PLUGIN_SERVERPATH . 'common/gitHubAPI/github-api.php');
 

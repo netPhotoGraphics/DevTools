@@ -6,7 +6,8 @@
  *
  * @package plugins/exampleMacros
  * @pluginCategory example
-
+ *
+ * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
 $plugin_is_filter = 5 | THEME_PLUGIN | ADMIN_PLUGIN;
 $plugin_description = gettext("Adds example macros.");
