@@ -190,7 +190,7 @@ class openAdmin extends _Administrator {
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
 				$(".overview_utility_buttons .XSRFToken").remove();
-				$("#admin_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?userlog=0");
+				$("#admin_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?logout=4");
 				$("#admin_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 				$('#login').before('<p class="notebox"><?php echo gettext('Login with valid user credentials to bypass the <em>openAdmin</em> plugin.'); ?></p>');
 				$('#auth').remove();	//	disable any auth passing, currently only for uploader stuff
@@ -207,7 +207,7 @@ class openAdmin extends _Administrator {
 		<script type="text/javascript">
 			// <!-- <![CDATA[
 			window.addEventListener('load', function () {
-				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?userlog=0");
+				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?logout=4");
 				$("#toolbox_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 			}, false);
 			// ]]> -->
@@ -294,12 +294,13 @@ if (!npg_loggedin()) {
 
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
-	if (!isset($_GET['fromlogout']) && (!isset($_GET['userlog']) || $_GET['userlog'] != 0)) {
+
+	if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
 		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
 		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
 		$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
 		$_loggedin = $_current_admin_obj->getRights();
-		setNPGCookie('user_auth', $_loggedin);
+		setNPGCookie(AUTHCOOKIE, $_loggedin);
 		unset($master);
 		if (OFFSET_PATH) {
 			$_get_original = $_GET;
