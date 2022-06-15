@@ -15,14 +15,14 @@ if (class_exists('Zenpage')) { // Wrapper to cause a 404 error in case the Zenpa
 		</head>
 		<body>
 			<?php zp_apply_filter('theme_body_open'); ?>
-			<?php printHomeLink('', ' | '); ?><a href="<?php echo getGalleryIndexURL(false); ?>"><?php echo gettext_th("Index"); ?></a> <?php printNewsIndexURL(gettext_th('News'), ' » '); ?>
+			<?php printHomeLink('', ' | '); ?><a href="<?php echo getGalleryIndexURL(false); ?>"><?php echo gettext("Index"); ?></a> <?php printNewsIndexURL(gettext('News'), ' » '); ?>
 			<?php
 			printZenpageItemsBreadcrumb(' » ', '');
 			printCurrentNewsCategory(" » ");
 			printNewsTitle(" » ");
 			printCurrentNewsArchive(" » ");
 			if (getOption('Allow_search')) {
-				printSearchForm("", "search", "", gettext_th("Search gallery"));
+				printSearchForm("", "search", "", gettext("Search gallery"));
 			}
 			?>
 			<br />
@@ -40,10 +40,10 @@ if (class_exists('Zenpage')) { // Wrapper to cause a 404 error in case the Zenpa
 
 				printNewsDate();
 				echo " ";
-				printNewsCategories(", ", gettext_th("Categories: "), "newscategories");
+				printNewsCategories(", ", gettext("Categories: "), "newscategories");
 
 				printNewsContent();
-				printTags('links', gettext_th('<strong>Tags:</strong>') . ' ', 'taglist', ', ');
+				printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', ', ');
 				//comment form plugin support
 				if (function_exists('printCommentForm')) {
 					printCommentForm();
@@ -54,15 +54,15 @@ if (class_exists('Zenpage')) { // Wrapper to cause a 404 error in case the Zenpa
 					printNewsURL();
 					echo " ";
 					printNewsDate();
-					printNewsCategories(", ", gettext_th("Categories: "), "newscategories");
+					printNewsCategories(", ", gettext("Categories: "), "newscategories");
 					printNewsContent();
-					printTags('links', gettext_th('<strong>Tags:</strong>') . ' ', 'taglist', ', ');
+					printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', ', ');
 				endwhile;
-				printNewsPageListWithNav(gettext_th('next &raquo;'), gettext_th('&laquo; prev'), true, 'pagelist', true);
+				printNewsPageListWithNav(gettext('next &raquo;'), gettext('&laquo; prev'), true, 'pagelist', true);
 			}
 			?>
 			<?php printRSSLink('Gallery', '', 'RSS', ' | '); ?>
-			<?php printRSSLink("News", "", "", gettext_th("News"), ''); ?>
+			<?php printRSSLink("News", "", "", gettext("News"), ''); ?>
 			<?php zp_apply_filter('theme_body_close'); ?>
 		</body>
 	</html>

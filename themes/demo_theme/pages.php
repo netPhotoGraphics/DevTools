@@ -18,13 +18,13 @@ if (class_exists('Zenpage')) { // Wrapper to cause a 404 error in case the Zenpa
 			<?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php echo ('Gallery Index'); ?>"><?php echo getGalleryTitle(); ?></a> | <?php printZenpageItemsBreadcrumb(" » ", ""); ?>
 			<?php
 			if (getOption('Allow_search')) {
-				printSearchForm("", "search", "", gettext_th("Search gallery"));
+				printSearchForm("", "search", "", gettext("Search gallery"));
 			}
 			printPageTitle();
 			printPageContent();
-			printTags('links', gettext_th('<strong>Tags:</strong>') . ' ', 'taglist', ', ');
+			printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', ', ');
 			printRSSLink('Gallery', '', 'RSS', ' | ');
-			printRSSLink("News", "", "", gettext_th("News"), '');
+			printRSSLink("News", "", "", gettext("News"), '');
 			//comment form plugin support
 			if (function_exists('printCommentForm')) {
 				printCommentForm();

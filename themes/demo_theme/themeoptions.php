@@ -67,99 +67,99 @@ class ThemeOptions {
 		 */
 		$options = array(
 						/* Radio buttons */
-						gettext_th('Radio buttons option') => array(// The Title of your option that can be translated
+						gettext('Radio buttons option') => array(// The Title of your option that can be translated
 										'key'			 => 'demo_theme_radiobuttons', // the real name of the option that is stored in the database.
 										// Good practice is to name these like yourdemoplugin_optionname
 										'type'		 => OPTION_TYPE_RADIO, // this is generates an option interface for radio buttons
 										'order'		 => 7, // the order position the option should have on the plugin option
 										'buttons'	 => array(// The definition of the radio buttons to choose from and their values.
 														//You can of course have more than three.
-														gettext_th('Suboption 1-a') => 'suboption1-a',
-														gettext_th('Suboption 1-b') => 'suboption1-b',
-														gettext_th('Suboption 1-c') => 'suboption1-c'
+														gettext('Suboption 1-a') => 'suboption1-a',
+														gettext('Suboption 1-b') => 'suboption1-b',
+														gettext('Suboption 1-c') => 'suboption1-c'
 										),
-										'desc'		 => gettext_th('Description')
+										'desc'		 => gettext('Description')
 						), // The description of the option
 
 						/* Checkbox list as an array */
-						gettext_th('Checkbox array list option') => array(
+						gettext('Checkbox array list option') => array(
 										'key'				 => 'demo_theme_checkbox_array',
 										'type'			 => OPTION_TYPE_CHECKBOX_ARRAY,
 										'order'			 => 0,
 										'checkboxes' => array(// The definition of the checkboxes
-														gettext_th('Suboption 2-a') => 'suboption2-a',
-														gettext_th('Suboption 2-b') => 'suboption2-b',
-														gettext_th('Suboption 2-c') => 'suboption2-c'
+														gettext('Suboption 2-a') => 'suboption2-a',
+														gettext('Suboption 2-b') => 'suboption2-b',
+														gettext('Suboption 2-c') => 'suboption2-c'
 										),
-										'desc'			 => gettext_th('Description')),
+										'desc'			 => gettext('Description')),
 						/* Checkbox list as an unordered html list */
-						gettext_th('Checkbox list') => array(
+						gettext('Checkbox list') => array(
 										'key'				 => 'demo_theme_checkbox_list',
 										'type'			 => OPTION_TYPE_CHECKBOX_UL,
 										'order'			 => 0,
 										'checkboxes' => array(// The definition of the checkboxes
-														gettext_th('Suboption 3-a') => 'suboption3-a',
-														gettext_th('Suboption 3-b') => 'suboption3-b',
-														gettext_th('Suboption 3-c') => 'suboption3-c'
+														gettext('Suboption 3-a') => 'suboption3-a',
+														gettext('Suboption 3-b') => 'suboption3-b',
+														gettext('Suboption 3-c') => 'suboption3-c'
 										),
-										'desc'			 => gettext_th('Description')),
+										'desc'			 => gettext('Description')),
 						/* One checkbox only option - This example is a general theme option */
-						gettext_th('Allow search') => array(
+						gettext('Allow search') => array(
 										'key'		 => 'Allow_search',
 										'type'	 => OPTION_TYPE_CHECKBOX,
 										'order'	 => 2,
-										'desc'	 => gettext_th('Check to enable search form.')),
+										'desc'	 => gettext('Check to enable search form.')),
 						/* Input text field option */
-						gettext_th('Input text field option') => array(
+						gettext('Input text field option') => array(
 										'key'					 => 'demo_theme_textbox',
 										'type'				 => OPTION_TYPE_TEXTBOX,
 										'multilingual' => 1, // optional if the field should be multilingual if Zenphoto is run in that mode.
 										//Then there will be one input field per enabled language.
 										'order'				 => 9,
-										'desc'				 => gettext_th('Description')),
+										'desc'				 => gettext('Description')),
 						/* Password input field option */
-						gettext_th('Password input field option') => array(
+						gettext('Password input field option') => array(
 										'key'		 => 'demo_theme_input_password',
 										'type'	 => OPTION_TYPE_PASSWORD,
 										'order'	 => 9,
-										'desc'	 => gettext_th('Description')),
+										'desc'	 => gettext('Description')),
 						/* Cleartext option */
-						gettext_th('Cleartext input field option') => array(
+						gettext('Cleartext input field option') => array(
 										'key'		 => 'demo_theme_input_cleartext',
 										'type'	 => OPTION_TYPE_CLEARTEXT,
 										'order'	 => 9,
-										'desc'	 => gettext_th('Description')),
+										'desc'	 => gettext('Description')),
 						/* Textareafield option */
-						gettext_th('Textarea field option') => array(
+						gettext('Textarea field option') => array(
 										'key'					 => 'demo_theme_textarea',
 										'type'				 => OPTION_TYPE_TEXTAREA,
 										'texteditor'	 => 1, // optional to enable the visual editor TinyMCE on this field
 										'multilingual' => 1, // optional if the field should be multilingual if Zenphoto is run
 										//in that mode. Then there will be one textarea per enabled language.
 										'order'				 => 9,
-										'desc'				 => gettext_th('Description')),
+										'desc'				 => gettext('Description')),
 						/* Dropdown selector option */
-						gettext_th('Dropdown selector option') => array(
+						gettext('Dropdown selector option') => array(
 										'key'						 => 'demo_theme_selector',
 										'type'					 => OPTION_TYPE_SELECTOR,
 										'order'					 => 1,
 										'selections'		 => array(// The definition of the selector values. You can of course have more than three.
-														gettext_th('Suboption1')	 => 'suboption1',
-														gettext_th('Suboption2')	 => 'suboption2',
-														gettext_th('Suboption3')	 => 'suboption3'
+														gettext('Suboption1')	 => 'suboption1',
+														gettext('Suboption2')	 => 'suboption2',
+														gettext('Suboption3')	 => 'suboption3'
 										),
-										'null_selection' => gettext_th('Disabled'), // Provides a NULL value to select to the above selections
-										'desc'					 => gettext_th('Description.')),
+										'null_selection' => gettext('Disabled'), // Provides a NULL value to select to the above selections
+										'desc'					 => gettext('Description.')),
 						/* jQuery color picker option */
-						gettext_th('jQuery color picker option') => array(
+						gettext('jQuery color picker option') => array(
 										'key'	 => 'demo_theme_colorpicker',
 										'type' => OPTION_TYPE_COLOR_PICKER,
-										'desc' => gettext_th('Description')),
+										'desc' => gettext('Description')),
 						/* Custom option if none of the above standard ones fit your purpose. You define what to do and show within the method handleOption() below */
-						gettext_th('Theme colors') => array(
+						gettext('Theme colors') => array(
 										'key'	 => 'demoTheme_colors',
 										'type' => OPTION_TYPE_CUSTOM,
-										'desc' => gettext_th('Select the colors of the theme'))
+										'desc' => gettext('Select the colors of the theme'))
 		);
 
 		/*
@@ -170,7 +170,7 @@ class ThemeOptions {
 							'key'		 => 'demotheme_note',
 							'type'	 => OPTION_TYPE_NOTE,
 							'order'	 => 25,
-							'desc'	 => gettext_th('<p class="notebox">Sometimes you might want to put out notes for example this version of the demo theme expects that the <strong>adminToolbox</strong> is inserted via the <code>theme_body_close</code> <em>filter</em>.
+							'desc'	 => gettext('<p class="notebox">Sometimes you might want to put out notes for example this version of the demo theme expects that the <strong>adminToolbox</strong> is inserted via the <code>theme_body_close</code> <em>filter</em>.
 																Then there is an option type for notes only</p>') // the class 'notebox' is a standard class for styling notes on the backend, there is also 'errorbox' for errors. Of cours
 			);
 		}

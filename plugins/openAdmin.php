@@ -291,6 +291,7 @@ class openAdmin extends _Administrator {
 }
 
 if (!npg_loggedin()) {
+	npg_session_start();
 
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
