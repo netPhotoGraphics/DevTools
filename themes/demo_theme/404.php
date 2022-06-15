@@ -11,17 +11,17 @@ if (!defined('WEBPATH'))
 	<head>
 		<?php zp_apply_filter('theme_head'); ?>
 		<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
-		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext_th('Gallery RSS')); ?>
+		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
 	</head>
 	<body>
 		<?php zp_apply_filter('theme_body_open'); ?>
 		<?php printGalleryTitle(); ?>
 		<?php
 		if (getOption('Allow_search')) {
-			printSearchForm("", "search", "", gettext_th("Search gallery"));
+			printSearchForm("", "search", "", gettext("Search gallery"));
 		}
 		?>
-		<a href="<?php echo getGalleryIndexURL(); ?>">Index</a> » <?php echo gettext_th("Object not found"); ?>
+		<a href="<?php echo getGalleryIndexURL(); ?>">Index</a> » <?php echo gettext("Object not found"); ?>
 		<?php print404status(isset($album) ? $album : NULL, isset($image) ? $image : NULL, $obj); ?>
 		<?php if (class_exists('RSS')) printRSSLink('Gallery', '', 'RSS', ' | '); ?>
 		<?php printZenphotoLink(); ?>

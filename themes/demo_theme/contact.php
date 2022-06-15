@@ -12,7 +12,7 @@ if (function_exists('printContactForm')) { // To avoid errors if the contact for
 		<head>
 			<?php zp_apply_filter('theme_head'); ?>
 			<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
-			<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext_th('Gallery RSS')); ?>
+			<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
 		</head>
 		<body>
 			<?php zp_apply_filter('theme_body_open'); ?>

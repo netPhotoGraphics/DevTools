@@ -11,15 +11,15 @@ if (function_exists('printSlideShow')) {
 		<head>
 			<?php zp_apply_filter('theme_head'); ?>
 			<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
-			<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext_th('Gallery RSS')); ?>
+			<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
 		</head>
 		<body>
 			<?php zp_apply_filter('theme_body_open'); ?>
-			<a href="<?php echo getGalleryIndexURL(); ?>">Index</a> » <strong><?php echo gettext_th("A password is required for the page you requested"); ?>
+			<a href="<?php echo getGalleryIndexURL(); ?>">Index</a> » <strong><?php echo gettext("A password is required for the page you requested"); ?>
 				<?php printPasswordForm($hint, $show); ?>
 				<?php
 				if (!zp_loggedin() && function_exists('printRegisterURL') && $_zp_gallery->isUnprotectedPage('register')) {
-					printRegisterURL(gettext_th('Register for this site'));
+					printRegisterURL(gettext('Register for this site'));
 				}
 				?>
 				<?php printZenphotoLink(); ?>

@@ -10,18 +10,18 @@ if (!defined('WEBPATH'))
 	<head>
 		<?php zp_apply_filter('theme_head'); ?>
 		<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
-		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext_th('Gallery RSS')); ?>
+		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
 	</head>
 	<body>
 		<?php zp_apply_filter('theme_body_open'); ?>
 		<?php printGalleryTitle(); ?>
-		<a href="<?php echo getGalleryIndexURL(); ?>" title="<?php gettext_th('Index'); ?>"><?php echo gettext_th("Index"); ?></a> » <strong><?php echo gettext_th("Archive View"); ?>
+		<a href="<?php echo getGalleryIndexURL(); ?>" title="<?php gettext('Index'); ?>"><?php echo gettext("Index"); ?></a> » <strong><?php echo gettext("Archive View"); ?>
 			<?php
 			if (getOption('Allow_search')) {
-				printSearchForm("", "search", "", gettext_th("Search gallery"));
+				printSearchForm("", "search", "", gettext("Search gallery"));
 			}
 			?>
-			<a href="<?php echo getGalleryIndexURL(); ?>">Index</a> » <?php echo gettext_th("Object not found"); ?>
+			<a href="<?php echo getGalleryIndexURL(); ?>">Index</a> » <?php echo gettext("Object not found"); ?>
 			<?php printAllDates(); // prints the gallery archive list by year and month ?>
 			<?php
 			// Support for the Zenpage news archive

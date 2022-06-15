@@ -10,22 +10,22 @@ if (!defined('WEBPATH'))
 	<head>
 		<?php zp_apply_filter('theme_head'); ?>
 		<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
-		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext_th('Gallery RSS')); ?>
+		<?php if (class_exists('RSS')) printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
   </head>
 	<body>
 		<?php zp_apply_filter('theme_body_open'); ?>
-		<?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php echo gettext_th('Albums Index'); ?>"><?php echo getGalleryTitle(); ?></a> | <?php printParentBreadcrumb(); ?><?php printAlbumTitle(); ?>
+		<?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle(); ?></a> | <?php printParentBreadcrumb(); ?><?php printAlbumTitle(); ?>
 		<?php
 		if (getOption('Allow_search')) {
-			printSearchForm("", "search", "", gettext_th("Search gallery"));
+			printSearchForm("", "search", "", gettext("Search gallery"));
 		}
 		?>
 		<?php if (hasPrevImage()) { ?>
-			<a href="<?php echo html_encode(getPrevImageURL()); ?>" title="<?php echo gettext_th("Previous Image"); ?>"><?php echo gettext_th("prev"); ?></a>
+			<a href="<?php echo html_encode(getPrevImageURL()); ?>" title="<?php echo gettext("Previous Image"); ?>"><?php echo gettext("prev"); ?></a>
 		<?php } if (hasNextImage()) { ?>
-			<a href="<?php echo html_encode(getNextImageURL()); ?>" title="<?php echo gettext_th("Next Image"); ?>"><?php echo gettext_th("next"); ?></a>
+			<a href="<?php echo html_encode(getNextImageURL()); ?>" title="<?php echo gettext("Next Image"); ?>"><?php echo gettext("next"); ?></a>
 		<?php } ?>
-		<?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php gettext_th('Albums Index'); ?>"><?php echo getGalleryTitle(); ?></a> | <?php printParentBreadcrumb("", " | ", " | ");
+		<?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL()); ?>" title="<?php gettext('Albums Index'); ?>"><?php echo getGalleryTitle(); ?></a> | <?php printParentBreadcrumb("", " | ", " | ");
 		printAlbumBreadcrumb("", " | ");
 		?><?php printImageTitle(true); ?>
 		<a href="<?php echo html_encode(getFullImageURL()); ?>" title="<?php echo getBareImageTitle(); ?>">
@@ -36,7 +36,7 @@ if (!defined('WEBPATH'))
 		if (getImageMetaData()) {
 			printImageMetadata('', false); // the image meta data like Exif
 		}
-		printTags('links', gettext_th('<strong>Tags:</strong>') . ' ', 'taglist', '');
+		printTags('links', gettext('<strong>Tags:</strong>') . ' ', 'taglist', '');
 		if (class_exists('RSS'))
 			printRSSLink('Gallery', '', 'RSS', ' | ');
 		//support for the comment form plugin

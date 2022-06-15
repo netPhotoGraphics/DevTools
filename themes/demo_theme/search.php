@@ -10,7 +10,7 @@ if (!defined('WEBPATH'))
 	<head>
 		<?php zp_apply_filter('theme_head'); ?>
 		<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
-		<?php printRSSHeaderLink('Gallery', gettext_th('Gallery RSS')); ?>
+		<?php printRSSHeaderLink('Gallery', gettext('Gallery RSS')); ?>
 	</head>
 	<body>
 		<?php zp_apply_filter('theme_body_open'); ?>
@@ -35,21 +35,21 @@ if (!defined('WEBPATH'))
 			$categorylist = $_zp_current_search->getCategoryList();
 			if (is_array($categorylist)) {
 				$catlist = array('news' => $categorylist, 'albums' => '0', 'images' => '0', 'pages' => '0');
-				printSearchForm(NULL, 'search', NULL, gettext_th('Search category'), NULL, NULL, $catlist);
+				printSearchForm(NULL, 'search', NULL, gettext('Search category'), NULL, NULL, $catlist);
 			} else {
 				// this is special code to allow album specific searches+results. It is actually optional.
 				$albumlist = $_zp_current_search->getAlbumList(); // this is special code to allow category specific searches+results
 				if (is_array($albumlist)) {
 					$album_list = array('albums' => $albumlist, 'pages' => '0', 'news' => '0');
-					printSearchForm(NULL, 'search', NULL, gettext_th('Search album'), NULL, NULL, $album_list);
+					printSearchForm(NULL, 'search', NULL, gettext('Search album'), NULL, NULL, $album_list);
 				} else {
 					// this part is the only required part
-					printSearchForm("", "search", "", gettext_th("Search gallery"));
+					printSearchForm("", "search", "", gettext("Search gallery"));
 				}
 			}
 		}
 		?>
-		<a href="<?php echo getGalleryIndexURL(false); ?>" title="<?php gettext_th('Index'); ?>"><?php echo gettext_th("Index"); ?></a> &raquo; <?php echo "<strong>" . gettext_th("Search") . "</strong>"; ?>
+		<a href="<?php echo getGalleryIndexURL(false); ?>" title="<?php gettext('Index'); ?>"><?php echo gettext("Index"); ?></a> &raquo; <?php echo "<strong>" . gettext("Search") . "</strong>"; ?>
 		<?php
 		$searchwords = getSearchWords();
 		$searchdate = getSearchDate();
@@ -60,13 +60,13 @@ if (!defined('WEBPATH'))
 			$searchwords .= $searchdate;
 		}
 		if ($total > 0) {
-			printf(ngettext_th('%1$u Hit for <em>%2$s</em>', '%1$u Hits for <em>%2$s</em>', $total), $total, html_encode($searchwords));
+			printf(ngettext('%1$u Hit for <em>%2$s</em>', '%1$u Hits for <em>%2$s</em>', $total), $total, html_encode($searchwords));
 		}
 		if ($_zp_page == 1) { //test of zenpage searches
 			if ($numpages > 0) {
 				$number_to_show = 5;
 				$c = 0;
-				printf(gettext_th('Pages (%s)'), $numpages);
+				printf(gettext('Pages (%s)'), $numpages);
 				printZDSearchShowMoreLink("pages", $number_to_show);
 				while (next_page()) {
 					$c++;
@@ -78,7 +78,7 @@ if (!defined('WEBPATH'))
 			if ($numnews > 0) {
 				$number_to_show = 5;
 				$c = 0;
-				printf(gettext_th('Articles (%s)'), $numnews);
+				printf(gettext('Articles (%s)'), $numnews);
 				printZDSearchShowMoreLink("news", $number_to_show);
 				while (next_news()) {
 					printNewsTitleLink();
@@ -88,22 +88,22 @@ if (!defined('WEBPATH'))
 		}
 		if (getOption('search_no_albums')) {
 			if (!getOption('search_no_images') && ($numpages + $numnews) > 0) {
-				printf(gettext_th('Images (%s)'), $numimages);
+				printf(gettext('Images (%s)'), $numimages);
 			}
 		} else {
 			if (getOption('search_no_images')) {
 				if (($numpages + $numnews) > 0) {
-					printf(gettext_th('Albums (%s)'), $numalbums);
+					printf(gettext('Albums (%s)'), $numalbums);
 				}
 			} else {
-				printf(gettext_th('Albums (%1$s) &amp; Images (%2$s)'), $numalbums, $numimages);
+				printf(gettext('Albums (%1$s) &amp; Images (%2$s)'), $numalbums, $numimages);
 			}
 		}
 		if (getNumAlbums() != 0) {
 			while (next_album()):
 				?>
-				<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext_th('View album:'); ?> <?php echo getBareAlbumTitle(); ?>"><?php printCustomAlbumThumbImage(getBareAlbumTitle(), NULL, 95, 95, 95, 95); ?></a>
-				<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext_th('View album:'); ?> <?php echo getBareAlbumTitle(); ?>"><?php printAlbumTitle(); ?></a>
+				<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php echo getBareAlbumTitle(); ?>"><?php printCustomAlbumThumbImage(getBareAlbumTitle(), NULL, 95, 95, 95, 95); ?></a>
+				<a href="<?php echo html_encode(getAlbumURL()); ?>" title="<?php echo gettext('View album:'); ?> <?php echo getBareAlbumTitle(); ?>"><?php printAlbumTitle(); ?></a>
 				<?php
 				printAlbumDate("");
 				echo truncate_string(getAlbumDesc(), 45);
@@ -117,9 +117,9 @@ if (!defined('WEBPATH'))
 			}
 		}
 		if ($total == 0) {
-			echo "<p>" . gettext_th("Sorry, no matches found. Try refining your search.") . "</p>";
+			echo "<p>" . gettext("Sorry, no matches found. Try refining your search.") . "</p>";
 		}
-		printPageListWithNav("&laquo; " . gettext_th("prev"), gettext_th("next") . " &raquo;");
+		printPageListWithNav("&laquo; " . gettext("prev"), gettext("next") . " &raquo;");
 		printAdminToolbox();
 		zp_apply_filter('theme_body_close');
 		?>
