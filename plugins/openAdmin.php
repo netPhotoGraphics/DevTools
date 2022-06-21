@@ -137,7 +137,7 @@ class openAdmin extends _Administrator {
 
 		if (empty($_admin_menu['logs']['subtabs'])) {
 			$_admin_menu['logs']['link'] = getAdminLink('admin-tabs/logs.php') . '?page=logs';
-			$_admin_menu['logs']['default'] = NULL;
+			$_admin_menu['logs']['default'] = '';
 		} else {
 			self::setDefaultLink('logs');
 		}
