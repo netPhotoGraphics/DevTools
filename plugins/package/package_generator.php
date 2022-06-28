@@ -12,8 +12,9 @@
 
 define('OFFSET_PATH', 3);
 require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
+require_once(CORE_SERVERPATH . '/setup/setup-functions.php');
 
-$stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data');
+$stdExclude = Array('Thumbs.db', 'debug.html', 'readme.md', 'data', '.', '..');
 
 $_resident_files[] = THEMEFOLDER;
 foreach ($_gallery->getThemes() as $theme => $data) {
@@ -71,15 +72,13 @@ function getResidentFiles($folder, $exclude) {
 	$localfiles = array();
 	$localfolders = array();
 	foreach ($dirs as $file) {
-		if ($file[0] != '.') {
-			$file = str_replace('\\', '/', $file);
-			$key = str_replace(SERVERPATH . '/', '', filesystemToInternal($folder . '/' . $file));
-			if (is_dir($folder . '/' . $file)) {
-				$localfolders[] = $key;
-				$localfolders = array_merge($localfolders, getResidentFiles($folder . '/' . $file, $exclude));
-			} else {
-				$localfiles[] = $key;
-			}
+		$file = str_replace('\\', '/', $file);
+		$key = str_replace(SERVERPATH . '/', '', filesystemToInternal($folder . '/' . $file));
+		if (is_dir($folder . '/' . $file)) {
+			$localfolders[] = $key;
+			$localfolders = array_merge($localfolders, getResidentFiles($folder . '/' . $file, $exclude));
+		} else {
+			$localfiles[] = $key;
 		}
 	}
 	return array_merge($localfiles, $localfolders);
