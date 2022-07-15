@@ -302,14 +302,12 @@ if (!npg_loggedin()) {
 		$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
 		$_loggedin = $_current_admin_obj->getRights();
 		setNPGCookie(AUTHCOOKIE, $_loggedin);
-		unset($master);
 		if (OFFSET_PATH) {
 			$_get_original = $_GET;
 			npgFilters::register('database_query', 'openAdmin::query', 9999);
 			npgFilters::register('admin_note', 'openAdmin::notice', 9999);
 			if (isset($_GET['action'])) {
-				$allowedActions = array('save', 'sorttags', 'sortorder', 'saveoptions', 'external');
-				if (!in_array($_GET['action'], $allowedActions)) {
+				if (!in_array($_GET['action'], array('save', 'sorttags', 'sortorder', 'saveoptions', 'external'))) {
 					$_GET['action'] = 'NULL'; // block the action
 				}
 			}

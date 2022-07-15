@@ -1,8 +1,8 @@
 <?php
 /*
- * 	This script is a derivitive of work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
+ * 	This script is a derivative of work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
  *
- * 	The derivitive work is copyright (c) 2020 by Stephen Billard, all rights reserved
+ * 	The derivative work is copyright (c) 2020 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
 Define('PHP_MIN_VERSION', 'd.d');
