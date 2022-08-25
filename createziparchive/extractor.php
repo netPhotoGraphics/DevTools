@@ -17,7 +17,7 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 echo "<h1>Extracting netPhotoGraphics _VERSION_ files</h1>";
 
 if (!isset($_GET['process'])) {
-	echo '<meta http-equiv="refresh" content="1; url=' . $me . '?process" />';
+	echo '<meta http-equiv="refresh" content="3; url=' . $me . '?process&' . time() . '" />';
 	exit();
 }
 if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
