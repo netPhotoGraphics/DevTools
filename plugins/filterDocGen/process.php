@@ -40,14 +40,13 @@ function processFilters() {
 		}
 	}
 
-	$stdExclude = Array('Thumbs.db', 'readme.md', 'data');
 	if (CASE_INSENSITIVE) {
 		$serverpath = strtolower(SERVERPATH);
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge($stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
-	getResidentFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
+	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge(stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
+	getResidentFiles($serverpath . '/' . THEMEFOLDER, stdExclude);
 
 	$filterlist = array();
 	$registerList = array();
@@ -251,13 +250,16 @@ function processFilters() {
 	}
 
 	//	special class for security logger filters
-	global $_securityLoggerList;
+
+	$_securityLoggerList = security_logger::$typelist; //	why this is needed is beyond me--slb
+
 	foreach ($_securityLoggerList as $filter => $handler) {
 		$parent = $newfilterlist[$filter];
 		$parent['class'] = 'Admin';
 		$parent['subclass'] = 'Security';
 		$newfilterlist[] = $parent;
 	}
+	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
 
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
 
@@ -340,7 +342,6 @@ function processFilters() {
 	fwrite($f, "<!-- End filter descriptions -->\n");
 	fclose($f);
 
-	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
 	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
 	$indexfile = USER_PLUGIN_SERVERPATH . 'filterDocGen/filter list_index.html';
