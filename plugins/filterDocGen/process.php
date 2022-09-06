@@ -35,7 +35,7 @@ function processFilters() {
 						$classes = array('class' => NULL, 'subclass' => NULL);
 					}
 				}
-				$filterDescriptions[$filter] = array('class' => next($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
+				$filterDescriptions[$filter] = array('class' => current($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
 			}
 		}
 	}
@@ -246,22 +246,11 @@ function processFilters() {
 				$newparms[] = $newparm;
 			}
 		}
-		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
+		$newfilterlist[$key] = array('filter' => $key, 'calls' => array_slice($calls, 0, 5), 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
-
-	//	special class for security logger filters
-
-	$_securityLoggerList = security_logger::$typelist; //	why this is needed is beyond me--slb
-
-	foreach ($_securityLoggerList as $filter => $handler) {
-		$parent = $newfilterlist[$filter];
-		$parent['class'] = 'Admin';
-		$parent['subclass'] = 'Security';
-		$newfilterlist[] = $parent;
-	}
-	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
 
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
+	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
 	$f = fopen($htmlfile, 'w');
 	$class = $subclass = NULL;
@@ -341,8 +330,6 @@ function processFilters() {
 	fwrite($f, "\t\t\t</ul><!-- filterdetail -->\n");
 	fwrite($f, "<!-- End filter descriptions -->\n");
 	fclose($f);
-
-	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
 	$indexfile = USER_PLUGIN_SERVERPATH . 'filterDocGen/filter list_index.html';
 	$f = fopen($indexfile, 'w');
@@ -459,6 +446,7 @@ function processFilters() {
 		}
 		fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
 	}
+	fwrite($f, '#end of filter list' . "\n");
 	fclose($f);
 }
 
