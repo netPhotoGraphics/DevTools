@@ -35,7 +35,7 @@ function processFilters() {
 						$classes = array('class' => NULL, 'subclass' => NULL);
 					}
 				}
-				$filterDescriptions[$filter] = array('class' => current($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
+				$filterDescriptions[$filter] = array('class' => reset($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
 			}
 		}
 	}
