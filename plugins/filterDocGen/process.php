@@ -35,19 +35,18 @@ function processFilters() {
 						$classes = array('class' => NULL, 'subclass' => NULL);
 					}
 				}
-				$filterDescriptions[$filter] = array('class' => next($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
+				$filterDescriptions[$filter] = array('class' => reset($classes), 'subclass' => next($classes), 'desc' => trim($f[1]));
 			}
 		}
 	}
 
-	$stdExclude = Array('Thumbs.db', 'readme.md', 'data');
 	if (CASE_INSENSITIVE) {
 		$serverpath = strtolower(SERVERPATH);
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge($stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
-	getResidentFiles($serverpath . '/' . THEMEFOLDER, $stdExclude);
+	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge(stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
+	getResidentFiles($serverpath . '/' . THEMEFOLDER, stdExclude);
 
 	$filterlist = array();
 	$registerList = array();
@@ -247,19 +246,11 @@ function processFilters() {
 				$newparms[] = $newparm;
 			}
 		}
-		$newfilterlist[$key] = array('filter' => $key, 'calls' => $calls, 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
-	}
-
-	//	special class for security logger filters
-	global $_securityLoggerList;
-	foreach ($_securityLoggerList as $filter => $handler) {
-		$parent = $newfilterlist[$filter];
-		$parent['class'] = 'Admin';
-		$parent['subclass'] = 'Security';
-		$newfilterlist[] = $parent;
+		$newfilterlist[$key] = array('filter' => $key, 'calls' => array_slice($calls, 0, 5), 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
 
 	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
+	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
 	$f = fopen($htmlfile, 'w');
 	$class = $subclass = NULL;
@@ -339,9 +330,6 @@ function processFilters() {
 	fwrite($f, "\t\t\t</ul><!-- filterdetail -->\n");
 	fwrite($f, "<!-- End filter descriptions -->\n");
 	fclose($f);
-
-	$filterCategories['Admin_Security'] = array('class' => 'Admin', 'subclass' => 'Security', 'count' => count($_securityLoggerList)); // security logger class
-	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
 
 	$indexfile = USER_PLUGIN_SERVERPATH . 'filterDocGen/filter list_index.html';
 	$f = fopen($indexfile, 'w');
@@ -458,6 +446,7 @@ function processFilters() {
 		}
 		fwrite($f, $filter . ':=' . $desc['desc'] . "\n");
 	}
+	fwrite($f, '#end of filter list' . "\n");
 	fclose($f);
 }
 
