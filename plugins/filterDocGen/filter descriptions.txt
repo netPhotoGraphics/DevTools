@@ -6,11 +6,7 @@
 !register_user_form
 
 #These filters appear not to be registered.
-!access_control
-!admin_XSRF_access
 !admin_general_data
-!admin_log_actions
-!admin_managed_albums_access
 !admin_theme_buttons
 !admin_toolbox_$gal
 !admin_toolbox_album
@@ -35,14 +31,10 @@
 !favoritesHandler_action
 !general_utilities
 !image_filter
-!log_setup
 !login_link
-!login_redirect_link
 !logout
 !move_object
-!next_object_loop
 !plugin_tabs
-!policy_ack
 !processBulkCommentSave
 !processBulkMenuSave
 !register_user_form
@@ -50,10 +42,8 @@
 !register_user_verified
 !search_criteria
 !search_instantiate
-!security_misc
 !theme_headers
 !upload_root_ui
-!zenphotoCompatibility
 
 #These filters have no description
 *Admin.CMS:=
@@ -61,9 +51,6 @@
 *Admin.Media:=
 *Admin.Miscellaneous:=
 *Admin.Security:=
-*CMS:=
-*Comment:=
-*Media:=
 *Miscellaneous:=
 *Miscellaneous.Miscellaneous:=
 *Object.CMS:=
@@ -71,10 +58,8 @@
 *Object.Miscellaneous:=
 *Object.Search:=
 *Template.Miscellaneous:=
-*Theme.Miscellaneous:=
-*Theme.Script:=
-*User_management.Security:=
 
+#Filter descriptions.
 *Admin:=These filters allow for the extension of the administrator interface.
 *Object:=These filters provide modifications to the behavior of object methods.
 *Object.Media:=These filters apply to "media" objects.
@@ -148,7 +133,9 @@ Miscellaneous>Miscellaneous>mail_form:=Allows plugins to modify the default <em>
 Miscellaneous>Miscellaneous>sendmail:=Invoked when attempting to send an e-mail. The plugin is presumed to handle the mailing.
 Miscellaneous>Miscellaneous>seoFriendly:=Invoked to transform names that might contain diacritical marks into text that does not.
 Miscellaneous>Miscellaneous>seoFriendly_js:=Allows a plugin to provide a JavaScript function to names that might contain diacritical marks into text that does not.
+Miscellaneous>Miscellaneous>setupTheme:=Allows a plugin to override the <em>theme</em> that will be used to display WEB pages.
 Miscellaneous>Miscellaneous>site_upgrade_xml:=Allows plugins to add files to those processed by the site_upgrade plugin.
+Miscellaneous>Miscellaneous>software_information:=This filter is used to display the installation information HTML comment at the end of each page load.
 Miscellaneous>Miscellaneous>texteditor_config:=Provides configuration information to the Text Editor plugin (normally TinyMCE).
 Miscellaneous>Miscellaneous>tinymce_config:=Filter used by plugins to modify tinyMCE configurations.
 Miscellaneous>Miscellaneous>zenphotoCompatibility:=Loads <em>zenphoto</em> globals when the compatibility pack is enabled.
@@ -209,14 +196,11 @@ Template>Miscellaneous>isMyItemToView:=Invoked when checking if an object may be
 Template>Miscellaneous>log_404:=A filter that allows inhibiting of 404 error logging via regular expressions
 Template>Miscellaneous>next_object_loop:=Called from the bottom of functions like next_album passing the resultant object.
 
-Theme>Miscellaneous>content_macro:=Allows plugins and themes to provide macros for data substitutions.
 Theme>Script>colorbox_themepath:=allows overriding the path of the "custom" colorbox theme. getPlugin() will be called with this path to get the reference to the css when the selected colorbox theme is set to "custom".
+Theme>Script>content_macro:=Allows plugins and themes to provide macros for data substitutions.
 Theme>Script>feature_plugin_load:=Applied just before feature plugins are loaded for the front-end. Allows a CLASS plugin to take FEATURE actions.
 Theme>Script>load_request:=Invoked by the front-end when a page is being loaded. The filter may cause the page load to be aborted.
 Theme>Script>load_theme_script:=Allows for overriding the script loaded for a particular theme page.
-Theme>Script>register_user_form:=Allows plugins to add to the <em>register user</em> form.
-Theme>Script>setupTheme:=Allows a plugin to override the <em>theme</em> that will be used to display WEB pages.
-Theme>Script>software_information:=This filter is used to display the installation information HTML comment at the end of each page load.
 Theme>Script>themeSwitcher_Controllink:=Invoked by themeSwitcher's theme_body_open filter. Allows themes to add to the selectors for theme related choices such as personality or color scheme.
 Theme>Script>themeSwitcher_head:=Invoded by themeSwitcher's theme_head filter. Allows themes to add to the HTML placed in the theme head when themeSwitcher is active. The parameter passed is a array of theme=>enabled values. If enabled is false the theme will not be included in the selector. Filters can change this value to control if specific themes may be chosen.
 Theme>Script>theme_body_close:=Invoked by all themes just after the &lt;/body&gt; HTML tag.
@@ -245,4 +229,6 @@ User_management>Miscellaneous>register_user_verified:=Invoked when a new user is
 User_management>Miscellaneous>remove_user:=Called in _Administrator remove method to allow plugins to clean up anything associated with the user.
 User_management>Miscellaneous>save_admin_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is saved.
 User_management>Miscellaneous>save_user_complete:=Invoked after the userObj->save() method has been called. Used primarily for logging that a user has been updated.
+
+register_user_form:=Allows plugins to add to the <em>register user</em> form.
 #end of filter list

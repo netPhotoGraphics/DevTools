@@ -17,7 +17,6 @@ $plugin_description = gettext("Disable publish/unpublish if user does not have <
 
 npgFilters::register('admin_note', 'disableRight::disable'); // a convenient point since it is established what page and tab are selected
 npgFilters::register('admin_managed_albums_access', 'disableRight::save'); // this point allows us to alter the $_GET and $_POST arrays before they are used
-npgFilters::register('plugin_tabs', 'disableRight::tab');
 
 class disableRight {
 
@@ -114,11 +113,6 @@ class disableRight {
 					break;
 			}
 		}
-	}
-
-	static function tab($xlate) {
-		$xlate['demo'] = gettext('demo');
-		return $xlate;
 	}
 
 	/**

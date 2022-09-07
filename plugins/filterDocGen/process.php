@@ -48,6 +48,18 @@ function processFilters() {
 	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge(stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
 	getResidentFiles($serverpath . '/' . THEMEFOLDER, stdExclude);
 
+	$paths = getPluginFiles('*.php');
+	foreach ($paths as $plugin => $path) {
+		if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
+			if (distributedPlugin($plugin)) {
+				$_resident_files[] = $path;
+				if (is_dir($dir = stripSuffix($path))) {
+					getResidentFiles($dir, stdExclude);
+				}
+			}
+		}
+	}
+
 	$filterlist = array();
 	$registerList = array();
 	$applyList = array();
@@ -60,6 +72,7 @@ function processFilters() {
 			$script = str_replace(CORE_FOLDER . '/' . PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			$script = str_replace(CORE_FOLDER . '/', '<!--sort first-->/', $script);
 			$script = str_replace(THEMEFOLDER . '/', '<em>theme</em>/', $script);
+			$script = str_replace(USER_PLUGIN_FOLDER . '/', '<em>plugin</em>/', $script);
 			preg_match_all('~(npgFilters::apply|npgFilters::register)\((.*?)\)[^,|\)]~', $text, $matches);
 			if (!empty($matches)) {
 				foreach ($matches[2] as $which => $paramsstr) {
@@ -82,6 +95,11 @@ function processFilters() {
 				}
 			}
 		}
+	}
+
+	//	special case for security log filters
+	foreach (security_logger::$typelist as $filtername => $where) {
+		$filterlist[$filtername]['users'] = '<em>plugin</em>/security-logger.php';
 	}
 
 	$filterCategories = array();
@@ -438,6 +456,7 @@ function processFilters() {
 	}
 	fwrite($f, "\n");
 
+	fwrite($f, "#Filter descriptions.\n");
 	$class = '';
 	foreach ($descriptions as $filter => $desc) {
 		if ($class != $desc['class']) {

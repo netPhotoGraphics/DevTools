@@ -14,7 +14,6 @@ $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext("Disable setting watermarks if user does not have ADMIN_RIGHTS.");
 
 npgFilters::register('admin_note', 'disableWatermark::customData');
-npgFilters::register('plugin_tabs', 'disableWatermark::tab');
 
 class disableWatermark {
 
@@ -88,11 +87,6 @@ class disableWatermark {
 					break;
 			}
 		}
-	}
-
-	static function tab($xlate) {
-		$xlate['demo'] = gettext('demo');
-		return $xlate;
 	}
 
 }

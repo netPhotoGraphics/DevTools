@@ -24,10 +24,8 @@ npgFilters::register('save_admin_data', 'create_album::save');
 npgFilters::register('save_user_complete', 'create_album::save_user');
 npgFilters::register('upload_root_ui', 'create_album::upload_root_ui');
 npgFilters::register('admin_upload_process', 'create_album::admin_upload_process');
-npgFilters::register('plugin_tabs', 'create_album::tab');
 
 $__creatAlbumList = getSerializedArray(getOption('create_album_userlist'));
-
 
 //	create the html before anything is output
 if ($albpublish = $_gallery->getAlbumPublish()) {
@@ -138,11 +136,6 @@ class create_album {
 						'desc' => gettext('Checked users will be allowed to create root level albums.') .
 						'<p class="notebox">' . gettext('<strong>Note:</strong> Candidates are those users with <em>Album</em> and <em>Upload</em> rights who do not also have <em>Admin</em> or <em>Manage all album</em> rights.') . '</p>')
 		);
-	}
-
-	static function tab($xlate) {
-		$xlate['demo'] = gettext('demo');
-		return $xlate;
 	}
 
 	/**
