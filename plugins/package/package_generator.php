@@ -16,25 +16,26 @@ define('OFFSET_PATH', 3);
 require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
 
 $_resident_files[] = THEMEFOLDER;
-foreach ($_gallery->getThemes() as $theme => $data) {
-	if (protectedTheme($theme)) {
+$dir = opendir(GIT_PATH . '/' . THEMEFOLDER . '/');
+while (($theme = readdir($dir)) !== false) {
+	if ($theme[0] !== '.' && is_dir(GIT_PATH . '/' . THEMEFOLDER . '/' . $theme)) {
 		$_resident_files[] = THEMEFOLDER . '/' . $theme;
 		$_resident_files = array_merge($_resident_files, getFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, stdExclude));
 	}
 }
 
 $_resident_files[] = USER_PLUGIN_FOLDER;
-$paths = getPluginFiles('*.php');
-foreach ($paths as $plugin => $path) {
-	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
-		if (file_exists(GIT_PATH . '/plugins/' . $plugin)) {
-			if (is_dir($dir = stripSuffix($path))) {
-				$_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
-				$_resident_files = array_merge($_resident_files, getFiles($dir, stdExclude));
-			}
-			$_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
-		}
+$curdir = getcwd();
+chdir(GIT_PATH . '/plugins/');
+$filelist = safe_glob('*.php', 0);
+chdir($curdir);
+
+foreach ($filelist as $plugin) {
+	if (is_dir($dir = USER_PLUGIN_SERVERPATH . stripSuffix($plugin))) {
+		$_resident_files[] = 'plugins/' . stripSuffix($plugin) . '/';
+		$_resident_files = array_merge($_resident_files, getFiles($dir, stdExclude));
 	}
+	$_resident_files[] = 'plugins/' . $plugin;
 }
 
 $_resident_files[] = CORE_FOLDER;

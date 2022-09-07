@@ -1,14 +1,6 @@
-#These filters appear not to be applied.
-!admin_toolbox_$gal
-!checkForGuest
-!general_utilities
-!plugin_tabs
-!register_user_form
-
 #These filters appear not to be registered.
 !admin_general_data
 !admin_theme_buttons
-!admin_toolbox_$gal
 !admin_toolbox_album
 !admin_toolbox_close
 !admin_toolbox_gallery
@@ -17,7 +9,6 @@
 !album_filter
 !bulk_category_actions
 !bulk_comment_actions
-!checkForGuest
 !check_credentials
 !colorbox_themepath
 !comment_approve
@@ -29,15 +20,13 @@
 !database_query
 !edit_category_custom
 !favoritesHandler_action
-!general_utilities
 !image_filter
 !login_link
+!login_redirect_link
 !logout
 !move_object
-!plugin_tabs
 !processBulkCommentSave
 !processBulkMenuSave
-!register_user_form
 !register_user_registered
 !register_user_verified
 !search_criteria
@@ -77,7 +66,6 @@ Admin>CMS>edit_article_custom:=Allows a plugin to manage custom data for Article
 Admin>CMS>edit_category_custom:=Allows a plugin to manage custom data for CMS categories. This invocation is for when the category is presented for editing.
 Admin>CMS>edit_cms_utilities:=Allows a plugin to place items in the <em>Utilities</em> area of the edit page for CMS objects.
 Admin>CMS>edit_page_custom:=Allows a plugin to manage custom data for CMS pages. This invocation is for when the page object is presented for editing.
-Admin>CMS>general_utilities:=Allows plugins to add items to the <em>General</em> area of the CMS edit pages.
 Admin>CMS>processBulkCMSSave:=Allow processing of the "category", "article", and "page" tab bulk action saves.
 Admin>CMS>save_article_data:=Allows a plugin to manage custom data for news articles. This invocation is for when the article is saved.
 Admin>CMS>save_category_data:=Applied just before the CMS Category save() method is called.
@@ -108,7 +96,6 @@ Admin>Miscellaneous>admin_overview:=Allows plugins to add items to the <em>Overv
 Admin>Miscellaneous>admin_tabs:=Allows plugins to add <em>Tabs</em> to the administrative pages.
 Admin>Miscellaneous>admin_theme_buttons:=Allows a filter to insert buttons in the Theme tab actions column.
 Admin>Miscellaneous>admin_utilities_buttons:=Allows plugins to add buttons to the admin utilities box on the <em>overview</em> page.
-Admin>Miscellaneous>plugin_tabs:=Use to add translatable tabs to the plugin main tab.
 Admin>Miscellaneous>processBulkAlbumsSave:=Allow processing of the "albums" tab bulk action saves.
 Admin>Miscellaneous>processBulkCommentSave:=Allow processing of the "comment" tab bulk action saves.
 Admin>Miscellaneous>processBulkImageSave:=Allow processing of the "album/images" tab bulk action saves.
@@ -177,7 +164,6 @@ Object>Search>search_instantiate:=Called at the end of the class SearchEngine co
 Object>Search>search_statistics:=Allows a plugin to record statistics about searches.
 Object>Search>searchable_fields:=Allows plugins to add to the searchEngine search_structure.
 
-Template>AdminToolbox>admin_toolbox_$gal:=This filter is applied for the catch-all page load. <code>$gal</code> is the running gallery page script.
 Template>AdminToolbox>admin_toolbox_album:=Allows plugins to insert links into the <em>album</em> part of the "admin toolbox".
 Template>AdminToolbox>admin_toolbox_close:=This filter is applied just before the Admin Toolbox "logout" link is emitted.
 Template>AdminToolbox>admin_toolbox_gallery:=Allows plugins to insert links into the <em>gallery</em> part of the "admin toolbox".
@@ -186,9 +172,8 @@ Template>AdminToolbox>admin_toolbox_image:=Allows plugins to insert links into t
 Template>AdminToolbox>admin_toolbox_news:=Allows plugins to insert links into the <em>news</em> part of the "admin toolbox".
 Template>AdminToolbox>admin_toolbox_pages:=Allows plugins to insert links into the <em>pages</em> part of the "admin toolbox".
 Template>AdminToolbox>admin_toolbox_search:=Allows plugins to insert links into the <em>search</em> part of the "admin toolbox".
-Template>AdminToolbox>admin_toolbox_stripSuffix($_gallery_page):=Allows plugins to insert links into  the "admin toolbox" when the page is a custom page.
+Template>AdminToolbox>admin_toolbox_stripSuffix($_gallery_page):=This filter is applied for the catch-all page load. <code>$_gallery_page</code> is the running gallery page script.
 Template>Miscellaneous>admin_upload_process:=Allows plugins to modify the folder where an upload will place images.
-Template>Miscellaneous>checkForGuest:=Invoked when loading a front-end page. Allows plugins to determine if a visitor has logged on with the correct credentials for accessing the object.
 Template>Miscellaneous>checkPageValidity:=Called to process the "default" case in the page number validity function.
 Template>Miscellaneous>codeblock:=Allow plugins to create codeblock content on-the-fly.
 Template>Miscellaneous>getLink:=Called each time a URL is generated.
@@ -229,6 +214,4 @@ User_management>Miscellaneous>register_user_verified:=Invoked when a new user is
 User_management>Miscellaneous>remove_user:=Called in _Administrator remove method to allow plugins to clean up anything associated with the user.
 User_management>Miscellaneous>save_admin_data:=Allows a plugin to manage custom data for users. This invocation is for when the user object is saved.
 User_management>Miscellaneous>save_user_complete:=Invoked after the userObj->save() method has been called. Used primarily for logging that a user has been updated.
-
-register_user_form:=Allows plugins to add to the <em>register user</em> form.
 #end of filter list
