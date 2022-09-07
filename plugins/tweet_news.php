@@ -39,7 +39,6 @@ if ($plugin_disable) {
 	npgFilters::register('save_album_data', 'tweet::tweeterExecute');
 	npgFilters::register('edit_image_utilities', 'tweet::tweeter');
 	npgFilters::register('save_image_data', 'tweet::tweeterExecute');
-	npgFilters::register('general_utilities', 'tweet::tweeter');
 	npgFilters::register('save_article_data', 'tweet::tweeterZenpageExecute');
 	npgFilters::register('save_page_data', 'tweet::tweeterZenpageExecute');
 

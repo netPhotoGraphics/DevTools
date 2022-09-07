@@ -10,6 +10,8 @@
  */
 // force UTF-8 Ø
 
+define('GIT_PATH', 'D:\github\netPhotoGraphics-DEV'); //	points to the folder used for package creation, normally the GIT folder
+
 define('OFFSET_PATH', 3);
 require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
 
@@ -17,7 +19,7 @@ $_resident_files[] = THEMEFOLDER;
 foreach ($_gallery->getThemes() as $theme => $data) {
 	if (protectedTheme($theme)) {
 		$_resident_files[] = THEMEFOLDER . '/' . $theme;
-		$_resident_files = array_merge($_resident_files, getResidentFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, stdExclude));
+		$_resident_files = array_merge($_resident_files, getFiles(SERVERPATH . '/' . THEMEFOLDER . '/' . $theme, stdExclude));
 	}
 }
 
@@ -25,10 +27,10 @@ $_resident_files[] = USER_PLUGIN_FOLDER;
 $paths = getPluginFiles('*.php');
 foreach ($paths as $plugin => $path) {
 	if (strpos($path, USER_PLUGIN_FOLDER) !== false) {
-		if (distributedPlugin($plugin)) {
+		if (file_exists(GIT_PATH . '/plugins/' . $plugin)) {
 			if (is_dir($dir = stripSuffix($path))) {
 				$_resident_files[] = str_replace(SERVERPATH . '/', '', $dir) . '/';
-				$_resident_files = array_merge($_resident_files, getResidentFiles($dir, stdExclude));
+				$_resident_files = array_merge($_resident_files, getFiles($dir, stdExclude));
 			}
 			$_resident_files[] = str_replace(SERVERPATH . '/', '', $path);
 		}
@@ -36,11 +38,11 @@ foreach ($paths as $plugin => $path) {
 }
 
 $_resident_files[] = CORE_FOLDER;
-$_resident_files = array_merge($_resident_files, getResidentFiles(SERVERPATH . '/' . CORE_FOLDER, array_merge(stdExclude, array('setup', 'version.php'))));
+$_resident_files = array_merge($_resident_files, getFiles(SERVERPATH . '/' . CORE_FOLDER, array_merge(stdExclude, array('setup', 'version.php'))));
 
 $_special_files[] = CORE_FOLDER . '/version.php';
 $_special_files[] = CORE_FOLDER . '/setup';
-$_special_files = array_merge($_special_files, getResidentFiles(CORE_SERVERPATH . 'setup', stdExclude));
+$_special_files = array_merge($_special_files, getFiles(CORE_SERVERPATH . 'setup', stdExclude));
 
 $filepath = CORE_SERVERPATH . 'netPhotoGraphics.package';
 chmod($filepath, 0666);
@@ -63,7 +65,7 @@ exit();
  * enumerates the files in folder(s)
  * @param $folder
  */
-function getResidentFiles($folder, $exclude) {
+function getFiles($folder, $exclude) {
 	global $_resident_files;
 	$dirs = array_diff(scandir($folder), $exclude);
 	$localfiles = array();
@@ -73,7 +75,7 @@ function getResidentFiles($folder, $exclude) {
 		$key = str_replace(SERVERPATH . '/', '', filesystemToInternal($folder . '/' . $file));
 		if (is_dir($folder . '/' . $file)) {
 			$localfolders[] = $key;
-			$localfolders = array_merge($localfolders, getResidentFiles($folder . '/' . $file, $exclude));
+			$localfolders = array_merge($localfolders, getFiles($folder . '/' . $file, $exclude));
 		} else {
 			$localfiles[] = $key;
 		}

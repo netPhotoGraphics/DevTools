@@ -14,7 +14,6 @@ $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext("Hide the output of user rights and other info if user does NOT have ADMIN_RIGHTS.");
 
 npgFilters::register('admin_head', 'showNoUserRights::customDisplayRights');
-npgFilters::register('plugin_tabs', 'showNoUserRights::tab');
 
 class showNoUserRights {
 
@@ -39,11 +38,6 @@ class showNoUserRights {
 
 			}
 		}
-	}
-
-	static function tab($xlate) {
-		$xlate['demo'] = gettext('demo');
-		return $xlate;
 	}
 
 }
