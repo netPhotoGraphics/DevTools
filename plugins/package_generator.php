@@ -24,6 +24,8 @@
 $plugin_is_filter = 5 | ADMIN_PLUGIN;
 $plugin_description = gettext('Generates the <em>netPhotoGraphics.package</em> file.');
 
+$option_interface = 'package';
+
 npgFilters::register('admin_utilities_buttons', 'package::buttons');
 
 class package {
@@ -32,6 +34,17 @@ class package {
 		if (OFFSET_PATH == 2) {
 			setOptionDefault('package_path', CORE_FOLDER);
 		}
+	}
+
+	function getOptionsSupported() {
+		$options = array(
+				gettext('Repository Path') => array(
+						'key' => 'package_git_path',
+						'type' => OPTION_TYPE_TEXTBOX,
+						'desc' => gettext('Enter the full path to the the local <em>netPhotoGraphics</em> repository.')
+				)
+		);
+		return $options;
 	}
 
 	static function buttons($buttons) {
@@ -61,5 +74,3 @@ class package {
 	}
 
 }
-
-?>
