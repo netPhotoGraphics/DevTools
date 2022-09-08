@@ -92,6 +92,6 @@ function getFiles($folder, $exclude) {
 }
 
 function writeComponent($file, $component, $flag) {
-	$component = strtr($component, array(CORE_FOLDER . '/' . PLUGIN_FOLDER => '%extensions%', CORE_FOLDER => '%core% '));
+	$component = strtr($component, array(CORE_FOLDER . '/' . PLUGIN_FOLDER => '%extensions%', CORE_FOLDER => '%core%'));
 	fwrite($file, $component . $flag . "\n");
 }
