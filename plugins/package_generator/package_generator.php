@@ -72,6 +72,7 @@ exit();
  *
  * enumerates the files in folder(s)
  * @param $folder
+ * @param $exclude file names to exclude from the list
  */
 function getFiles($folder, $exclude) {
 	global $_resident_files;
