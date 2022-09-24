@@ -1,5 +1,6 @@
 #These filters appear not to be registered.
 !admin_general_data
+!admin_headers
 !admin_theme_buttons
 !admin_toolbox_album
 !admin_toolbox_close
