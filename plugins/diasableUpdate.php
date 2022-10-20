@@ -7,7 +7,7 @@
  * @package plugins/disableUpdate
  * @pluginCategory development
  */
-$plugin_is_filter = 5 | ADMIN_PLUGIN;
+$plugin_is_filter = defaultExtension(5 | ADMIN_PLUGIN);
 $plugin_description = gettext('Disables the release install button(s) to prevent accidentally overriding development code.');
 
 npgFilters::register('admin_close', 'DisableUpdate');
