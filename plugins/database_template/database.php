@@ -46,6 +46,12 @@ foreach ($tables as $table) {
 			if (!$datum['Comment']) {
 				$datum['Comment'] = FIELD_COMMENT;
 			}
+			if (strpos(strtolower($datum['Type']), 'int') !== false) {
+				$datum['Type'] = preg_replace('`\(\d*\)`', '', $datum['Type']);
+			}
+			if (isset($datum['Collation']) && $datum['Collation'] === 'utf8_unicode_ci') {
+				$datum['Collation'] = 'utf8mb3_unicode_ci';
+			}
 			// remove don't care fields
 			unset($datum['Key']);
 			unset($datum['Extra']);
@@ -79,7 +85,8 @@ foreach ($tables as $table) {
 		unset($index['Seq_in_index']);
 		unset($index['Cardinality']);
 		unset($index['Comment']);
-
+		unset($index['Visible']);
+		unset($index['Expression']);
 		$database[$table]['keys'][$keyname] = $index;
 	}
 }

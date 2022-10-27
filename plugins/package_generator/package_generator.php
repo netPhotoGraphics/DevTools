@@ -32,7 +32,6 @@ if (is_dir(GIT_PATH . CORE_FOLDER) && is_dir(GIT_PATH . THEMEFOLDER) && is_dir(G
 	chdir(GIT_PATH . '/plugins/');
 	$filelist = safe_glob('*.php', 0);
 	chdir($curdir);
-
 	foreach ($filelist as $plugin) {
 		if (is_dir($dir = USER_PLUGIN_SERVERPATH . stripSuffix($plugin))) {
 			$_resident_files[] = 'plugins/' . stripSuffix($plugin) . '/';
