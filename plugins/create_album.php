@@ -147,7 +147,7 @@ class create_album {
 			$albums = $_gallery->getAlbums(0);
 			?>
 			<script type="text/javascript">
-				// <!-- <![CDATA[
+				
 			<?php seoFriendlyJS(); ?>
 				var albumArray = ['<?php echo implode("','", $albums) ?>'];
 
@@ -189,7 +189,7 @@ class create_album {
 						$('#newalbumcheckbox').prop('checked', true);
 					}
 				}
-				// ]]> -->
+				
 			</script>
 			<?php
 		}

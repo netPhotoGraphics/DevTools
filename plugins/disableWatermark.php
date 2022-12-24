@@ -27,7 +27,7 @@ class disableWatermark {
 				case 'imageinfo':
 					?>
 					<script type="text/javascript">
-						// <!-- <![CDATA[
+						
 						$(window).on("load", function () {
 							var num = $('input[name=totalimages]').val();
 							for (i = 0; i < num; i++) {
@@ -37,7 +37,7 @@ class disableWatermark {
 								selector.remove();
 							}
 						});
-						// ]]> -->
+						
 					</script>
 					<?php
 
@@ -45,7 +45,7 @@ class disableWatermark {
 				case 'albuminfo':
 					?>
 					<script type="text/javascript">
-						// <!-- <![CDATA[
+						
 						$(window).on("load", function () {
 							var selector = $('#album_watermark');
 							var selected = $('#album_watermark option:selected');
@@ -56,7 +56,7 @@ class disableWatermark {
 							selector.before('<input type="hidden" name="album_watermark_thumb" value="' + selected.val() + '" />' + selected.text());
 							selector.remove();
 						});
-						// ]]> -->
+						
 					</script>
 					<?php
 
@@ -65,7 +65,7 @@ class disableWatermark {
 					if (isset($_GET['massedit'])) {
 						?>
 						<script type="text/javascript">
-							// <!-- <![CDATA[
+							
 							$(window).on("load", function () {
 								var num = $('input[name=totalalbums]').val();
 								for (i = 1; i <= num; i++) {
@@ -79,7 +79,7 @@ class disableWatermark {
 									selector.remove();
 								}
 							});
-							// ]]> -->
+							
 						</script>
 						<?php
 

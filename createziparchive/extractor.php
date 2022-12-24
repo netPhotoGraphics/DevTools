@@ -93,11 +93,11 @@ try {
 	<a href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 
 	<script>
-		// <!-- <![CDATA[
+		
 		window.onload = function () {
 			window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
 		}
-		// ]]> -->
+		
 	</script>
 	<?php
 } catch (Exception $e) {

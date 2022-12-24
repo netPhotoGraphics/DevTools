@@ -68,11 +68,8 @@ try {
 	}
 
 	require_once($sourcefolder . 'npgCore/version.php');
-	if (defined('NETPHOTOGRAPHICS_VERSION')) {
-		$version = NETPHOTOGRAPHICS_VERSION;
-	} else {
-		$version = ZENPHOTO_VERSION;
-	}
+	$version = NETPHOTOGRAPHICS_VERSION;
+
 	$version = explode('-', $version);
 	define('VERSION', $version[0]);
 	$setup_index = file_get_contents($sourcefolder . 'npgCore/global-definitions.php');

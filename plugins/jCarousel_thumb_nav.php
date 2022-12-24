@@ -243,7 +243,7 @@ if (!$plugin_disable && !OFFSET_PATH && getOption('jcarousel_' . $_gallery->getC
 			}
 			?>
 			<script type="text/javascript">
-				// <!-- <![CDATA[
+				
 				var mycarousel_itemList = [
 			<?php echo $items; ?>
 				];
@@ -278,7 +278,7 @@ if (!$plugin_disable && !OFFSET_PATH && getOption('jcarousel_' . $_gallery->getC
 						itemLoadCallback: {onBeforeAnimation: mycarousel_itemLoadCallback}
 					});
 				});
-				// ]]> -->
+				
 			</script>
 			<ul id="mycarousel">
 				<!-- The content will be dynamically loaded in here -->

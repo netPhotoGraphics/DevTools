@@ -56,7 +56,7 @@ class text_watermark {
 		}
 		?>
 		<script type="text/javascript">
-			// <!-- <![CDATA[
+			
 			window.addEventListener('load', function () {
 
 				$('#__text_watermark_font').change(function () {
@@ -96,7 +96,7 @@ class text_watermark {
 				});
 				alert('<?php echo gettext('watermark created'); ?>');
 			}
-			// ]]> -->
+			
 		</script>
 
 		<p>
