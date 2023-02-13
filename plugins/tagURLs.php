@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This plugin will force update objects in the database such that any hard-coded
  * URLs to the site are converted to portable URLs.
  *
@@ -16,12 +16,10 @@
  *
  * @Copyright 2020 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
-
 // force UTF-8 Ø
 
 $plugin_is_filter = defaultExtension(5 | ADMIN_PLUGIN);
 $plugin_description = gettext("Convert Explicit site URLs to portable URLs.");
-
 
 npgFilters::register('admin_utilities_buttons', 'tagURLs::buttons');
 

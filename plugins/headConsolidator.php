@@ -67,20 +67,16 @@ function headConolidator_end() {
 	$csFiles = array_reverse($csFiles);
 	$cs = '<link type="text/css" rel="stylesheet" href="' . implode('" />' . "\n" . '<link type="text/css" rel="stylesheet" href="', $csFiles) . '" />' . "\n";
 
-
-
 	$matches = headConolidator_extract($data, '~<script(?:\s*)type="text/javascript"(?:\s*)>(.*)</script>~msU');
 	$inlinejs = $matches[1];
 	$jsi = '';
 	if (!empty($inlinejs)) {
 		$jsi .= '<script type="text/javascript">' . "\n";
-		$jsi .= '  // <!-- <![CDATA[' . "\n";
+		$jsi .= '  ' . "\n";
 		foreach ($inlinejs as $somejs) {
-			$somejs = str_replace('// <!-- <![CDATA[', '', $somejs);
-			$somejs = str_replace('// ]]> -->', '', $somejs);
 			$jsi .= '  ' . trim($somejs) . "\n";
 		}
-		$jsi .= '		// ]]> -->' . "\n";
+
 		$jsi .= "</script>\n";
 	}
 

@@ -186,7 +186,7 @@ class openAdmin extends _Administrator {
 		}
 		?>
 		<script type="text/javascript">
-			// <!-- <![CDATA[
+			
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
 				$(".overview_utility_buttons .XSRFToken").remove();
@@ -196,7 +196,7 @@ class openAdmin extends _Administrator {
 				$('#auth').remove();	//	disable any auth passing, currently only for uploader stuff
 				$('.reconfigbox').remove();	//	remove any reconfigure messages as we don't want the visitor running setup
 			}, false);
-			// ]]> -->
+			
 		</script>
 		<?php
 	}
@@ -205,12 +205,12 @@ class openAdmin extends _Administrator {
 		openAdminAuthority::setAdmin();
 		?>
 		<script type="text/javascript">
-			// <!-- <![CDATA[
+			
 			window.addEventListener('load', function () {
 				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?logout=4");
 				$("#toolbox_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 			}, false);
-			// ]]> -->
+			
 		</script>
 		<?php
 	}

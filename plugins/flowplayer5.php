@@ -128,7 +128,7 @@ class Flowplayer5 extends html5Player {
 				<div id="player" ></div>
 			</div>
 			<script type="text/javascript">
-			// <!-- <![CDATA[
+			
 				var viewportwidth;
 				var viewportheight;
 				var maxvidheight = ' . $vidHeight . '
@@ -176,7 +176,7 @@ class Flowplayer5 extends html5Player {
 					clearTimeout(resizeTimer);
 					resizeTimer = setTimeout(setStage, 100);
 				});
-			// ]]> -->
+			
 			</script>';
 		return $playerconfig;
 	}

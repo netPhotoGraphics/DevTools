@@ -33,12 +33,12 @@ class disableRight {
 					//	the upload tab.
 					?>
 					<script type="text/javascript">
-						// <!-- <![CDATA[
+						
 						$(window).on("load", function () {
 							//	disable the checkbox for publishing the album so it stays at its initial state
 							$('#publishalbum').prop('disabled', true);
 						});
-						// ]]> -->
+						
 					</script>
 					<?php
 					break;
@@ -50,7 +50,7 @@ class disableRight {
 							//	the image subtab:
 							?>
 							<script type="text/javascript">
-								// <!-- <![CDATA[
+								
 								$(window).on("load", function () {
 									//	remove the bulk action publish options
 									$('option[value=showall]').remove();
@@ -58,7 +58,7 @@ class disableRight {
 									//	disable the publish checkboxes
 									$('input[name$=Visible]').prop('disabled', true);
 								});
-								// ]]> -->
+								
 							</script>
 							<?php
 							break;
@@ -66,12 +66,12 @@ class disableRight {
 							// the album subtab:
 							?>
 							<script type="text/javascript">
-								// <!-- <![CDATA[
+								
 								$(window).on("load", function () {
 									//	disable the publish checkbox
 									$('input[name=Published]').prop('disabled', true);
 								});
-								// ]]> -->
+								
 							</script>
 							<?php
 							break;
@@ -83,18 +83,18 @@ class disableRight {
 							if (isset($_GET['massedit'])) {
 								?>
 								<script type="text/javascript">
-									// <!-- <![CDATA[
+									
 									$(window).on("load", function () {
 										//	disable the "mass-edit" publish checkboxes
 										$('input[name$=Published]').prop('disabled', true);
 									});
-									// ]]> -->
+									
 								</script>
 								<?php
 							} else {
 								?>
 								<script type="text/javascript">
-									// <!-- <![CDATA[
+									
 									$(window).on("load", function () {
 										//	remove the bulk action publish options
 										$('option[value=showall]').remove();
@@ -104,7 +104,7 @@ class disableRight {
 										//	remove the ledgend for publish/unpublish
 										$("li:contains('<?php echo gettext('Published/Un-published'); ?>')").remove();
 									});
-									// ]]> -->
+									
 								</script>
 								<?php
 							}

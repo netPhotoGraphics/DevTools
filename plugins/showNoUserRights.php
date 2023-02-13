@@ -23,7 +23,7 @@ class showNoUserRights {
 			if ($_admin_tab == 'admin' && ($_admin_subtab == 'users') || is_null($_admin_subtab)) {
 				?>
 				<script type="text/javascript">
-					// <!-- <![CDATA[
+					
 					$(document).ready(function () {
 						$('select[name="showgroup"]').parent("th").remove(); 	// the "Show" dropdownn menu
 						$('.box-rights').remove(); 								// Rights. (the part with all the checkboxes).
@@ -31,7 +31,7 @@ class showNoUserRights {
 						$('td .notebox').parent().parent().remove();	//	notes and warnings he can't do anything about
 						$('.notebox').remove();
 					});
-					// ]]> -->
+					
 				</script>
 
 				<?php
