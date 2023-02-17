@@ -33,13 +33,11 @@ if (is_dir(GIT_PATH . CORE_FOLDER) && is_dir(GIT_PATH . THEMEFOLDER) && is_dir(G
 	$filelist = safe_glob('*.php', 0);
 	chdir($curdir);
 	foreach ($filelist as $plugin) {
-		if (realpath($plugin == $plugin)) {
-			if (is_dir($dir = USER_PLUGIN_SERVERPATH . stripSuffix($plugin))) {
-				$_resident_files[] = 'plugins/' . stripSuffix($plugin) . '/';
-				$_resident_files = array_merge($_resident_files, getFiles($dir, stdExclude));
-			}
-			$_resident_files[] = 'plugins/' . $plugin;
+		if (is_dir($dir = USER_PLUGIN_SERVERPATH . stripSuffix($plugin))) {
+			$_resident_files[] = 'plugins/' . stripSuffix($plugin) . '/';
+			$_resident_files = array_merge($_resident_files, getFiles($dir, stdExclude));
 		}
+		$_resident_files[] = 'plugins/' . $plugin;
 	}
 
 	$_resident_files[] = CORE_FOLDER;
