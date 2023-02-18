@@ -1,23 +1,22 @@
 <?php
 
 /** A tool to produce the package file--a list of all the files in
- * the distribution.
+ * the distribution.  Permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
+
  *
- * To add new user plugins or themes to the distribution package edit the package
- * file adding a line for each plugin/theme:
+ * The script will use the local GitHub repository (the option <em>Repository Path</em>) to define the contents of the
+ * THEMES and PLUGINS folders. To add or remove themes and plugins update
+ * the repository so that it reflects the desired contents.
  *
- * themes/<i>themename/theme_description.php</i> for a new theme
+ * The CORE folder content is derived from the the installation the
+ * plugin is executed from.
  *
- * plugins/<i>pluginname</i>.php for a new plugin
- *
- * Then run the package generator.
  *
  * @author Stephen Billard (sbillard)
  * @package plugins/package
  * @pluginCategory tools
  *
- * @Copyright Stephen L Billard
- * permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
+ * @Copyright 2014-2023 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
 // force UTF-8 Ø
 
@@ -31,9 +30,7 @@ npgFilters::register('admin_utilities_buttons', 'package::buttons');
 class package {
 
 	function __construct() {
-		if (OFFSET_PATH == 2) {
-			setOptionDefault('package_path', CORE_FOLDER);
-		}
+
 	}
 
 	function getOptionsSupported() {

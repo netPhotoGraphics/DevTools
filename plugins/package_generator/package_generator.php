@@ -14,8 +14,7 @@
 define('OFFSET_PATH', 3);
 require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
 
-$repository = getOption('package_git_path') . '';
-define('GIT_PATH', trim($repository, '/') . '/'); //	points to the folder used for package creation, normally the GIT folder
+define('GIT_PATH', trim(strval(getOption('package_git_path')), '/') . '/'); //	points to the folder used for package creation, normally the GIT folder
 
 if (is_dir(GIT_PATH . CORE_FOLDER) && is_dir(GIT_PATH . THEMEFOLDER) && is_dir(GIT_PATH . USER_PLUGIN_FOLDER)) {
 	$_resident_files[] = THEMEFOLDER;
