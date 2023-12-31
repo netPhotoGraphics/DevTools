@@ -251,7 +251,7 @@ class openAdmin extends _Administrator {
 	}
 
 	static function Logger($link, $page, $tab, $action) {
-		global $_authority, $_mutex;
+		global $_authority, $_npgMutex;
 		$ip = sanitize($_SERVER['REMOTE_ADDR']);
 		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 			$proxy_list = explode(",", $_SERVER['HTTP_X_FORWARDED_FOR']);
@@ -263,7 +263,7 @@ class openAdmin extends _Administrator {
 
 		$file = SERVERPATH . '/' . DATA_FOLDER . '/openAdmin.log';
 		$max = getOption('security_log_size'); // we are lazy, we will use this
-		$_mutex->lock();
+		$_npgMutex->lock();
 		if (file_exists($file) && $max && filesize($file) > $max) {
 			switchLog('openAdmin');
 		}
@@ -285,7 +285,7 @@ class openAdmin extends _Administrator {
 			fclose($f);
 			clearstatcache();
 		}
-		$_mutex->unlock();
+		$_npgMutex->unlock();
 	}
 
 }

@@ -1,5 +1,5 @@
 @ECHO OFF
-REM this script will update the "build" number of the ZenPhoto20 version and commit it
+REM this script will update the "build" number of the netPhotoGraphics version and commit it
 REM copyright by Stephen Billard, all rights reserved.
 
 SET SOURCE=npgCore\version.php

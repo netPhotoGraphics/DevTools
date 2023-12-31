@@ -267,8 +267,8 @@ function processFilters() {
 		$newfilterlist[$key] = array('filter' => $key, 'calls' => array_slice($calls, 0, 5), 'users' => array(), 'params' => $newparms, 'desc' => '*Edit Description*', 'class' => $class, 'subclass' => $subclass);
 	}
 
-	$newfilterlist = sortMultiArray($newfilterlist, array('class', 'subclass', 'filter'), false, false);
-	$filterCategories = sortMultiArray($filterCategories, array('class', 'subclass'), false, false);
+	$newfilterlist = sortMultiArray($newfilterlist, array('class' => false, 'subclass' => false, 'filter' => false), false);
+	$filterCategories = sortMultiArray($filterCategories, array('class' => false, 'subclass' => false), false);
 
 	$f = fopen($htmlfile, 'w');
 	$class = $subclass = NULL;

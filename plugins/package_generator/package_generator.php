@@ -11,7 +11,7 @@
 // force UTF-8 Ø
 
 
-define('OFFSET_PATH', 3);
+define('OFFSET_PATH', 4);
 require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-functions.php");
 
 define('GIT_PATH', trim(strval(getOption('package_git_path')), '/') . '/'); //	points to the folder used for package creation, normally the GIT folder

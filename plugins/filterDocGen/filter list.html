@@ -172,9 +172,9 @@
 					<!-- description(Admin.Media)-admin_managed_albums_access --><p>This filter allows a plugin to intervene when a request to edit an album is being denied for insufficient permissions.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
+						<li class="call_list"><em>plugin</em>/uploader_jquery/server/php/index.php</li>
 						<li class="call_list">npgcore/admin-tabs/albumsort.php</li>
 						<li class="call_list">npgcore/admin-tabs/dynamic-album.php</li>
-						<li class="call_list">npgcore/admin-tabs/edit.php</li>
 						<li>...</li>
 					</ul><!-- calls -->
 				</li><!-- filterdetail -->
@@ -414,12 +414,11 @@
 			<!-- subclasshead Admin.Security --><p class="subclass"></p><!--e-->
 			<ul class="filterdetail">
 				<li class="filterdetail">
-					<p class="filterdef"><span class="inlinecode"><strong>access_control</strong></span>(<em>number, var, string, string</em>)</p>
+					<p class="filterdef"><span class="inlinecode"><strong>access_control</strong></span>(<em>number, string, string, string</em>)</p>
 					<!-- description(Admin.Security)-access_control --><p>Provides logging of site access suspension actions.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
-						<li class="call_list">npgcore/extensions/accessthreshold.php (2)</li>
-						<li class="call_list">npgcore/extensions/ipblocker.php</li>
+						<li class="call_list">npgcore/extensions/accessthreshold.php</li>
 					</ul><!-- calls -->
 					<br />
 				</li><!-- filterdetail -->
@@ -537,6 +536,15 @@
 					<br />
 				</li><!-- filterdetail -->
 				<li class="filterdetail">
+					<p class="filterdef"><span class="inlinecode"><strong>installation_overview</strong></span>(<em></em>)</p>
+					<!-- description(Miscellaneous.Miscellaneous)-installation_overview --><p></p><!--e-->
+					<p class="calls">Invoked from:</p>
+					<ul><!-- calls -->
+						<li class="call_list">npgcore/utilities/installation_analysis.php</li>
+					</ul><!-- calls -->
+					<br />
+				</li><!-- filterdetail -->
+				<li class="filterdetail">
 					<p class="filterdef"><span class="inlinecode"><strong>log_setup</strong></span>(<em>bool, string, var</em>)</p>
 					<!-- description(Miscellaneous.Miscellaneous)-log_setup --><p>Invoked when <span class="tt">setup</span> creates the setup log.</p><!--e-->
 					<p class="calls">Invoked from:</p>
@@ -593,7 +601,7 @@
 					<br />
 				</li><!-- filterdetail -->
 				<li class="filterdetail">
-					<p class="filterdef"><span class="inlinecode"><strong>site_upgrade_xml</strong></span>(<em>var</em>)</p>
+					<p class="filterdef"><span class="inlinecode"><strong>site_upgrade_xml</strong></span>(<em>string</em>)</p>
 					<!-- description(Miscellaneous.Miscellaneous)-site_upgrade_xml --><p>Allows plugins to add files to those processed by the site_upgrade plugin.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
@@ -1101,8 +1109,8 @@
 					<!-- description(Template.Miscellaneous)-admin_upload_process --><p>Allows plugins to modify the folder where an upload will place images.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
+						<li class="call_list"><em>plugin</em>/uploader_jquery/server/php/index.php</li>
 						<li class="call_list">npgcore/extensions/uploader_http/uploader.php</li>
-						<li class="call_list">npgcore/extensions/uploader_jquery/server/php/index.php</li>
 					</ul><!-- calls -->
 					<br />
 				</li><!-- filterdetail -->
@@ -1235,7 +1243,7 @@
 					<!-- description(Theme.Script)-theme_body_close --><p>Invoked by all themes just after the &lt;/body&gt; HTML tag.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
-						<li class="call_list"><em>theme</em>/ardoise/inc_footer.php</li>
+						<li class="call_list"><em>theme</em>/ardoise/includes/footer.php</li>
 						<li class="call_list"><em>theme</em>/basic/404.php</li>
 						<li class="call_list"><em>theme</em>/basic/album.php</li>
 						<li>...</li>
@@ -1246,7 +1254,7 @@
 					<!-- description(Theme.Script)-theme_body_open --><p>Invoked by all themes just after the &lt;body&gt; HTML tag.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
-						<li class="call_list"><em>theme</em>/ardoise/inc_header.php</li>
+						<li class="call_list"><em>theme</em>/ardoise/includes/header.php</li>
 						<li class="call_list"><em>theme</em>/basic/404.php</li>
 						<li class="call_list"><em>theme</em>/basic/album.php</li>
 						<li>...</li>
@@ -1257,7 +1265,7 @@
 					<!-- description(Theme.Script)-theme_head --><p>Invoked by all themes just after the &lt;head&gt; HTML tag.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
-						<li class="call_list"><em>theme</em>/ardoise/inc_header.php</li>
+						<li class="call_list"><em>theme</em>/ardoise/includes/header.php</li>
 						<li class="call_list"><em>theme</em>/basic/404.php</li>
 						<li class="call_list"><em>theme</em>/basic/album.php</li>
 						<li>...</li>
@@ -1310,9 +1318,9 @@
 					<!-- description(Upload.Miscellaneous)-upload_filetypes --><p>Allows a plugin to modify the file types allowed for an upload.</p><!--e-->
 					<p class="calls">Invoked from:</p>
 					<ul><!-- calls -->
+						<li class="call_list"><em>plugin</em>/uploader_jquery/server/php/index.php</li>
 						<li class="call_list">npgcore/admin-tabs/upload.php</li>
 						<li class="call_list">npgcore/extensions/elfinder/php/connector_npg.php</li>
-						<li class="call_list">npgcore/extensions/uploader_jquery/server/php/index.php</li>
 					</ul><!-- calls -->
 					<br />
 				</li><!-- filterdetail -->
