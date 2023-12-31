@@ -22,6 +22,7 @@
 !edit_category_custom
 !favoritesHandler_action
 !image_filter
+!log_404
 !login_link
 !login_redirect_link
 !logout
@@ -48,6 +49,8 @@
 *Object.Miscellaneous:=
 *Object.Search:=
 *Template.Miscellaneous:=
+
+Miscellaneous>Miscellaneous>installation_overview:=
 
 #Filter descriptions.
 *Admin:=These filters allow for the extension of the administrator interface.

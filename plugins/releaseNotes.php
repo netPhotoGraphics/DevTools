@@ -145,5 +145,3 @@ function releaseNotesExecute($object) {
 function releaseNotesPublished() {
 	return "<p class='messagebox fade-message'>" . gettext('release_notes.htm has been updated') . '</p>';
 }
-
-?>
