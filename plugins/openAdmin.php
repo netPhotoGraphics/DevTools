@@ -97,7 +97,7 @@ class openAdmin extends _Administrator {
 	}
 
 	static function access($allow, $url) {
-		global $_admin_menu, $_current_admin_obj;
+		global $_admin_menu, $_current_admin_obj, $_loggedin, $_authority;
 		openAdminAuthority::setAdmin();
 		if (!(isset($_POST['policy_acknowledge']) && $_POST['policy_acknowledge'] == md5(getUserID() . getOption('GDPR_cookie')))) {
 			if (class_exists('GDPR_required') && !policyACKCheck() < getOption('GDPR_cookie')) {
@@ -146,6 +146,7 @@ class openAdmin extends _Administrator {
 			foreach ($_admin_menu['upload']['subtabs'] as $key => $link) {
 				if (strpos($link, '/elFinder/') !== false) {
 					unset($_admin_menu['upload']['subtabs'][$key]);
+					$_loggedin = $_loggedin & ~UPLOAD_RIGHTS;
 					break;
 				}
 			}
@@ -186,7 +187,7 @@ class openAdmin extends _Administrator {
 		}
 		?>
 		<script type="text/javascript">
-			
+
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
 				$(".overview_utility_buttons .XSRFToken").remove();
@@ -196,7 +197,7 @@ class openAdmin extends _Administrator {
 				$('#auth').remove();	//	disable any auth passing, currently only for uploader stuff
 				$('.reconfigbox').remove();	//	remove any reconfigure messages as we don't want the visitor running setup
 			}, false);
-			
+
 		</script>
 		<?php
 	}
@@ -205,12 +206,12 @@ class openAdmin extends _Administrator {
 		openAdminAuthority::setAdmin();
 		?>
 		<script type="text/javascript">
-			
+
 			window.addEventListener('load', function () {
 				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?logout=4");
 				$("#toolbox_logout").attr("title", "<?php echo gettext('Show admin login form'); ?>");
 			}, false);
-			
+
 		</script>
 		<?php
 	}
