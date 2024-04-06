@@ -6,10 +6,10 @@
  *
  * @package plugins/downloadButtons
  * @pluginCategory netPhotoGraphics
- * 
+ *
  * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
-require_once(PLUGIN_SERVERPATH . 'common/gitHubAPI/github-api.php');
+require_once(GITHUB_API_PATH);
 
 use Milo\Github;
 
@@ -114,13 +114,16 @@ class downloadButtons {
 	}
 
 	static function button($buttons) {
-		if (getOption('getUpdates_lastCheck') + 8640 < time()) {
+		if (true || getOption('getUpdates_lastCheck') + 8640 < time()) {
 			setOption('getUpdates_lastCheck', time());
 			try {
-				$api = new Github\Api;
+				$api = new Github\Api(null, getOption('GitHub_SSL_OPT'));
 				$fullRepoResponse = $api->get('/repos/:owner/:repo/releases/latest', array('owner' => GITHUB_ORG, 'repo' => 'netPhotoGraphics'));
 				$fullRepoData = $api->decode($fullRepoResponse);
 				$assets = $fullRepoData->assets;
+
+				var_dump($assets);
+
 				if (!empty($assets)) {
 					$item = array_pop($assets);
 					setOption('getUpdates_latest', $item->browser_download_url);
