@@ -15,7 +15,9 @@ npgFilters::register('admin_close', 'DisableUpdate');
 function DisableUpdate() {
 	?>
 	<script type="text/javascript">
-		$('#download_update .font_icon').html('<?php echo PROHIBITED; ?>');
+
+
+		$('#download_update .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
 		$('#download_update').submit(function (e) {
 			if (!confirm('<?php echo gettext('Do you really want to download and install this release?'); ?>')) {
 				e.preventDefault(e);
@@ -24,14 +26,14 @@ function DisableUpdate() {
 		)
 
 
-		$('#download_Dev_update .font_icon').html('<?php echo PROHIBITED; ?>');
+		$('#download_Dev_update .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
 		$('#download_Dev_update').submit(function (e) {
 			if (!confirm('<?php echo gettext('Do you really want to download and install this Development release?'); ?>')) {
 				e.preventDefault(e);
 			}
 		}
 		)
-		$('#install_update .font_icon').html('<?php echo PROHIBITED; ?>');
+		$('#install_update .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
 		$('#install_update').submit(function (e) {
 			if (!confirm('<?php echo gettext('Do you really want to iistall this release and overwrite this project?'); ?>')) {
 				e.preventDefault(e);
