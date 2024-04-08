@@ -16,30 +16,28 @@ function DisableUpdate() {
 	?>
 	<script type="text/javascript">
 
+		var buttons = [
+			'download_update',
+			'download_Dev_update',
+			'install_update'
+		];
+		var messages = [
+			'<?php echo gettext('Abort download and installing this release?'); ?>',
+			'<?php echo gettext('Abort download and installing this Development release?'); ?>',
+			'<?php echo gettext('Abort installing this release?'); ?>'
+		];
 
-		$('#download_update .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
-		$('#download_update').submit(function (e) {
-			if (!confirm('<?php echo gettext('Do you really want to download and install this release?'); ?>')) {
-				e.preventDefault(e);
+		function editButton(item, index) {
+			$('#' + item + ' .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
+			$('#' + item).submit(function (e) {
+				if (confirm(messages[index])) {
+					e.preventDefault(e);
+				}
 			}
+			)
 		}
-		)
+		buttons.forEach(editButton);
 
-
-		$('#download_Dev_update .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
-		$('#download_Dev_update').submit(function (e) {
-			if (!confirm('<?php echo gettext('Do you really want to download and install this Development release?'); ?>')) {
-				e.preventDefault(e);
-			}
-		}
-		)
-		$('#install_update .font_icon').replaceWith('<?php echo PROHIBITED; ?>');
-		$('#install_update').submit(function (e) {
-			if (!confirm('<?php echo gettext('Do you really want to iistall this release and overwrite this project?'); ?>')) {
-				e.preventDefault(e);
-			}
-		}
-		)
 	</script>
 	<?php
 }
