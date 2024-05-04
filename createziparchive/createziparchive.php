@@ -77,18 +77,25 @@ try {
 	$php_min_version = $matches[0];
 
 	$targetname = TARGET . 'extract.php.bin';
+	if (file_exists($targetname)) {
+		unlink($targetname);
+	}
 	$zipfilename = md5(time()) . 'extract.zip'; // replace with tempname()
-	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip'))
+	if (file_exists(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip')) {
 		unlink(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip');
-
+	}
+	define('ARCHIVE_TIME', time()); //	consistent mtime for files
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
 	addFiles2Zip($zipfile, $sourcefolder . 'npgCore/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'themes/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'plugins/', $sourcefolder);
+	touch($sourcefolder . '/docs/release notes.htm', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/release notes.htm');
+	touch($sourcefolder . '/docs/filterDoc.htm', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/docs/filterDoc.htm', 'docs/filterDoc.htm');
+	touch($sourcefolder . '/docs/user guide.pdf', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/docs/user guide.pdf', 'docs/user guide.pdf');
 	$zipfile->addEmptyDir('albums');
 	$zipfile->addEmptyDir('uploaded');
@@ -161,8 +168,10 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 		$curfile = ($removeFolder) ? preg_replace('~^' . $removeFolder . '~', '', $path . $file) : $path . $file;
 		if (is_dir($path . $file)) {
 			$zip->addEmptyDir($curfile);
+			touch($path . $file . '/', ARCHIVE_TIME);
 			addFiles2Zip($zip, $path . $file . '/', $removeFolder);
 		} else {
+			touch($path . $file, ARCHIVE_TIME);
 			$zip->addFile($path . $file, $curfile);
 		}
 	}
