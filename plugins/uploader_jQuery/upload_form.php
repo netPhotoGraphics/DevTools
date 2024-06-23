@@ -10,7 +10,7 @@ function upload_head() {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<![endif]-->
 
-	<script type="text/javascript">
+	<script>
 		var extension_link = '<?php echo getAdminLink(PLUGIN_FOLDER . '/uploader_jQuery/server/php/index.php'); ?>';
 	</script>
 
