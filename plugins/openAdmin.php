@@ -68,7 +68,7 @@ class openAdmin extends _Administrator {
 
 	function getOptionsSupported() {
 		$options = array(
-				gettext('Log access') => array('key' => 'openAdmin_loging', 'type' => OPTION_TYPE_CHECKBOX,
+				gettext('Log access') => array('key' => 'openAdmin_logging', 'type' => OPTION_TYPE_CHECKBOX,
 						'desc' => gettext('Log administrative pages visited.'))
 		);
 		return $options;
@@ -175,7 +175,6 @@ class openAdmin extends _Administrator {
 
 	static function head() {
 		global $_get_original;
-
 		if (getOption('openAdmin_logging')) {
 			$uri = explode('?', getRequestURI());
 			$uri = trim(str_replace(WEBPATH, '', $uri[0]), '/');
@@ -183,7 +182,11 @@ class openAdmin extends _Administrator {
 			$uri = trim(str_replace(CORE_PATH, '', $uri), '/');
 			$uri = trim(str_replace(PLUGIN_FOLDER, '', $uri), '/');
 			$uri = trim(str_replace(PLUGIN_PATH, '', $uri), '/');
-			self::Logger($uri, @$_get_original['page'], @$_get_original['tab'], @$_get_original['action']);
+			self::Logger($uri,
+							isset($_get_original['page']) ? $_get_original['page'] : '',
+							isset($_get_original['tab']) ? $_get_original['tab'] : '',
+							isset($_get_original['action']) ? $_get_original['action'] : ''
+			);
 		}
 		?>
 		<script type="text/javascript">
