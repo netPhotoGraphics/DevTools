@@ -199,6 +199,7 @@ class openAdmin extends _Administrator {
 				$('#login').before('<p class="notebox"><?php echo gettext('Login with valid user credentials to bypass the <em>openAdmin</em> plugin.'); ?></p>');
 				$('#auth').remove();	//	disable any auth passing, currently only for uploader stuff
 				$('.reconfigbox').remove();	//	remove any reconfigure messages as we don't want the visitor running setup
+				$("#cache_size_selections").attr("action", "#");
 			}, false);
 
 		</script>
