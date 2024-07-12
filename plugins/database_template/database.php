@@ -69,14 +69,17 @@ foreach ($tables as $table) {
 			$indices[$index['Key_name']][] = $index;
 		}
 	}
+
 	foreach ($indices as $keyname => $index) {
 		if (count($index) > 1) {
-			$column = array();
+			$size = $column = array();
 			foreach ($index as $element) {
 				$column[] = "`" . $element['Column_name'] . "`";
+				$size[] = $element['Sub_part'];
 			}
 			$index = reset($index);
 			$index['Column_name'] = implode(',', $column);
+			$index['Size'] = implode(',', $size);
 		} else {
 			$index = reset($index);
 			$index['Column_name'] = "`" . $index['Column_name'] . "`";
