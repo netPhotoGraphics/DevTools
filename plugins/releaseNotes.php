@@ -18,6 +18,30 @@ if (OFFSET_PATH == 2) {
 	enableExtension('releaseNotes', $plugin_is_filter); //	at lease re-enable at setup incase it gets left disabled
 }
 
+$option_interface = 'releaseNotesOptions';
+
+class releaseNotesOptions {
+
+	function getOptionsSupported() {
+		$list = [];
+		list($plugin_subtabs, $plugin_default, $pluginlist, $plugin_paths, $plugin_member, $classXlate, $pluginDetails) = getPluginTabs();
+
+		ksort($pluginDetails);
+		foreach ($pluginDetails as $extension => $details) {
+			if (isset($details['deprecated'])) {
+				$list[] = $extension;
+			}
+		}
+
+		$options = array(
+				gettext('Deorecated plugins') => array('key' => 'releaseNotesOptions_note', 'type' => OPTION_TYPE_NOTE,
+						'desc' => gettext('List of deprecated plugins:<br />') . implode('<br />', $list))
+		);
+		return $options;
+	}
+
+}
+
 function releaseNotesPublish($before, $object, $prefix = NULL) {
 	$tl = $object->getTitleLink();
 	if (RW_SUFFIX) {
