@@ -37,7 +37,7 @@ class releaseNotesOptions {
 				gettext('Deorecated plugins') => array('key' => 'releaseNotesOptions_note',
 						'type' => OPTION_TYPE_CHECKBOX_ARRAY_UL,
 						'checkboxes' => $list,
-						'desc' => gettext('List of deprecated plugins. Check when noted in Release notes for the minor release.'))
+						'desc' => gettext('List of deprecated plugins. Check plugins are noted in Release notes for the minor release.'))
 		);
 		return $options;
 	}
