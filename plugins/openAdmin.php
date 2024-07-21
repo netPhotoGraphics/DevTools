@@ -146,7 +146,6 @@ class openAdmin extends _Administrator {
 			foreach ($_admin_menu['upload']['subtabs'] as $key => $link) {
 				if (strpos($link, '/elFinder/') !== false) {
 					unset($_admin_menu['upload']['subtabs'][$key]);
-					$_loggedin = $_loggedin & ~UPLOAD_RIGHTS;
 					break;
 				}
 			}
