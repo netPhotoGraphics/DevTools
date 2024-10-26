@@ -287,7 +287,6 @@ class openAdmin extends _Administrator {
 
 			fwrite($f, $message . "\n");
 			fclose($f);
-			clearstatcache();
 		}
 		$_npgMutex->unlock();
 	}
