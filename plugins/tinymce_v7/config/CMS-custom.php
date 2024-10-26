@@ -5,7 +5,7 @@
  *
  * npgCMS custom light configuration
  */
-$MCEcss = 'custom-light.css';
+$MCEcss = 'dark';
 $MCEselector = "textarea.content,textarea.desc,textarea.extracontent";
 $MCEspecial['style_formats'] = "[
 			{title: 'Block formats',
@@ -31,9 +31,9 @@ $MCEspecial['style_formats'] = "[
 		]";
 $MCEplugins = "advlist autolink lists link image charmap anchor " .
 				"searchreplace visualchars visualblocks code fullscreen " .
-				"insertdatetime media table paste directionality ";
+				"insertdatetime media table directionality ";
 
-$MCEtoolbars[1] = "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | ltr rtl";
+$MCEtoolbars[1] = "help | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | ltr rtl";
 
 $MCEstatusbar = true;
 $MCEmenubar = false;
