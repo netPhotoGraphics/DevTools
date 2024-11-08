@@ -295,9 +295,8 @@ class openAdmin extends _Administrator {
 
 if (!npg_loggedin()) {
 	npg_session_start();
-
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
-	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
+	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 
 	if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
 		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
