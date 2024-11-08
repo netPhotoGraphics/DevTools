@@ -5,7 +5,6 @@
  *
  * npgCMS custom light configuration
  */
-$MCEcss = 'dark';
 $MCEselector = "textarea.content,textarea.desc,textarea.extracontent";
 $MCEspecial['style_formats'] = "[
 			{title: 'Block formats',
