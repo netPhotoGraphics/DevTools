@@ -32,7 +32,7 @@ class disableRight {
 				case 'upload':
 					//	the upload tab.
 					?>
-					<script type="text/javascript">
+					<script>
 						
 						$(window).on("load", function () {
 							//	disable the checkbox for publishing the album so it stays at its initial state
@@ -49,7 +49,7 @@ class disableRight {
 						case 'imageinfo':
 							//	the image subtab:
 							?>
-							<script type="text/javascript">
+							<script>
 								
 								$(window).on("load", function () {
 									//	remove the bulk action publish options
@@ -65,7 +65,7 @@ class disableRight {
 						case 'albuminfo':
 							// the album subtab:
 							?>
-							<script type="text/javascript">
+							<script>
 								
 								$(window).on("load", function () {
 									//	disable the publish checkbox
@@ -82,7 +82,7 @@ class disableRight {
 							//	the "main" tab:
 							if (isset($_GET['massedit'])) {
 								?>
-								<script type="text/javascript">
+								<script>
 									
 									$(window).on("load", function () {
 										//	disable the "mass-edit" publish checkboxes
@@ -93,7 +93,7 @@ class disableRight {
 								<?php
 							} else {
 								?>
-								<script type="text/javascript">
+								<script>
 									
 									$(window).on("load", function () {
 										//	remove the bulk action publish options

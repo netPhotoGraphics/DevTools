@@ -145,10 +145,9 @@ class create_album {
 		global $_admin_tab, $_admin_subtab, $_gallery;
 		if ($_admin_tab == 'admin' && $_admin_subtab == 'users') {
 			$albums = $_gallery->getAlbums(0);
+			seoFriendlyJS();
 			?>
-			<script type="text/javascript">
-				
-			<?php seoFriendlyJS(); ?>
+			<script>
 				var albumArray = ['<?php echo implode("','", $albums) ?>'];
 
 				function updateFolder(nameObj, folderID, checkboxID, msg1) {
@@ -189,7 +188,7 @@ class create_album {
 						$('#newalbumcheckbox').prop('checked', true);
 					}
 				}
-				
+
 			</script>
 			<?php
 		}

@@ -188,7 +188,7 @@ class openAdmin extends _Administrator {
 			);
 		}
 		?>
-		<script type="text/javascript">
+		<script>
 
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
@@ -208,7 +208,7 @@ class openAdmin extends _Administrator {
 	static function close() {
 		openAdminAuthority::setAdmin();
 		?>
-		<script type="text/javascript">
+		<script>
 
 			window.addEventListener('load', function () {
 				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?logout=4");

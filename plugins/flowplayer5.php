@@ -89,7 +89,7 @@ class Flowplayer5 extends html5Player {
 		}
 		?>
 		<link type="text/css" rel="stylesheet" href="<?php echo $skin; ?>" />
-		<script type="text/javascript" src="<?php echo WEBPATH . '/' . USER_PLUGIN_FOLDER; ?>/flowplayer5/flowplayer.min.js"></script>
+		<script src="<?php echo WEBPATH . '/' . USER_PLUGIN_FOLDER; ?>/flowplayer5/flowplayer.min.js"></script>
 		<?php
 	}
 
@@ -127,7 +127,7 @@ class Flowplayer5 extends html5Player {
 			<div id="vidstage" style="margin-left: auto; margin-right: auto; max-width: ' . $vidWidth . '; max-height: ' . $vidHeight . ';">
 				<div id="player" ></div>
 			</div>
-			<script type="text/javascript">
+			<script>
 			
 				var viewportwidth;
 				var viewportheight;

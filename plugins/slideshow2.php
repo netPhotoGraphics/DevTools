@@ -627,7 +627,7 @@ if (extensionEnabled('slideshow2') && !OFFSET_PATH) {
 					}
 					$count = '';
 					?>
-					<script type="text/javascript">
+					<script>
 						window.addEventListener('load', function () {
 							$("a[rel='slideshow']").colorbox({
 								slideshow: true,

@@ -26,7 +26,7 @@ class disableWatermark {
 			switch ($subtab) {
 				case 'imageinfo':
 					?>
-					<script type="text/javascript">
+					<script>
 						
 						$(window).on("load", function () {
 							var num = $('input[name=totalimages]').val();
@@ -44,7 +44,7 @@ class disableWatermark {
 					break;
 				case 'albuminfo':
 					?>
-					<script type="text/javascript">
+					<script>
 						
 						$(window).on("load", function () {
 							var selector = $('#album_watermark');
@@ -64,7 +64,7 @@ class disableWatermark {
 				default:
 					if (isset($_GET['massedit'])) {
 						?>
-						<script type="text/javascript">
+						<script>
 							
 							$(window).on("load", function () {
 								var num = $('input[name=totalalbums]').val();

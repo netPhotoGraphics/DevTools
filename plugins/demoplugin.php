@@ -271,7 +271,7 @@ class demoplugin_options {
 			</p>
 			<input type="textbox" id="emoplugin_mask_input_show" size="40"  style="width: 338px" value="<?php echo str_pad('', strlen($currentValue), '*'); ?>" />
 			<input type="hidden" id="emoplugin_mask_save" size="40" name="demoplugin_customoption" value="<?php echo html_encode($currentValue); ?>" />
-			<script type="text/javascript">
+			<script>
 							<!--
 										function emoplugin_mask_input() {
 								var text_input = $('#emoplugin_mask_input_show').val();
@@ -347,7 +347,7 @@ class demoplugin_options {
 
 	function demoplugin_javascript() {
 		?>
-		<script type="text/javascript" src="<?php echo WEBPATH . '/' . USER_PLUGIN_FOLDER . '/' . stripSuffix(basename(__FILE__)); ?>/javascript.js"></script>
+		<script src="<?php echo WEBPATH . '/' . USER_PLUGIN_FOLDER . '/' . stripSuffix(basename(__FILE__)); ?>/javascript.js"></script>
 		<?php
 	}
 
