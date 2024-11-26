@@ -58,7 +58,6 @@ if (is_dir(GIT_PATH . CORE_FOLDER) && is_dir(GIT_PATH . THEMEFOLDER) && is_dir(G
 
 	fwrite($fp, count($_resident_files) + count($_special_files));
 	fclose($fp);
-	clearstatcache();
 	header('Location: ' . getAdminLink('admin.php') . '?action=external&msg=Package created and stored in the ' . CORE_SERVERPATH . ' folder.');
 	exit();
 }

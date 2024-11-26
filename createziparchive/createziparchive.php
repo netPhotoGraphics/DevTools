@@ -88,15 +88,23 @@ try {
 	// create a archive from the submitted folder
 	$zipfile = new ZipArchive();
 	$zipfile->open($zipfilename, ZipArchive::CREATE);
+
 	addFiles2Zip($zipfile, $sourcefolder . 'npgCore/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'themes/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'plugins/', $sourcefolder);
+
 	touch($sourcefolder . '/docs/release notes.htm', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/release notes.htm');
+
 	touch($sourcefolder . '/docs/filterDoc.htm', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/docs/filterDoc.htm', 'docs/filterDoc.htm');
+
 	touch($sourcefolder . '/docs/user guide.pdf', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/docs/user guide.pdf', 'docs/user guide.pdf');
+
+	touch($sourcefolder . '/LICENSE', ARCHIVE_TIME);
+	$zipfile->addFile($sourcefolder . '/LICENSE', '/LICENSE');
+
 	$zipfile->addEmptyDir('albums');
 	$zipfile->addEmptyDir('uploaded');
 
@@ -162,7 +170,7 @@ function addFiles2Zip(ZipArchive $zip, $path, $removeFolder = false) {
 	$d = opendir($path);
 	while ($file = readdir($d)) {
 		set_time_limit(360);
-		if ($file == "." || $file == ".." || $file == 'Thumbs.db' || ($sfx = getSuffix($file)) == 'md' || $sfx == 'bat') {
+		if ($file == "." || $file == ".." || $file == 'Thumbs.db' || getSuffix($file) == 'bat') {
 			continue;
 		}
 		$curfile = ($removeFolder) ? preg_replace('~^' . $removeFolder . '~', '', $path . $file) : $path . $file;

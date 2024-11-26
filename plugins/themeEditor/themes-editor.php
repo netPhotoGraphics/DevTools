@@ -51,18 +51,17 @@ if (themeIsEditable($theme)) {
 		}
 		$file_to_edit = str_replace('\\', '/', SERVERPATH . '/themes/' . internalToFilesystem($theme) . '/' . sanitize($_GET['file']));
 	}
-// Handle POST that updates a file
+	// Handle POST that updates a file
 	if (isset($_POST['action']) && $_POST['action'] == 'edit_file' && $file_to_edit && !isset($messages['errorbox'])) {
 		XSRFdefender('edit_theme');
 		$file_content = sanitize($_POST['newcontent'], 0);
 		$theme = urlencode($theme);
 		if (is_writeable($file_to_edit)) {
-//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
+			//is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
 			$f = @fopen($file_to_edit, 'w+');
 			if ($f !== FALSE) {
 				@fwrite($f, $file_content);
 				fclose($f);
-				clearstatcache();
 				$messages['messagebox fade-message'][] = array(gettext('File updated successfully'), 'notebox');
 				;
 			} else {

@@ -55,7 +55,7 @@ class text_watermark {
 							'&amp;transient" alt="" />';
 		}
 		?>
-		<script type="text/javascript">
+		<script>
 			
 			window.addEventListener('load', function () {
 

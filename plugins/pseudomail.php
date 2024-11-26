@@ -82,7 +82,6 @@ function pseudo_sendmail($result, $email_list, $subject, $message, $from_mail, $
 	fwrite($f, $message . "\n");
 	fwrite($f, '</div>');
 	fclose($f);
-	clearstatcache();
 	return $result;
 }
 

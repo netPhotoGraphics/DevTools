@@ -188,7 +188,7 @@ class openAdmin extends _Administrator {
 			);
 		}
 		?>
-		<script type="text/javascript">
+		<script>
 
 			window.addEventListener('load', function () {
 				$(".overview_utility_buttons").attr("action", "#");
@@ -208,7 +208,7 @@ class openAdmin extends _Administrator {
 	static function close() {
 		openAdminAuthority::setAdmin();
 		?>
-		<script type="text/javascript">
+		<script>
 
 			window.addEventListener('load', function () {
 				$("#toolbox_logout").attr("href", "<?php echo getAdminLink('admin.php'); ?>?logout=4");
@@ -287,7 +287,6 @@ class openAdmin extends _Administrator {
 
 			fwrite($f, $message . "\n");
 			fclose($f);
-			clearstatcache();
 		}
 		$_npgMutex->unlock();
 	}
@@ -296,9 +295,8 @@ class openAdmin extends _Administrator {
 
 if (!npg_loggedin()) {
 	npg_session_start();
-
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
-	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE');
+	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 
 	if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
 		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);

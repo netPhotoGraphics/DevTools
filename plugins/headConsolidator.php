@@ -8,7 +8,7 @@
  * CSS or JS files with duplicate base names are reduced to
  * just the first instance. (Paths are ignored.)
  *
- * In-line <i>JavaScript</i> is consolidated into one <var><script type="text/javascript"></script></var> tag
+ * In-line <i>JavaScript</i> is consolidated into one <var><script></script></var> tag
  *
  * This is intended as an example of how one might process the output
  * from the <var>theme_head</var> filters.
@@ -51,7 +51,7 @@ function headConolidator_end() {
 		$jsFiles[basename($file)] = $file;
 	}
 	$jsFiles = array_reverse($jsFiles);
-	$js = '<script type="text/javascript" src="' . implode('"></script>' . "\n" . '<script type="text/javascript" src="', $jsFiles) . '"></script>' . "\n";
+	$js = '<script src="' . implode('"></script>' . "\n" . '<script src="', $jsFiles) . '"></script>' . "\n";
 
 	$matches = headConolidator_extract($data, '~<link\s*(?:|type="text/css"|)\s*rel="stylesheet"\s*href="(.*)"\s*(?:|type="text/css"|)(?:\s*)/>~msU');
 	foreach ($matches[0] as $key => $str) {
@@ -71,7 +71,7 @@ function headConolidator_end() {
 	$inlinejs = $matches[1];
 	$jsi = '';
 	if (!empty($inlinejs)) {
-		$jsi .= '<script type="text/javascript">' . "\n";
+		$jsi .= '<script>' . "\n";
 		$jsi .= '  ' . "\n";
 		foreach ($inlinejs as $somejs) {
 			$jsi .= '  ' . trim($somejs) . "\n";

@@ -14,7 +14,7 @@ npgFilters::register('admin_close', 'DisableUpdate');
 
 function DisableUpdate() {
 	?>
-	<script type="text/javascript">
+	<script>
 
 		var buttons = [
 			'download_update',

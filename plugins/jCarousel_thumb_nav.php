@@ -242,7 +242,7 @@ if (!$plugin_disable && !OFFSET_PATH && getOption('jcarousel_' . $_gallery->getC
 				$imgnumber = 1;
 			}
 			?>
-			<script type="text/javascript">
+			<script>
 				
 				var mycarousel_itemList = [
 			<?php echo $items; ?>

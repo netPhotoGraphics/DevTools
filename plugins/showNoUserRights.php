@@ -22,7 +22,7 @@ class showNoUserRights {
 		if (!npg_loggedin(ADMIN_RIGHTS)) {
 			if ($_admin_tab == 'admin' && ($_admin_subtab == 'users') || is_null($_admin_subtab)) {
 				?>
-				<script type="text/javascript">
+				<script>
 					
 					$(document).ready(function () {
 						$('select[name="showgroup"]').parent("th").remove(); 	// the "Show" dropdownn menu
