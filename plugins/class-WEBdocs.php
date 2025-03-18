@@ -92,7 +92,6 @@ class WEBdocs extends TextObject_core {
 	function getThumbImageFile() {
 		global $_gallery;
 
-		$path = SERVERPATH;
 		if (is_null($this->objectsThumb)) {
 			switch (getSuffix($this->filename)) {
 				case "pdf":
@@ -107,9 +106,9 @@ class WEBdocs extends TextObject_core {
 					$img = '/tifDefault.png';
 					break;
 			}
-			$imgfile = $path . '/' . THEMEFOLDER . '/' . internalToFilesystem($_gallery->getCurrentTheme()) . '/images/' . $img;
+			$imgfile = SERVERPATH . '/' . THEMEFOLDER . '/' . internalToFilesystem($_gallery->getCurrentTheme()) . '/images/' . $img;
 			if (!file_exists($imgfile)) {
-				$imgfile = $path . "/" . USER_PLUGIN_FOLDER . '/' . substr(basename(__FILE__), 0, -4) . '/' . $img;
+				$imgfile = SERVERPATH . "/" . USER_PLUGIN_FOLDER . '/' . substr(basename(__FILE__), 0, -4) . '/' . $img;
 			}
 		} else {
 			$imgfile = ALBUM_FOLDER_SERVERPATH . internalToFilesystem($this->imagefolder) . '/' . $this->objectsThumb;
