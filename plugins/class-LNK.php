@@ -16,9 +16,9 @@ if (defined('SETUP_PLUGIN')) { //	gettext debugging aid
 	$plugin_description = gettext('Provides a means for showing text type documents (.txt, .html, .htm).');
 }
 
-$option_interface = 'textObject';
+$option_interface = 'externalLink';
 
-Gallery::addImageHandler('lnk', 'imbededLink');
+Gallery::addImageHandler('lnk', 'externalLink');
 
 require_once(CORE_SERVERPATH . PLUGIN_FOLDER . '/class-textobject/class-textobject_core.php');
 
@@ -82,7 +82,7 @@ class externalLink extends TextObject_core {
 		/*
 		 * just return the thumbnail image as we do not know how to render the file.
 		 */
-		return '<iframe src="' . file_get_contents($this->localpath) . '" class="anyfile_default" width=' . $s . ' height=' . $s . '>';
+		return '<iframe src="' . file_get_contents($this->localpath) . '" class="anyfile_default" width=' . $s . ' height=' . $s . '></iframe>';
 	}
 
 }
