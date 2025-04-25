@@ -30,6 +30,10 @@ if (is_dir(GIT_PATH . CORE_FOLDER) && is_dir(GIT_PATH . THEMEFOLDER) && is_dir(G
 	$curdir = getcwd();
 	chdir(GIT_PATH . '/plugins/');
 	$filelist = safe_glob('*.php', 0);
+	if (is_dir('common')) {
+		$_resident_files[] = 'plugins/common/';
+		$_resident_files = array_merge($_resident_files, getFiles(USER_PLUGIN_SERVERPATH . 'common', stdExclude));
+	}
 	chdir($curdir);
 	foreach ($filelist as $plugin) {
 		if (is_dir($dir = USER_PLUGIN_SERVERPATH . stripSuffix($plugin))) {
