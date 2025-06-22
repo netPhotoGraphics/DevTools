@@ -6,7 +6,7 @@
  *
  * @package plugins/text_watermark
  * @pluginCategory example
- * @deprecated since 2.00.02 and will be moved to DevTools repository
+ * @deprecated since 2.00.02 will be moved to DevTools repository
  */
 $plugin_description = gettext("Creates text based watermarks.");
 $plugin_URL = FULLWEBPATH . '/plugins/text_watermark/text_watermark.htm';
@@ -21,7 +21,7 @@ class text_watermark {
 	function __construct() {
 		if (OFFSET_PATH == 2) {
 			$fonts = gl_getFonts();
-			$fon = array_shift($fonts);
+			$fon = reset($fonts);
 			setOptionDefault('text_watermark_color', '#000000');
 			setOptionDefault('text_watermark_font', $fon);
 			setOptionDefault('text_watermark_text', 'Sample Text');
@@ -56,7 +56,7 @@ class text_watermark {
 		}
 		?>
 		<script>
-			
+
 			window.addEventListener('load', function () {
 
 				$('#__text_watermark_font').change(function () {
@@ -96,7 +96,7 @@ class text_watermark {
 				});
 				alert('<?php echo gettext('watermark created'); ?>');
 			}
-			
+
 		</script>
 
 		<p>
