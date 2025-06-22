@@ -19,7 +19,7 @@ function forceAlbum($success) {
 	// we presume that the site only serves the one album.
 	$gallery = new Gallery();
 	$albums = $gallery->getAlbums();
-	$_GET['album'] = array_shift($albums);
+	$_GET['album'] = reset($albums);
 	return $success;
 }
 
