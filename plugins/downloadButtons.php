@@ -9,12 +9,13 @@
  *
  * @Copyright 2018 by Stephen L Billard for use in {@link https://%GITHUB% netPhotoGraphics} and derivatives
  */
+$plugin_is_filter = 5 | CLASS_PLUGIN;
+$plugin_description = gettext("Provides a button to download the latest version of the software.");
+$plugin_disable = version_compare(PHP_VERSION, 8.0, '<') ? gettext('PHP must be version 8.0 or higher.') : '';
+
 require_once(GITHUB_API_PATH);
 
 use Milo\Github;
-
-$plugin_is_filter = 5 | CLASS_PLUGIN;
-$plugin_description = gettext("Provides a button to download the latest version of the software.");
 
 class downloadButtons {
 
