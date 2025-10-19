@@ -1,0 +1,169 @@
+<?php
+/**
+ * Gallery personality
+ */
+// initialization stuff
+$handler = new imagegallery();
+
+class imagegallery {
+
+	function __construct() {
+		//	all the images on one page following the album pages
+		setOption('images_per_page', NULL, false);
+		setOption('thumb_transition', false, false);;
+	}
+
+	function theme_head($_themeroot) {
+		scriptLoader(CORE_SERVERPATH . COMMON_FOLDER . '/adGallery/jquery.ad-gallery.css');
+		scriptLoader(CORE_SERVERPATH . COMMON_FOLDER . '/adGallery/jquery.ad-gallery.js');
+	}
+
+	function theme_bodyopen($_themeroot) {
+		$location = getOption('netPhotoGraphics_caption_location');
+		?>
+		<script>
+			$(function () {
+				var galleries = $('.ad-gallery').adGallery({
+					width: 600, // Width of the image, set to false and it will read the CSS width
+					height: 400, // Height of the image, set to false and it will read the CSS height
+					start_at_index: 0, // Which image should be displayed at first? 0 is the first image
+					description_wrapper: <?php if ($location != 'image') { ?>$('#caption')<?php } else { ?>false<?php } ?>, // Either false or a jQuery object, if you want the image descriptions
+								// to be placed somewhere else than on top of the image
+								animate_first_image: false, // Should first image just be displayed, or animated in?
+								animation_speed: 500, // Which ever effect is used to switch images, how long should it take?
+								display_next_and_prev: true, // Can you navigate by clicking on the left/right on the image?
+								display_back_and_forward: true, // Are you allowed to scroll the thumb list?
+								scroll_jump: 0, // If 0, it jumps the width of the container
+								loader_image: '<?php echo WEBPATH . '/' . CORE_FOLDER . '/' . COMMON_FOLDER; ?>/adGallery/loader.gif',
+								slideshow: {
+									enable: true,
+									autostart: true,
+									speed: 5000,
+									start_label: '<?php echo gettext('Start'); ?>',
+									stop_label: '<?php echo gettext('Stop'); ?>',
+									stop_on_scroll: true, // Should the slideshow stop if the user scrolls the thumb list?
+									countdown_prefix: '(', // Wrap around the countdown
+									countdown_sufix: ')',
+								},
+								effect: '<?php echo getOption('netPhotoGraphics_transition'); ?>', // or 'slide-vert', 'resize', 'fade', 'none' or false
+								enable_keyboard_move: true, // Move to next/previous image with keyboard arrows?
+								cycle: true, // If set to false, you can't go from the last image to the first, and vice versa
+								// All callbacks has the AdGallery objects as 'this' reference
+								callbacks: {
+									// Executes right after the internal init, can be used to choose which images
+									// you want to preload
+									// This gets fired right after the new_image is fully visible
+									afterImageVisible: function () {
+										// For example, preload the next image
+										var context = this;
+										this.preloadImage(this.current_index + 1,
+														function () {
+															// This function gets executed after the image has been loaded
+															context.loading(false);
+														}
+										);
+		<?php
+		if ($location == 'separate') {
+			?>
+											$('#caption').show();
+			<?php
+		}
+		?>
+									},
+									beforeImageVisible: function (new_image, old_image) {
+		<?php
+		if ($location == 'separate') {
+			?>
+											$('#caption').hide();
+			<?php
+		}
+		?>
+									}
+								}
+							});
+						});
+		</script>
+
+		<?php
+	}
+
+	function theme_content($map) {
+		global $_current_image, $_current_album, $points;
+		if (isImagePage()) {
+			?>
+			<!-- Gallery section -->
+			<div id="content">
+				<div id="main">
+					<div id="images">
+						<?php
+						$points = array();
+						$firstImage = null;
+						$lastImage = null;
+						if (getNumImages() > 0) {
+							?>
+							<div id="gallery" class="ad-gallery">
+								<div class="ad-image-wrapper"></div>
+								<div class="ad-controls"></div>
+								<div class="ad-nav">
+									<div class="ad-thumbs">
+										<ul class="ad-thumb-list">
+											<?php
+											while (next_image(true)) {
+												if ($map) {
+													$coord = simpleMap::getCoord($_current_image);
+													if ($coord) {
+														$points[] = $coord;
+													}
+												}
+												if ($_current_image->isPhoto()) {
+													// does not do video
+													if (is_null($firstImage)) {
+														$lastImage = imageNumber();
+														$firstImage = $lastImage;
+													} else {
+														$lastImage++;
+													}
+													?>
+													<li>
+														<a href="<?php echo html_encode(getDefaultSizedImage()); ?>">
+															<?php
+															printImageThumb(getImageDesc(), "image" . $lastImage);
+															?>
+														</a>
+													</li>
+													<?php
+												}
+											}
+											?>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<?php
+						}
+						?>
+
+						<div id="caption"<?php if (getOption('netPhotoGraphics_caption_location') == 'none') echo ' style="display:none"' ?>>
+						</div>
+						<div class="clearage"></div>
+						<?php
+						if (!empty($points) && $map) {
+							?>
+							<div id="map_link">
+								<?php simpleMap::printMap($points, array('obj' => 'album_page')); ?>
+							</div>
+							<?php
+						}
+						?>
+					</div><!-- images -->
+					<?php if (function_exists('printAddToFavorites')) printAddToFavorites($_current_album); ?>
+					<?php if (function_exists('printRating')) printRating(); ?>
+				</div><!-- main -->
+				<div class="clearage"></div>
+			</div><!-- content -->
+			<?php
+		}
+	}
+
+}
+?>
