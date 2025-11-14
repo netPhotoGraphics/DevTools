@@ -52,6 +52,7 @@ try {
 			break;
 		case 'master':
 			$source = '/Downloads/netPhotoGraphics-' . VARIENT;
+			$sourcefolder = $source . '/';
 			$zip = new ZipArchive;
 			if ($zip->open($source . '.zip') === TRUE) {
 				$zip->extractTo('/Downloads/');
@@ -60,7 +61,6 @@ try {
 				echo 'extract failed';
 				exit();
 			}
-			$sourcefolder = $source . '/';
 			break;
 		case 'GIT':
 			$sourcefolder = '/github/netPhotoGraphics-DEV/';
@@ -140,7 +140,7 @@ try {
 	echo 'setup-' . VARIENT . '-' . VERSION . '.zip created';
 	if (VARIENT == 'master') {
 		unlink($source . '.zip');
-		rrmdir(trim($sourcefolder, '/'));
+		rrmdir($sourcefolder);
 	}
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
@@ -150,15 +150,17 @@ function rrmdir($src) {
 	$dir = opendir($src);
 	while (false !== ( $file = readdir($dir))) {
 		if (( $file != '.' ) && ( $file != '..' )) {
-			$full = $src . '/' . $file;
+			$full = $src . $file;
+			chmod($full, 0777);
 			if (is_dir($full)) {
-				rrmdir($full);
+				rrmdir($full . '/');
 			} else {
 				unlink($full);
 			}
 		}
 	}
 	closedir($dir);
+	chmod($src, 0777);
 	rmdir($src);
 }
 
