@@ -140,7 +140,7 @@ try {
 	echo 'setup-' . VARIENT . '-' . VERSION . '.zip created';
 	if (VARIENT == 'master') {
 		unlink($source . '.zip');
-		rrmdir($sourcefolder);
+		rrmdir(trim($sourcefolder, '/'));
 	}
 } catch (Exception $e) {
 	printf("Error:<br/>%s<br>%s>", $e->getMessage(), $e->getTraceAsString());
