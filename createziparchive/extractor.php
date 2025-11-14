@@ -2,7 +2,7 @@
 /*
  * 	This script is a derivative of work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
  *
- * 	The derivative work is copyright (c) 2020 by Stephen Billard, all rights reserved
+ * 	The derivative work is copyright (c) 2025 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
 Define('PHP_MIN_VERSION', 'd.d');
@@ -93,11 +93,11 @@ try {
 	<a href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 
 	<script>
-		
+
 		window.onload = function () {
 			window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
 		}
-		
+
 	</script>
 	<?php
 } catch (Exception $e) {
