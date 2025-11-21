@@ -154,7 +154,7 @@ function processFilters() {
 										case 'class-image.php':
 										case 'class-textobject.php':
 										case 'class-textobject_core.php':
-										case 'class-Anyfile.php';
+										case 'class-Anyfile.php':
 										case 'class-video.php':
 										case 'Class-WEBdocs.php':
 											$subclass = 'Media';

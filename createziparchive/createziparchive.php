@@ -27,7 +27,7 @@
 
 /*
  * 	Adapted for netPhotoGraphics by Stephen Billard
- * 	Copyright 2020 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/netPhotoGraphics ZenPhoto20}
+ * 	Copyright 2025 by Stephen L Billard for use in {@link https://github.com/ZenPhoto20/netPhotoGraphics ZenPhoto20}
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
 @ini_set('memory_limit', '-1');
