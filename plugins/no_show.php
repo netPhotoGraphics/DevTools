@@ -1,6 +1,7 @@
 <?php
 
-/* Totally hides unpublished images from not signed in viewers.
+/**
+ *  Totally hides unpublished images from not signed in viewers.
  *
  * @author Stephen Billard (sbillard)
  *
