@@ -50,7 +50,7 @@ try {
 	fclose($fp_tmp);
 	$zipfile = new ZipArchive();
 	if (($result = $zipfile->open($zipfilename)) === true) {
-		set_time_limit(360);
+		set_time_limit(0);
 		if (!$zipfile->extractTo('.')) {
 			$error = error_get_last();
 			throw new Exception($error['message'], 0);

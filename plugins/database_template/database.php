@@ -94,7 +94,7 @@ foreach ($tables as $table) {
 	}
 }
 
-$template = unserialize(file_get_contents(CORE_SERVERPATH . 'databaseTemplate'));
+$template = getSerializedArray(file_get_contents(CORE_SERVERPATH . 'databaseTemplate'));
 $dropped = $renamed = array();
 
 foreach ($template as $table => $row) {
