@@ -43,7 +43,7 @@ if (function_exists('printSlideShow')) {
 									<?php
 									if (is_null($_current_album)) {
 										$search = new SearchEngine();
-										$params = trim(getNPGCookie('search_params'));
+										$params = getNPGCookie('search_params');
 										$search->setSearchParams($params);
 										$images = $search->getImages(0);
 										$searchwords = $search->getSearchWords();
