@@ -105,6 +105,11 @@ try {
 	touch($sourcefolder . '/LICENSE', ARCHIVE_TIME);
 	$zipfile->addFile($sourcefolder . '/LICENSE', '/LICENSE');
 
+	if (file_exists($sourcefolder . '/notification.txt')) {
+		touch($sourcefolder . '/notification.txt', ARCHIVE_TIME);
+		$zipfile->addFile($sourcefolder . '/notification.txt', '/notification.txt');
+	}
+
 	$zipfile->addEmptyDir('albums');
 	$zipfile->addEmptyDir('uploaded');
 
