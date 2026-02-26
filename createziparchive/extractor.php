@@ -52,6 +52,10 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 	}
 	$const_webpath = $protocol . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($me), '/\\');
 
+	if (file_exists('notification.txt')) {
+		unlink('notification.txt');
+	}
+
 	try {
 		$zipfilename = md5(time()) . '.extract.zip'; //remove with tempname()
 		if (!$fp_tmp = fopen($zipfilename, 'w')) {
