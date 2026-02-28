@@ -142,13 +142,13 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 			unlink($zipfilename);
 			unlink(__FILE__);
 			?>
-			done...
+			<p>done...</p>
 			<?php
-			if (file_exists('notification.txt')) {
+			if (file_exists('notification.txt') && $notification = file_get_contents('notification.txt')) {
 				?>
 				<h2>Attention:</h2>
 				<?php
-				echo file_get_contents('notification.txt');
+				echo $notification;
 				?>
 				<a class="button" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 				<?php
