@@ -32,109 +32,138 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 			margin: 1em 0px 5px 0px;
 			line-height: 2em;
 		}
+		#content {
+			margin-left: 2em;
+			margin-right: 2em;
+			margin-top: 2em;
+			max-width: 800;
+		}
+		.button {
+			background-color: green;
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			cursor: pointer;
+		}
+		.button_passive {
+			background-color: gray;
+			border: none;
+			color: white;
+			padding: 15px 32px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			cursor: pointer;
+		}
 	</style>
 </head>
 <body>
-	<h1>Extracting netPhotoGraphics _VERSION_ files</h1>
-	<?php
-	if (!isset($_GET['process'])) {
-		echo '<meta http-equiv="refresh" content="3; url=' . $me . '?process&npgUpdate=' . time() . '" />';
-		exit();
-	}
-	if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
-		$protocol = "https";
-	} else if (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == "https") {
-		$protocol = "https";
-	} else if (isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] )) {
-		$protocol = "https";
-	} else {
-		$protocol = "http";
-	}
-	$const_webpath = $protocol . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($me), '/\\');
-
-	if (file_exists('notification.txt')) {
-		unlink('notification.txt');
-	}
-
-	try {
-		$zipfilename = md5(time()) . '.extract.zip'; //remove with tempname()
-		if (!$fp_tmp = fopen($zipfilename, 'w')) {
-			die('Unable to open ' . $zipfilename . ' for writing. Check your file permissions.');
-		}
-		if (!$fp_cur = fopen(__FILE__, 'r')) {
-			die('Unable to open ' . __FILE__ . '. Check your file permissions.');
-		}
-		if (fseek($fp_cur, __COMPILER_HALT_OFFSET__) < 0) {
-			die('Something went wrong, could not seek to "__HALT_COMPILER()" statement.');
-		}
-		$i = 0;
-		while ($buffer = fread($fp_cur, 10240)) {
-			fwrite($fp_tmp, $buffer);
-		}
-		fclose($fp_cur);
-		fclose($fp_tmp);
-		$zipfile = new ZipArchive();
-		if (($result = $zipfile->open($zipfilename)) === true) {
-			set_time_limit(0);
-			if (!$zipfile->extractTo('.')) {
-				$error = error_get_last();
-				throw new Exception($error['message'], 0);
-			}
-		} else {
-			switch ($result) {
-				case ZipArchive::ER_INCONS:
-					$msg = 'Inconsistent archive';
-					break;
-				case ZipArchive::ER_MEMORY:
-					$msg = 'Insufficient memory';
-					break;
-				case ZipArchive::ER_NOENT:
-					$msg = 'File not found';
-					break;
-				case ZipArchive::ER_NOZIP:
-					$msg = 'Not a zip archive';
-					break;
-				case ZipArchive::ER_OPEN:
-					$msg = "Can't open file";
-					break;
-				case ZipArchive::ER_READ:
-					$msg = 'Read error';
-					break;
-				case ZipArchive::ER_SEEK:
-					$msg = 'Seek error';
-					break;
-				default:
-					$msg = 'Error ' . $result;
-					break;
-			}
-			throw new Exception('reading archive failed: ' . $msg, 1);
-		}
-		$zipfile->close();
-		unlink($zipfilename);
-		unlink(__FILE__);
-		?>
-		done...
+	<div id="content">
+		<h1>Extracting netPhotoGraphics _VERSION_ files</h1>
 		<?php
-		if (file_exists('notification.txt')) {
-			?>
-			<h2>Attention:</h2>
-			<?php
-			echo file_get_contents('notification.txt');
-		} else {
-			?>
-			<script>
-				window.onload = function () {
-					window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
-				}
-			</script>
-			<?php
+		if (!isset($_GET['process'])) {
+			echo '<meta http-equiv="refresh" content="3; url=' . $me . '?process&npgUpdate=' . time() . '" />';
+			exit();
 		}
-		?>
-		<br/>
-		<br/>
-		<br/>
-		<a href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
+		if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
+			$protocol = "https";
+		} else if (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == "https") {
+			$protocol = "https";
+		} else if (isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] )) {
+			$protocol = "https";
+		} else {
+			$protocol = "http";
+		}
+		$const_webpath = $protocol . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($me), '/\\');
 
+		if (file_exists('notification.txt')) {
+			unlink('notification.txt');
+		}
+
+		try {
+			$zipfilename = md5(time()) . '.extract.zip'; //remove with tempname()
+			if (!$fp_tmp = fopen($zipfilename, 'w')) {
+				die('Unable to open ' . $zipfilename . ' for writing. Check your file permissions.');
+			}
+			if (!$fp_cur = fopen(__FILE__, 'r')) {
+				die('Unable to open ' . __FILE__ . '. Check your file permissions.');
+			}
+			if (fseek($fp_cur, __COMPILER_HALT_OFFSET__) < 0) {
+				die('Something went wrong, could not seek to "__HALT_COMPILER()" statement.');
+			}
+			$i = 0;
+			while ($buffer = fread($fp_cur, 10240)) {
+				fwrite($fp_tmp, $buffer);
+			}
+			fclose($fp_cur);
+			fclose($fp_tmp);
+			$zipfile = new ZipArchive();
+			if (($result = $zipfile->open($zipfilename)) === true) {
+				set_time_limit(0);
+				if (!$zipfile->extractTo('.')) {
+					$error = error_get_last();
+					throw new Exception($error['message'], 0);
+				}
+			} else {
+				switch ($result) {
+					case ZipArchive::ER_INCONS:
+						$msg = 'Inconsistent archive';
+						break;
+					case ZipArchive::ER_MEMORY:
+						$msg = 'Insufficient memory';
+						break;
+					case ZipArchive::ER_NOENT:
+						$msg = 'File not found';
+						break;
+					case ZipArchive::ER_NOZIP:
+						$msg = 'Not a zip archive';
+						break;
+					case ZipArchive::ER_OPEN:
+						$msg = "Can't open file";
+						break;
+					case ZipArchive::ER_READ:
+						$msg = 'Read error';
+						break;
+					case ZipArchive::ER_SEEK:
+						$msg = 'Seek error';
+						break;
+					default:
+						$msg = 'Error ' . $result;
+						break;
+				}
+				throw new Exception('reading archive failed: ' . $msg, 1);
+			}
+			$zipfile->close();
+			unlink($zipfilename);
+			unlink(__FILE__);
+			?>
+			done...
+			<?php
+			if (file_exists('notification.txt')) {
+				?>
+				<h2>Attention:</h2>
+				<?php
+				echo file_get_contents('notification.txt');
+				?>
+				<a class="button" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
+				<?php
+			} else {
+				?>
+				<script>
+					window.onload = function () {
+						window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
+					}
+				</script>
+				<a class="button_passive" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
+				<?php
+			}
+			?>
+		</div>
 	</body>
 
 	<?php
