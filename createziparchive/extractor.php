@@ -17,7 +17,7 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 ?>
 <!DOCTYPE html>
 <head>
-	<title>netPhotoGraphics installer</title>
+	<title>netPhotoGraphics _VERSION_ installer</title>
 	<style>
 		h1 {
 			color: #000;
@@ -86,7 +86,7 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 		}
 
 		try {
-			$zipfilename = md5(time()) . '.extract.zip'; //remove with tempname()
+			$zipfilename = 'netPhotoGraphics _VERSION_.zip'; //remove with tempname()
 			if (!$fp_tmp = fopen($zipfilename, 'w')) {
 				die('Unable to open ' . $zipfilename . ' for writing. Check your file permissions.');
 			}
