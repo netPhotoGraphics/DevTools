@@ -5,6 +5,7 @@
  * 	The derivative work is copyright (c) 2025 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
+
 Define('PHP_MIN_VERSION', 'd.d');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
@@ -13,7 +14,23 @@ if (!class_exists('ZipArchive')) {
 	die('The extraction process requires the PHP ZipArchive class.');
 }
 @ini_set('memory_limit', '-1');
+set_time_limit(0);
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
+	$protocol = "https";
+} else if (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == "https") {
+	$protocol = "https";
+} else if (isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] )) {
+	$protocol = "https";
+} else {
+	$protocol = "http";
+}
+$const_webpath = $protocol . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($me), '/\\');
+$zipfilename = 'netPhotoGraphics _VERSION_.zip'; //remove with tempname()
+
+if (file_exists('notification.txt')) {
+	unlink('notification.txt');
+}
 ?>
 <!DOCTYPE html>
 <head>
@@ -64,47 +81,37 @@ $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 </head>
 <body>
 	<div id="content">
-		<h1>Extracting netPhotoGraphics _VERSION_ files</h1>
+		<h1>Installing netPhotoGraphics _VERSION_ </h1>
 		<?php
 		if (!isset($_GET['process'])) {
-			echo '<meta http-equiv="refresh" content="3; url=' . $me . '?process&npgUpdate=' . time() . '" />';
-			exit();
-		}
-		if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
-			$protocol = "https";
-		} else if (isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == "https") {
-			$protocol = "https";
-		} else if (isset($_SERVER['SERVER_PORT']) && ( '443' == $_SERVER['SERVER_PORT'] )) {
-			$protocol = "https";
-		} else {
-			$protocol = "http";
-		}
-		$const_webpath = $protocol . '://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($me), '/\\');
-
-		if (file_exists('notification.txt')) {
-			unlink('notification.txt');
-		}
-
-		try {
-			$zipfilename = 'netPhotoGraphics _VERSION_.zip'; //remove with tempname()
+			?>
+			<h2>Creating netPhotoGraphics _VERSION_ ZIP file</h2>
+			<?php
 			if (!$fp_tmp = fopen($zipfilename, 'w')) {
 				die('Unable to open ' . $zipfilename . ' for writing. Check your file permissions.');
 			}
-			if (!$fp_cur = fopen(__FILE__, 'r')) {
+			if (!$fp_cur = fopen(__FILE__, 'rb')) {
 				die('Unable to open ' . __FILE__ . '. Check your file permissions.');
 			}
 			if (fseek($fp_cur, __COMPILER_HALT_OFFSET__) < 0) {
 				die('Something went wrong, could not seek to "__HALT_COMPILER()" statement.');
 			}
-			$i = 0;
-			while ($buffer = fread($fp_cur, 10240)) {
+			while ($buffer = fread($fp_cur, 16384)) {
 				fwrite($fp_tmp, $buffer);
+				echo ' '; // keep connection alive
 			}
 			fclose($fp_cur);
 			fclose($fp_tmp);
+
+			echo '<meta http-equiv="refresh" content="3; url=' . $me . '?process&npgUpdate=' . time() . '" />';
+			exit();
+		}
+		?>
+		<h2>Extracting netPhotoGraphics _VERSION_ files</h2>
+		<?php
+		try {
 			$zipfile = new ZipArchive();
 			if (($result = $zipfile->open($zipfilename)) === true) {
-				set_time_limit(0);
 				if (!$zipfile->extractTo('.')) {
 					$error = error_get_last();
 					throw new Exception($error['message'], 0);
