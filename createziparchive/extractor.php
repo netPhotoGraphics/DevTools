@@ -31,6 +31,7 @@ $zipfilename = 'netPhotoGraphics _VERSION_.zip'; //remove with tempname()
 if (file_exists('notification.txt')) {
 	unlink('notification.txt');
 }
+$step = isset($_GET['process']) ? $_GET['process'] : 0;
 ?>
 <!DOCTYPE html>
 <head>
@@ -83,10 +84,14 @@ if (file_exists('notification.txt')) {
 	<div id="content">
 		<h1>Installing netPhotoGraphics _VERSION_ </h1>
 		<?php
-		if (!isset($_GET['process'])) {
+		if ($step < 2) {
 			?>
 			<h2>Creating netPhotoGraphics _VERSION_ ZIP file</h2>
 			<?php
+			if ($step == 0) {
+				echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . $me . '?process=1&npgUpdate=' . time() . '" />';
+				exit();
+			}
 			if (!$fp_tmp = fopen($zipfilename, 'w')) {
 				die('Unable to open ' . $zipfilename . ' for writing. Check your file permissions.');
 			}
@@ -103,12 +108,17 @@ if (file_exists('notification.txt')) {
 			fclose($fp_cur);
 			fclose($fp_tmp);
 
-			echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . $me . '?process&npgUpdate=' . time() . '" />';
+			echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . $me . '?process=2&npgUpdate=' . time() . '" />';
 			exit();
 		}
 		?>
 		<h2>Extracting netPhotoGraphics _VERSION_ files</h2>
 		<?php
+		if ($step == 2) {
+			echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . $me . '?process=3&npgUpdate=' . time() . '" />';
+			exit();
+		}
+
 		try {
 			$zipfile = new ZipArchive();
 			if (($result = $zipfile->open($zipfilename)) === true) {
