@@ -103,7 +103,7 @@ if (file_exists('notification.txt')) {
 			fclose($fp_cur);
 			fclose($fp_tmp);
 
-			echo '<meta http-equiv="refresh" content="3; url=' . $me . '?process&npgUpdate=' . time() . '" />';
+			echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . $me . '?process&npgUpdate=' . time() . '" />';
 			exit();
 		}
 		?>
