@@ -66,18 +66,9 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 			display: inline-block;
 			font-size: 16px;
 			cursor: pointer;
+			visibility: hidden;
 		}
-		.button_passive {
-			background-color: gray;
-			border: none;
-			color: white;
-			padding: 15px 32px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 16px;
-			cursor: pointer;
-		}
+
 	</style>
 </head>
 <body>
@@ -163,23 +154,28 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 			<?php
 			if (file_exists('notification.txt') && $notification = file_get_contents('notification.txt')) {
 				?>
+				<script>
+					window.onload = function () {
+						document.getElementById('button').style.visibility = 'visible';
+					}
+				</script>
 				<h2>Attention:</h2>
 				<?php
 				echo $notification;
-				?>
-				<a class="button" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
-				<?php
 			} else {
 				?>
 				<script>
 					window.onload = function () {
+						setTimeout(function () {
+							document.getElementById('button').style.visibility = 'visible';
+						}, 5000);
 						window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
 					}
 				</script>
-				<a class="button_passive" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 				<?php
 			}
 			?>
+			<a id="button" class="button" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 		</div>
 	</body>
 
