@@ -128,7 +128,7 @@ try {
 	fclose($fp_cur);
 
 	$fp_zip = fopen($zipfilename, 'r');
-	while ($buffer = fread($fp_zip, 10240)) {
+	while ($buffer = fread($fp_zip, 16384)) {
 		fwrite($fp_dest, $buffer);
 	}
 	fclose($fp_zip);

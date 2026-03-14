@@ -171,7 +171,7 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 					window.onload = function () {
 						setTimeout(function () {
 							document.getElementById('button').style.visibility = 'visible';
-						}, 10000);
+						}, 30000);
 						window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
 					}
 				</script>
