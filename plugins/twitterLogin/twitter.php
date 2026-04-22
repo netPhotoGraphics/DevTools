@@ -12,7 +12,7 @@
 if (!defined('OFFSET_PATH')) {
 	define('OFFSET_PATH', 3);
 }
-require_once(file_get_contents(dirname(dirname($_SERVER['SCRIPT_FILENAME'])) . '/core-locator.npg') . "admin-globals.php");
+require_once(file_get_contents(dirname(dirname($_SERVER['DOCUMENT_ROOT'] . $_SERVER['SCRIPT_NAME'])) . '/core-locator.npg') . "admin-globals.php");
 npg_session_start();
 
 define('CONSUMER_KEY', getOption('tweet_news_consumer')); // YOUR CONSUMER KEY

@@ -45,7 +45,7 @@ function processFilters() {
 	} else {
 		$serverpath = SERVERPATH;
 	}
-	getResidentFiles($serverpath . '/' . CORE_FOLDER, array_merge(stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
+	getResidentFiles($CORE_SERVERPATH, array_merge(stdExclude, array('lib-filter.php', 'deprecated-functions.php')));
 	getResidentFiles($serverpath . '/' . THEMEFOLDER, stdExclude);
 
 	$paths = getPluginFiles('*.php');
