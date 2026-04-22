@@ -2,7 +2,7 @@
 /*
  * 	This script is a derivative of work produced by createziparchive (c) 2008 iljitsch@mail.com cookiepattern.blogspot.com
  *
- * 	The derivative work is copyright (c) 2025 by Stephen Billard, all rights reserved
+ * 	The derivative work is copyright (c) 2026 by Stephen Billard, all rights reserved
  * 	This copyright notice must be included in all copies of this script.
  */
 
@@ -83,7 +83,7 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 			<h2>Creating netPhotoGraphics _VERSION_ ZIP file</h2>
 			<?php
 			if ($step == 0) {
-				echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . '/' . $me . '?process=1&npgUpdate=' . time() . '" />';
+				echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=1&npgUpdate=' . time() . '" />';
 				exit();
 			}
 			if (!$fp_tmp = fopen($zipfilename, 'w')) {
@@ -97,19 +97,22 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 			}
 			while ($buffer = fread($fp_cur, 16384)) {
 				fwrite($fp_tmp, $buffer);
-				echo ' '; // keep connection alive
+				// keep connection alive
+				echo ' ';
+				ob_flush();
+				flush();
 			}
 			fclose($fp_cur);
 			fclose($fp_tmp);
 
-			echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . '/' . $me . '?process=2&npgUpdate=' . time() . '" />';
+			echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=2&npgUpdate=' . time() . '" />';
 			exit();
 		}
 		?>
 		<h2>Extracting netPhotoGraphics _VERSION_ files</h2>
 		<?php
 		if ($step == 2) {
-			echo '<meta http-equiv="refresh" content="3; url=' . $const_webpath . '/' . $me . '?process=3&npgUpdate=' . time() . '" />';
+			echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=3&npgUpdate=' . time() . '" />';
 			exit();
 		}
 
