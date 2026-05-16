@@ -13,8 +13,8 @@ if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 if (!class_exists('ZipArchive')) {
 	die('The extraction process requires the PHP ZipArchive class.');
 }
-@ini_set('memory_limit', '-1');
-set_time_limit(0);
+@ini_set('memory_limit', '300');
+set_time_limit(300);
 
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
@@ -104,85 +104,72 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 			}
 			fclose($fp_cur);
 			fclose($fp_tmp);
-
-			echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=2&npgUpdate=' . time() . '" />';
-			exit();
-		}
-		?>
-		<h2>Extracting netPhotoGraphics _VERSION_ files</h2>
-		<?php
-		if ($step == 2) {
-			echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=3&npgUpdate=' . time() . '" />';
-			exit();
-		}
-
-		try {
-			$zipfile = new ZipArchive();
-			if (($result = $zipfile->open($zipfilename)) === true) {
-				if (!$zipfile->extractTo('.')) {
-					$error = error_get_last();
-					throw new Exception($error['message'], 0);
-				}
-			} else {
-				switch ($result) {
-					case ZipArchive::ER_INCONS:
-						$msg = 'Inconsistent archive';
-						break;
-					case ZipArchive::ER_MEMORY:
-						$msg = 'Insufficient memory';
-						break;
-					case ZipArchive::ER_NOENT:
-						$msg = 'File not found';
-						break;
-					case ZipArchive::ER_NOZIP:
-						$msg = 'Not a zip archive';
-						break;
-					case ZipArchive::ER_OPEN:
-						$msg = "Can't open file";
-						break;
-					case ZipArchive::ER_READ:
-						$msg = 'Read error';
-						break;
-					case ZipArchive::ER_SEEK:
-						$msg = 'Seek error';
-						break;
-					default:
-						$msg = 'Error ' . $result;
-						break;
-				}
-				throw new Exception('reading archive failed: ' . $msg, 1);
-			}
-			$zipfile->close();
-			unlink($zipfilename);
-			unlink(__FILE__);
 			?>
-			<p>done...</p>
-			<?php
-			if (file_exists('notification.txt') && $notification = file_get_contents('notification.txt')) {
-				?>
-				<script>
-					window.onload = function () {
-						document.getElementById('button').style.visibility = 'visible';
-					}
-				</script>
-				<h2>Attention:</h2>
-				<?php
-				echo $notification;
-			} else {
-				?>
-				<script>
-					window.onload = function () {
-						setTimeout(function () {
-							document.getElementById('button').style.visibility = 'visible';
-						}, 30000);
-						window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
-					}
-				</script>
-				<?php
-			}
-			?>
-			<a id="button" class="button" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
 		</div>
+	</body>
+	<?php
+	echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=2&npgUpdate=' . time() . '" />';
+	exit();
+}
+?>
+<h2>Extracting netPhotoGraphics _VERSION_ files</h2>
+<?php
+if ($step == 2) {
+	echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=3&npgUpdate=' . time() . '" />';
+	exit();
+}
+
+try {
+	$zipfile = new ZipArchive();
+	if (($result = $zipfile->open($zipfilename)) === true) {
+		if (!$zipfile->extractTo('.')) {
+			$error = error_get_last();
+			throw new Exception($error['message'], 0);
+		}
+	} else {
+		switch ($result) {
+			case ZipArchive::ER_INCONS:
+				$msg = 'Inconsistent archive';
+				break;
+			case ZipArchive::ER_MEMORY:
+				$msg = 'Insufficient memory';
+				break;
+			case ZipArchive::ER_NOENT:
+				$msg = 'File not found';
+				break;
+			case ZipArchive::ER_NOZIP:
+				$msg = 'Not a zip archive';
+				break;
+			case ZipArchive::ER_OPEN:
+				$msg = "Can't open file";
+				break;
+			case ZipArchive::ER_READ:
+				$msg = 'Read error';
+				break;
+			case ZipArchive::ER_SEEK:
+				$msg = 'Seek error';
+				break;
+			default:
+				$msg = 'Error ' . $result;
+				break;
+		}
+		throw new Exception('reading archive failed: ' . $msg, 1);
+	}
+	$zipfile->close();
+	unlink($zipfilename);
+	unlink(__FILE__);
+	?>
+	<p>done...</p>
+	<script>
+		window.onload = function () {
+			setTimeout(function () {
+				document.getElementById('button').style.visibility = 'visible';
+			}, 30000);
+			window.location = '<?php echo $const_webpath; ?>/npgCore/setup/index.php?autorun=admin';
+		}
+	</script>
+	<a id="button" class="button" href="<?php echo $const_webpath . '/npgCore/setup/index.php?autorun=admin'; ?>">run setup</a>
+	</div>
 	</body>
 
 	<?php

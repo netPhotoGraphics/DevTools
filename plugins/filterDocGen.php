@@ -1,7 +1,7 @@
 <?php
 
 /**
- Generates doc file for filters
+  Generates doc file for filters
  *
  * @author Stephen Billard (sbillard)
  *
@@ -15,6 +15,7 @@ npgFilters::register('admin_utilities_buttons', 'filterDoc_button');
 
 function filterDoc_button($buttons) {
 	if (isset($_REQUEST['filterDoc'])) {
+		npg_session_start();
 		XSRFdefender('filterDoc');
 		include (USER_PLUGIN_SERVERPATH . 'filterDocGen/process.php');
 		processFilters();

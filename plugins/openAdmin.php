@@ -66,6 +66,18 @@ class openAdmin extends _Administrator {
 		}
 	}
 
+	/**
+	 * "return to sender" without giving the XSRF error
+	 */
+	static function XSRF_access() {
+		$uri = explode('?', getRequestURI());
+		npg_session_destroy();
+		header("HTTP/1.0 302 Found");
+		header("Status: 302 Found");
+		header('Location: ' . $uri[0]);
+		exit();
+	}
+
 	function getOptionsSupported() {
 		$options = array(
 				gettext('Log access') => array('key' => 'openAdmin_logging', 'type' => OPTION_TYPE_CHECKBOX,
@@ -291,12 +303,20 @@ class openAdmin extends _Administrator {
 		$_npgMutex->unlock();
 	}
 
+	static function session_destroy() {
+		npg_session_destroy();
+	}
+
 }
 
 if (!npg_loggedin()) {
-	npg_session_start();
+	global $_conf_vars;
+	$_SESSION['navigation_tabs'] = array();
+
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
+	npgFilters::register('admin_close', 'openAdmin::session_destroy', 0);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
+	npgFilters::register('admin_XSRF_access', 'openAdmin::XSRF_access', 0);
 
 	if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
 		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
