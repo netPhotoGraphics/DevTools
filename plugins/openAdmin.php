@@ -318,19 +318,21 @@ if (!npg_loggedin()) {
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 	npgFilters::register('admin_XSRF_access', 'openAdmin::XSRF_access', 0);
 
-	if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
-		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
-		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
-		$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
-		$_loggedin = $_current_admin_obj->getRights();
-		setNPGCookie(AUTHCOOKIE, $_loggedin);
-		if (OFFSET_PATH) {
-			$_get_original = $_GET;
-			npgFilters::register('database_query', 'openAdmin::query', 9999);
-			npgFilters::register('admin_note', 'openAdmin::notice', 9999);
-			if (isset($_GET['action'])) {
-				if (!in_array($_GET['action'], array('save', 'sorttags', 'sortorder', 'saveoptions', 'external'))) {
-					$_GET['action'] = 'NULL'; // block the action
+	if (!isset($_conf_vars['site_upgrade_state']) || $_conf_vars['site_upgrade_state'] == 'open') {
+		if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
+			npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
+			npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
+			$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
+			$_loggedin = $_current_admin_obj->getRights();
+			setNPGCookie(AUTHCOOKIE, $_loggedin);
+			if (OFFSET_PATH) {
+				$_get_original = $_GET;
+				npgFilters::register('database_query', 'openAdmin::query', 9999);
+				npgFilters::register('admin_note', 'openAdmin::notice', 9999);
+				if (isset($_GET['action'])) {
+					if (!in_array($_GET['action'], array('save', 'sorttags', 'sortorder', 'saveoptions', 'external'))) {
+						$_GET['action'] = 'NULL'; // block the action
+					}
 				}
 			}
 		}
