@@ -70,11 +70,18 @@ class openAdmin extends _Administrator {
 	 * "return to sender" without giving the XSRF error
 	 */
 	static function XSRF_access() {
-		$uri = explode('?', getRequestURI());
+		$uri = explode('?', getRequestURI())[0];
+		switch (stripSuffix(basename($uri))) {
+			case 'cacheDBImages':
+			case 'refresh-metadata':
+				$uri = getAdminLink('admin.php');
+				break;
+		}
+
 		npg_session_destroy();
 		header("HTTP/1.0 302 Found");
 		header("Status: 302 Found");
-		header('Location: ' . $uri[0]);
+		header('Location: ' . $uri);
 		exit();
 	}
 
@@ -315,6 +322,7 @@ if (!npg_loggedin()) {
 
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
 	npgFilters::register('admin_close', 'openAdmin::session_destroy', 0);
+	npgFilters::register('software_information', 'openAdmin::session_destroy', 0);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 	npgFilters::register('admin_XSRF_access', 'openAdmin::XSRF_access', 0);
 

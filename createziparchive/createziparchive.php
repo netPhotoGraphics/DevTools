@@ -93,21 +93,21 @@ try {
 	addFiles2Zip($zipfile, $sourcefolder . 'themes/', $sourcefolder);
 	addFiles2Zip($zipfile, $sourcefolder . 'plugins/', $sourcefolder);
 
-	touch($sourcefolder . '/docs/release notes.htm', ARCHIVE_TIME);
-	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'docs/release notes.htm');
+	touch($sourcefolder . 'docs/release notes.htm', ARCHIVE_TIME);
+	$zipfile->addFile($sourcefolder . 'docs/release notes.htm', 'docs/release notes.htm');
 
-	touch($sourcefolder . '/docs/filterDoc.htm', ARCHIVE_TIME);
-	$zipfile->addFile($sourcefolder . '/docs/filterDoc.htm', 'docs/filterDoc.htm');
+	touch($sourcefolder . 'docs/filterDoc.htm', ARCHIVE_TIME);
+	$zipfile->addFile($sourcefolder . 'docs/filterDoc.htm', 'docs/filterDoc.htm');
 
-	touch($sourcefolder . '/docs/user guide.pdf', ARCHIVE_TIME);
-	$zipfile->addFile($sourcefolder . '/docs/user guide.pdf', 'docs/user guide.pdf');
+	touch($sourcefolder . 'docs/user guide.pdf', ARCHIVE_TIME);
+	$zipfile->addFile($sourcefolder . 'docs/user guide.pdf', 'docs/user guide.pdf');
 
-	touch($sourcefolder . '/LICENSE', ARCHIVE_TIME);
-	$zipfile->addFile($sourcefolder . '/LICENSE', '/LICENSE');
+	touch($sourcefolder . 'LICENSE', ARCHIVE_TIME);
+	$zipfile->addFile($sourcefolder . 'LICENSE', '/LICENSE');
 
-	if (file_exists($sourcefolder . '/notification.txt')) {
-		touch($sourcefolder . '/notification.txt', ARCHIVE_TIME);
-		$zipfile->addFile($sourcefolder . '/notification.txt', '/notification.txt');
+	if (file_exists($sourcefolder . 'notification.txt')) {
+		touch($sourcefolder . 'notification.txt', ARCHIVE_TIME);
+		$zipfile->addFile($sourcefolder . 'notification.txt', '/notification.txt');
 	}
 
 	$zipfile->addEmptyDir('albums');
@@ -138,7 +138,7 @@ try {
 	$zipfile = new ZipArchive();
 	$zipfile->open(TARGET . 'setup-' . VARIENT . '-' . VERSION . '.zip', ZipArchive::CREATE);
 	$zipfile->addFile('readme.txt', 'readme.txt');
-	$zipfile->addFile($sourcefolder . '/docs/release notes.htm', 'release notes.htm');
+	$zipfile->addFile($sourcefolder . 'docs/release notes.htm', 'release notes.htm');
 	$zipfile->addFile($targetname, 'extract.php.bin');
 	$zipfile->close();
 
