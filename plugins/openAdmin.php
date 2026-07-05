@@ -260,10 +260,6 @@ class openAdmin extends _Administrator {
 		<?php
 	}
 
-	static function hint($text) {
-		return('<div class="notebox">' . gettext('Log on with user:<strong>' . OPENADMIN_USER . '</strong> password:<strong>nPG_' . OPENADMIN_USER . '</strong> to view the administrative pages.') . '</div>');
-	}
-
 	static function Logger($link, $page, $tab, $action) {
 		global $_authority, $_npgMutex;
 		$ip = sanitize($_SERVER['REMOTE_ADDR']);
@@ -311,7 +307,6 @@ class openAdmin extends _Administrator {
 }
 
 $userobj = $_authority->getAnAdmin(array('`user`=' => OPENADMIN_USER, '`valid`>' => 0));
-
 if (!is_object($userobj)) {
 	$userobj = npg_Authority::newAdministrator('');
 	$userobj->setUser(OPENADMIN_USER);
@@ -322,7 +317,12 @@ if (!is_object($userobj)) {
 	$userobj->save();
 }
 
-npgFilters::register('admin_logon_hint', 'openAdmin::hint', 9999);
+$_gallery->setLogonWelcome(
+				'<span class="notebox">' .
+				gettext('To view the administrative pages log on with<br />' .
+								'&nbsp;&nbsp;user: <strong>' . OPENADMIN_USER . '</strong><br />' .
+								'&nbsp;&nbsp;password: <strong>nPG_' . OPENADMIN_USER . '</strong>') .
+				'</span>');
 
 if (npg_loggedin() && $_current_admin_obj->getUser() === 'Visitor') {
 	global $_conf_vars;
