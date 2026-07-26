@@ -13,8 +13,10 @@ if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 if (!class_exists('ZipArchive')) {
 	die('The extraction process requires the PHP ZipArchive class.');
 }
-@ini_set('memory_limit', '300');
+@ini_set('memory_limit', -1);
 set_time_limit(300);
+ob_implicit_flush(true);
+opcache_reset();
 
 $me = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 if (!(!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")) {
@@ -158,6 +160,7 @@ try {
 	$zipfile->close();
 	unlink($zipfilename);
 	unlink(__FILE__);
+	opcache_reset();
 	?>
 	<p>done...</p>
 	<script>
