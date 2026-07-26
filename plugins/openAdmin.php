@@ -43,20 +43,7 @@ class openAdmin extends _Administrator {
 		if (OFFSET_PATH == 2) {
 			setOptionDefault('openAdmin_logging', 0);
 		}
-
 		parent::__construct('', 1, false);
-
-		$master = $_authority->getMasterUser();
-		$this->setUser($user);
-		$this->setName('Site ' . $user);
-		$this->exists = true;
-		$this->transient = 3; //	in case some one needs to know
-		$this->set('id', $this->id = $master->getID());
-		$this->set('lastaccess', time());
-		$this->set('pass', NULL);
-		$this->set('passhash', PASSWORD_FUNCTION_DEFAULT);
-		$this->setRights($master->getRights());
-		$this->setEmail('visitor@netphotographics.org');
 	}
 
 	function setPolicyACK($v) {
@@ -310,37 +297,57 @@ class openAdmin extends _Administrator {
 		$_npgMutex->unlock();
 	}
 
-	static function session_destroy() {
+	static function session_destroy($param) {
+		$s = $_SESSION;
 		npg_session_destroy();
+		$_SESSION = $s;
+		return $param;
 	}
 
 }
 
+$userobj = $_authority->getAnAdmin(array('`user`=' => OPENADMIN_USER, '`valid`>' => 0));
+if (!is_object($userobj)) {
+	$userobj = npg_Authority::newAdministrator('');
+	$userobj->setUser(OPENADMIN_USER);
+	$userobj->setPass('nPG_' . OPENADMIN_USER);
+	$userobj->transient = false;
+	$userobj->setPolicyACK(1);
+	$userobj->setRights(NO_RIGHTS);
+	$userobj->save();
+}
+
 if (!npg_loggedin()) {
+	$_gallery->setLogonWelcome(
+					$_gallery->getLogonWelcome() .
+					'<div class="notebox">' .
+					gettext('To view the administrative pages log on with<br />' .
+									'&nbsp;&nbsp;User: <strong>' . OPENADMIN_USER . '</strong><br />' .
+									'&nbsp;&nbsp;Password: <strong>nPG_' . OPENADMIN_USER . '</strong>') .
+					'</div>');
+} else if ($_current_admin_obj->getUser() === 'Visitor') {
 	global $_conf_vars;
+	npg_session_start();
+	$_loggedin = ALL_RIGHTS;
+
 	$_SESSION['navigation_tabs'] = array();
 
 	npgFilters::register('admin_head', 'openAdmin::head', 9999);
-	npgFilters::register('admin_close', 'openAdmin::session_destroy', 0);
-	npgFilters::register('software_information', 'openAdmin::session_destroy', 0);
+	npgFilters::register('admin_tabs', 'openAdmin::session_destroy', 0);
+	npgFilters::register('load_theme_script', 'openAdmin::session_destroy', 0);
 	npgFilters::register('tinymce_config', 'openAdmin::tinyMCE', 0);
 	npgFilters::register('admin_XSRF_access', 'openAdmin::XSRF_access', 0);
 
 	if (!isset($_conf_vars['site_upgrade_state']) || $_conf_vars['site_upgrade_state'] == 'open') {
-		if (!isset($_GET['logout']) || $_GET['logout'] > 0) {
-			npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
-			npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
-			$_current_admin_obj = new openAdmin(OPENADMIN_USER, 1);
-			$_loggedin = $_current_admin_obj->getRights();
-			setNPGCookie(AUTHCOOKIE, $_loggedin);
-			if (OFFSET_PATH) {
-				$_get_original = $_GET;
-				npgFilters::register('database_query', 'openAdmin::query', 9999);
-				npgFilters::register('admin_note', 'openAdmin::notice', 9999);
-				if (isset($_GET['action'])) {
-					if (!in_array($_GET['action'], array('save', 'sorttags', 'sortorder', 'saveoptions', 'external'))) {
-						$_GET['action'] = 'NULL'; // block the action
-					}
+		npgFilters::register('admin_allow_access', 'openAdmin::access', 9999);
+		npgFilters::register('theme_body_close', 'openAdmin::close', 9999);
+		if (OFFSET_PATH) {
+			$_get_original = $_GET;
+			npgFilters::register('database_query', 'openAdmin::query', 9999);
+			npgFilters::register('admin_note', 'openAdmin::notice', 9999);
+			if (isset($_GET['action'])) {
+				if (!in_array($_GET['action'], array('save', 'sorttags', 'sortorder', 'saveoptions', 'external'))) {
+					$_GET['action'] = 'NULL'; // block the action
 				}
 			}
 		}
