@@ -317,14 +317,15 @@ if (!is_object($userobj)) {
 	$userobj->save();
 }
 
-$_gallery->setLogonWelcome(
-				'<span class="notebox">' .
-				gettext('To view the administrative pages log on with<br />' .
-								'&nbsp;&nbsp;user: <strong>' . OPENADMIN_USER . '</strong><br />' .
-								'&nbsp;&nbsp;password: <strong>nPG_' . OPENADMIN_USER . '</strong>') .
-				'</span>');
-
-if (npg_loggedin() && $_current_admin_obj->getUser() === 'Visitor') {
+if (!npg_loggedin()) {
+	$_gallery->setLogonWelcome(
+					$_gallery->getLogonWelcome() .
+					'<div class="notebox">' .
+					gettext('To view the administrative pages log on with<br />' .
+									'&nbsp;&nbsp;User: <strong>' . OPENADMIN_USER . '</strong><br />' .
+									'&nbsp;&nbsp;Password: <strong>nPG_' . OPENADMIN_USER . '</strong>') .
+					'</div>');
+} else if ($_current_admin_obj->getUser() === 'Visitor') {
 	global $_conf_vars;
 	npg_session_start();
 	$_loggedin = ALL_RIGHTS;
