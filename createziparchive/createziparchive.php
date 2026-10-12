@@ -31,7 +31,7 @@
  * 	This copyright notice MUST APPEAR in all copies of the script!
  */
 @ini_set('memory_limit', '-1');
-Define('TARGET', 'package/');
+define('TARGET', 'package/');
 if (isset($_GET['source']) && $_GET['source']) {
 	define('VARIENT', $_GET['source']);
 } else {
@@ -121,7 +121,7 @@ try {
 
 	$i = 0;
 	while ($buffer = fgets($fp_cur)) {
-		$buffer = str_replace("Define('PHP_MIN_VERSION', 'd.d');", $php_min_version, $buffer);
+		$buffer = str_replace("define('PHP_MIN_VERSION', 'd.d');", $php_min_version, $buffer);
 		$buffer = str_replace('_VERSION_', VERSION, $buffer);
 		fwrite($fp_dest, $buffer);
 	}
