@@ -6,7 +6,7 @@
  * 	This copyright notice must be included in all copies of this script.
  */
 
-Define('PHP_MIN_VERSION', 'd.d');
+define('PHP_MIN_VERSION', 'd.d');
 if (version_compare(PHP_VERSION, PHP_MIN_VERSION, '<')) {
 	die(sprintf(gettext('netPhotoGraphics requires PHP version %s or greater'), PHP_MIN_VERSION));
 }
