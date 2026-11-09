@@ -40,6 +40,10 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 ?>
 <!DOCTYPE html>
 <head>
+	<!-- Attempt to prevent local browser caching -->
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 	<title>netPhotoGraphics _VERSION_ installer</title>
 	<style>
 		h1 {
@@ -85,7 +89,7 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 			<h2>Creating netPhotoGraphics _VERSION_ ZIP file</h2>
 			<?php
 			if ($step == 0) {
-				echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=1&npgUpdate=' . hrtime(true) . '" />';
+				echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=1&npgUpdate=' . $_SERVER['HTTP_HOST'] . hrtime(true) . '" />';
 				exit();
 			}
 			if (!$fp_tmp = fopen($zipfilename, 'w')) {
@@ -110,14 +114,14 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 		</div>
 	</body>
 	<?php
-	echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=2&npgUpdate=' . hrtime(true) . '" />';
+	echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=2&npgUpdate=' . $_SERVER['HTTP_HOST'] . hrtime(true) . '" />';
 	exit();
 }
 ?>
 <h2>Extracting netPhotoGraphics _VERSION_ files</h2>
 <?php
 if ($step == 2) {
-	echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=3&npgUpdate=' . hrtime(true) . '" />';
+	echo '<meta http-equiv="refresh" content="0; url=' . $const_webpath . '/' . $me . '?process=3&npgUpdate=' . $_SERVER['HTTP_HOST'] . hrtime(true) . '" />';
 	exit();
 }
 
