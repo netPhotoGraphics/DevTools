@@ -2,7 +2,6 @@
 
 /** A tool to produce the package file--a list of all the files in
  * the distribution.  Permission granted for use in conjunction with netPhotoGraphics. All other rights reserved
-
  *
  * The script will use the local GitHub repository (the option <em>Repository Path</em>) to define the contents of the
  * THEMES and PLUGINS folders. To add or remove themes and plugins update

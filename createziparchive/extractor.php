@@ -40,6 +40,10 @@ $step = isset($_GET['process']) ? $_GET['process'] : 0;
 ?>
 <!DOCTYPE html>
 <head>
+	<!-- Attempt to prevent local browser caching -->
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate" />
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 	<title>netPhotoGraphics _VERSION_ installer</title>
 	<style>
 		h1 {
